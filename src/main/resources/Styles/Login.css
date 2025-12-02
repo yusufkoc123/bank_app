@@ -1,0 +1,61 @@
+.Login_container{
+    -fx-background-color: #42bfed;
+}
+.Login_logo_container{
+    -fx-background-color: #03388e;
+    -fx-alignment: center;
+}
+.Login_logo_container Text{
+    -fx-font-size: 35px;
+    -fx-fill: #74a0ff;
+}
+.Login_logo_container ImageView{
+    -fx-fill: #EEEEEE;
+}
+/*hesap seçimi*/
+.acount_selector{
+    -fx-background-color: #74a0ff;
+}
+.acount_selector .Label{
+    -fx-text-fill: #42bfed;
+    -fx-font-size: 15px;
+}
+.acount_selector .arrow{
+    -fx-background-color: #42bfed ;
+}
+#choice-box-menu{
+    -fx-background-color: #74a0ff;
+}
+
+.Login_form_container{
+    -fx-spacing: 15;
+    -fx-alignment: top_left;
+}
+.Login_form_container Label{
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+.input_field{
+    -fx-background-color: #74a0ff;
+    -fx-pref-height: 35;
+    -fx-font-size: 1.2em;
+}
+.Login_form_container Button{
+    -fx-background-color:#42bfed ;
+    -fx-text-fill: #03388e;
+    -fx-pref-width: 350;
+    -fx-pref-height: 35;
+    -fx-font-size: 1.2em;
+}
+.Login_form_container Button:hover{
+    -fx-cursor: hand;
+}
+.Login_Button{
+    -fx-text-fill: #3be8e8;
+    -fx-font-size: 17px;
+    -fx-font-weight:bold;
+    -fx-background-color:#42bfed;
+}
+.error_label{
+    -fx-text-fill: #d10000;
+}

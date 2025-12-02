@@ -1,0 +1,97 @@
+.anasayfa{
+    -fx-background-color:#5798ff;
+}
+.musteri_adi {
+    -fx-font-size: 2.6em;
+    -fx-font-family: "Calibri Light";
+
+}
+.section_title{
+    -fx-text-fill: #0059d7;
+    -fx-font-size: 1.4em;
+    -fx-font-family: "Calibri Light";
+}
+.musteri_id_lbl{
+    -fx-text-fill: #03388e;
+    -fx-font-size: 1.1em;
+    -fx-font-family: "Calibri Light";
+
+}
+.hesap_gorunum{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-padding: 10 0 10 0;
+    -fx-alignment: center;
+    -fx-spacing: 10;
+
+}
+.hesap{
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,10,0,0,10);
+
+}
+.hesap VBox{
+    -fx-background-color: #ffffff;
+
+}
+.hesap Text{
+    -fx-fill: #ffffff;
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 1.5em;
+
+}
+.hesap_gecis{
+    -fx-background-color: linear-gradient(to right,#03388e,#0059d7);
+}
+.hesap_bakiye{
+    -fx-text-fill: #97fdff;
+    -fx-font-family: Calibri;
+    -fx-font-size: 3em;
+    -fx-font-weight: bold;
+}
+.hesap_no{
+    -fx-text-fill: #ffffff;
+    -fx-font-family: Calibri;
+    -fx-font-size: 1.5em;
+    -fx-text-alignment: center;
+}
+.islem_liste{
+    -fx-background-color: #eeeeee ;
+    -fx-border-width: 0 0 0 0;
+    -fx-border-color: #aaaaaa;
+}
+.islem_liste .scroll-bar:vertical{
+    -fx-scale-x: 0;
+}
+islem_bar{
+    -fx-background-color: #EEEEEE;
+    -fx-padding: 15 0 15 0;
+}
+.new_islem{
+    -fx-background-color: #eeeeee;
+    -fx-padding: 20 10 20 10;
+    -fx-spacing: 10;
+    -fx-alignment: center_left;
+
+}
+.new_islem Label{
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 1.3em;
+}
+.new_islem TextField{
+    -fx-background-color: #ffffff;
+    -fx-pref-height: 40;
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+}
+.new_islem Button{
+    -fx-background-color: linear-gradient(to right,#03388e,#0059d7);
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+    -fx-pref-width: 230;
+    -fx-font-size: 1.5em;
+    -fx-font-family: "Calibri Light";
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+.new_islem Button:hover{
+    -fx-cursor: hand;
+}

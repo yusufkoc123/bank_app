@@ -1,0 +1,45 @@
+.musterikayit_container{
+    -fx-background-color: #5798ff;
+
+}
+.musterikayit_container Text{
+    -fx-font-size: 1.3em;
+    -fx-fill: #003181;
+}
+.musterikayit_container VBox{
+    -fx-background-radius: 20;
+    -fx-padding: 10;
+    -fx-spacing: 15;
+    -fx-background-color: #ffffff;
+}
+.musterikayit_container TextField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+    -fx-background-color: #ffffff;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+
+}
+.musterino_lbl{
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+    -fx-background-color: #888888;
+    -fx-background-radius: 5;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+
+}
+.musterikayit_container Button{
+    -fx-background-color: linear-gradient(to right,#03388e,#0059d7);
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+    -fx-pref-width: 250;
+    -fx-font-size: 1.5em;
+    -fx-fill: #ffffff;
+}
+.musterikayit_container Button:hover{
+    -fx-cursor: hand;
+}
+.hata_lbl{
+    -fx-fill: #ff0000;
+}

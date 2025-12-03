@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="180.0" styleClass="main_menu_container" stylesheets="@../../Styles/AdminMenu.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.Admin.AdminMenuController">
+    <AnchorPane prefHeight="750.0" prefWidth="263.0" styleClass="left_container">
+        <VBox layoutX="6.0" layoutY="18.0" prefHeight="163.0" prefWidth="167.0" styleClass="title_container" AnchorPane.bottomAnchor="569.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="15.0">
+            <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../../Images/logo.png" />
+            </ImageView>
+            <Text fill="#97fdff" strokeType="OUTSIDE" strokeWidth="0.0" text="İnü Bank" />
+        </VBox>
+        <VBox layoutX="6.0" layoutY="181.0" prefHeight="563.0" prefWidth="166.0" styleClass="menu_container" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="181.0">
+            <Button fx:id="mkayit_btn" mnemonicParsing="false" text="Müşteri Kayıt" />
+            <Button fx:id="musteriler_btn" mnemonicParsing="false" text="Müşteriler" />
+            <Button fx:id="parayatir_btn" mnemonicParsing="false" text="Para Yatır" />
+            <Button fx:id="acikis_btn" mnemonicParsing="false" styleClass="alt_menu_btn" text="Çıkış">
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../../Images/cikis.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </VBox>
+    </AnchorPane>
+</VBox>

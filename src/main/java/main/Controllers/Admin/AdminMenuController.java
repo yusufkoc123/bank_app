@@ -3,6 +3,7 @@ package main.Controllers.Admin;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import main.Models.Model;
+import main.Views.AdminMenuOptions;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,12 +25,12 @@ public class AdminMenuController implements Initializable {
     }
 
     private void mkayit() {
-        Model.getInstance().getView().getmusterisecilenmenu().set("Müşteri Kayıt");
+        Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.MUSTERI_KAYIT);
     }
     private void musteriler() {
-        Model.getInstance().getView().getmusterisecilenmenu().set("Müşteriler");
+        Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.MUSTERILER);
     }
     private void parayatir() {
-        Model.getInstance().getView().getmusterisecilenmenu().set("Para Yatır");
+        Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.PARA_YATIR);
     }
 }

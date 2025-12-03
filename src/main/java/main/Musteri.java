@@ -2,6 +2,7 @@ package main;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 public class Musteri {
     private int musteriId;
     private String adi;
@@ -11,7 +12,22 @@ public class Musteri {
     private int telNo;
     private String mPassword;
     private List<Hesap> hesaplar;
-    Musteri(int musteriId,String adi,String soyad,String TCkimlik ,String adres,int telNo,String mPassword){
+    private static Random rand = new Random();
+
+    // Rastgele müşteri ID oluşturan constructor
+    public Musteri(String adi, String soyad, String TCkimlik, String adres, int telNo, String mPassword) {
+        this.musteriId = rastgeleMusteriIdOlustur();
+        this.adi = adi;
+        this.soyad = soyad;
+        this.TCkimlik = TCkimlik;
+        this.adres = adres;
+        this.telNo = telNo;
+        this.mPassword = mPassword;
+        this.hesaplar = new ArrayList<>();
+    }
+
+    // Manuel müşteri ID ile constructor (geriye dönük uyumluluk için)
+    Musteri(int musteriId, String adi, String soyad, String TCkimlik, String adres, int telNo, String mPassword){
         this.musteriId=musteriId;
         this.adi=adi;
         this.soyad=soyad;
@@ -20,6 +36,15 @@ public class Musteri {
         this.telNo=telNo;
         this.mPassword=mPassword;
         this.hesaplar = new ArrayList<>();
+    }
+
+    // Rastgele müşteri ID oluştur (1000-999999 arası)
+    private int rastgeleMusteriIdOlustur() {
+        int yeniId;
+        do {
+            yeniId = 1000 + rand.nextInt(999000); // 1000 ile 999999 arası
+        } while(Veznedar.musteriIdKullaniliyor(yeniId));
+        return yeniId;
     }
     @Override
     public String toString() {
@@ -87,9 +112,35 @@ public class Musteri {
     }
 
     public void mHesapAc(Hesap h) {
-        hesaplar.add(h);}
+        hesaplar.add(h);
+    }
+
+    // Rastgele ID ile vadesiz hesap açma
+    public void mHesapAcVadesiz() {
+        int rastgeleHesapId = rastgeleHesapIdOlustur();
+        Hesap yeniHesap = new Hesap(this.musteriId, rastgeleHesapId, new HesapTuru("vadesiz"));
+        hesaplar.add(yeniHesap);
+    }
+
+    // Rastgele ID ile vadeli hesap açma
+    public void mHesapAcVadeli() {
+        int rastgeleHesapId = rastgeleHesapIdOlustur();
+        Hesap yeniHesap = new Hesap(this.musteriId, rastgeleHesapId, new HesapTuru("vadeli"));
+        hesaplar.add(yeniHesap);
+    }
+
+    // Rastgele hesap ID oluştur (10000-999999 arası)
+    private int rastgeleHesapIdOlustur() {
+        int yeniId;
+        do {
+            yeniId = 10000 + rand.nextInt(990000); // 10000 ile 999999 arası
+        } while(Veznedar.hesapIdKullaniliyor(yeniId));
+        return yeniId;
+    }
+
     public void mHesapKapat(int hesapId) {
-        hesaplar.removeIf(h -> h.getHesapId() == hesapId);}
+        hesaplar.removeIf(h -> h.getHesapId() == hesapId);
+    }
     public void paraYatir(int hesapId,int yatırılacakPara){
         List<Hesap> hesaplar=this.getHesaplar();
         for(Hesap h:hesaplar){
@@ -132,8 +183,8 @@ public class Musteri {
             return false; // Yetersiz bakiye
         }
 
-        // Alıcı hesabı Bank sınıfındaki müşteriler listesinden bul
-        List<Musteri> musteriler = Bank.getMusterilerStatic();
+        // Alıcı hesabı Veznedar sınıfındaki müşteriler listesinden bul
+        List<Musteri> musteriler = Veznedar.getMusteriler();
         if(musteriler == null){
             return false; // Müşteriler listesi bulunamadı
         }
@@ -164,4 +215,4 @@ public class Musteri {
 
 
 
-    }
+}

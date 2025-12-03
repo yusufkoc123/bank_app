@@ -14,8 +14,8 @@ import java.util.ResourceBundle;
         public void initialize(URL url, ResourceBundle resourceBundle){
             Model.getInstance().getView().getmusterisecilenmenu().addListener((observableValue, eskideger, yenideger) ->{
                 switch(yenideger){
-                    case "İşlemler"-> musteri_parent.setCenter(Model.getInstance().getView().getIslemlerView());
-                    case "Hesaplarım"-> musteri_parent.setCenter(Model.getInstance().getView().getHesaplarimView());
+                    case ISLEMLER-> musteri_parent.setCenter(Model.getInstance().getView().getIslemlerView());
+                    case HESAPLARIM-> musteri_parent.setCenter(Model.getInstance().getView().getHesaplarimView());
                     default ->  musteri_parent.setCenter(Model.getInstance().getView().getAnasayfaView());
                 }
             } );

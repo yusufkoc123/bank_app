@@ -1,7 +1,7 @@
 package main.Views;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -10,20 +10,33 @@ import main.Controllers.Admin.AdminController;
 import main.Controllers.Musteri.MusteriController;
 
 public class View {
+    private HesapTuru giristuru;
     //musteri
-    private final StringProperty musterisecilenmenu;
+    private final ObjectProperty<MusteriMenuOptions> musterisecilenmenu;
     private AnchorPane anasayfaView;
     private AnchorPane islemlerView;
     private AnchorPane hesaplarimView;
     //admin
+    private final ObjectProperty<AdminMenuOptions> adminsecilenmenu;
     private AnchorPane MusterikayitView;
 
     //musteri görunum
     public View(){
-        this.musterisecilenmenu = new SimpleStringProperty();
-
+        this.giristuru=HesapTuru.MUSTERI;
+        this.musterisecilenmenu = new SimpleObjectProperty<>();
+        this.adminsecilenmenu = new SimpleObjectProperty<>();
     }
-    public StringProperty getmusterisecilenmenu(){
+
+    public HesapTuru getGiristuru() {
+        return giristuru;
+    }
+
+    public void setGiristuru(HesapTuru giristuru) {
+        this.giristuru = giristuru;
+    }
+
+    public ObjectProperty<MusteriMenuOptions> getmusterisecilenmenu(){
+
         return musterisecilenmenu;
     }
 
@@ -61,7 +74,7 @@ public class View {
         return hesaplarimView;
     }
 
-    public void showClientWindow(){
+    public void musteriWindow(){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Musteri/Musteri.fxml"));
             MusteriController controller = new MusteriController();
             loader.setController(controller);
@@ -70,11 +83,22 @@ public class View {
     }
 
     //admin görünüm
+    public ObjectProperty<AdminMenuOptions> getAdminsecilenmenu(){
+        return adminsecilenmenu;
+    }
 
+    public AnchorPane getMusterikayitView() {
+        if(MusterikayitView == null){
+            try {
+                MusterikayitView= new FXMLLoader(getClass().getResource("/Fxml/Admin/MusteriMenu.fxml")).load();
 
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }return MusterikayitView;
+    }
 
-
-    public void showAdminWindow(){
+    public void AdminWindow(){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Admin/Admin.fxml"));
             AdminController controller = new AdminController();
             loader.setController(controller);

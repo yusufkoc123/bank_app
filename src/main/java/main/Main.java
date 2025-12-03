@@ -9,44 +9,50 @@ import main.Models.Model;
 import main.Views.View;
 import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
+import java.util.List;
+
 public class Main extends Application {
     @Override
     public void start(Stage stage)  {
-        Bank banka=new Bank(1,"İnüBank","Malatya");
-        Veznedar v=new Veznedar(31,"ibo","bakkal","123456");
-
-        // İlk müşteri ve hesabı
-        Musteri m1 = new Musteri(1, "Ahmet", "Yılmaz", "10547799978", "İstanbul", 5551234, "12345");
-        Hesap a = new Hesap(1, 1001);
-        m1.mHesapAc(a); // Hesabı müşteriye ekle
-        v.musteriEkle(m1);
-        m1.paraYatir(1001,10000000);
-        // Yeni müşteri ve hesap ID'si 1002 olan hesap (para gönderme testi için)
-        Musteri m2 = new Musteri(2, "Mehmet", "Demir", "12345678901", "Ankara", 5555678, "54321");
-        Hesap b = new Hesap(2, 1002);
-        m2.mHesapAc(b); // Hesabı müşteriye ekle
-        v.musteriEkle(m2);
-
         Model.getInstance().getView().showLoginWindow();
-
     }
 
     static void main(String[] args) {
-        Bank banka=new Bank(1,"İnüBank","Malatya");
-        Veznedar v=new Veznedar(31,"ibo","bakkal","123456");
 
-        // İlk müşteri ve hesabı
-        Musteri m1 = new Musteri(1, "Ahmet", "Yılmaz", "10547799978", "İstanbul", 5551234, "12345");
-        Hesap a = new Hesap(1, 1001);
-        m1.mHesapAc(a); // Hesabı müşteriye ekle
-        v.musteriEkle(m1);
-        m1.paraYatir(1001,1000);
+    }
 
-        // Yeni müşteri ve hesap ID'si 1002 olan hesap (para gönderme testi için)
-        Musteri m2 = new Musteri(2, "Mehmet", "Demir", "12345678901", "Ankara", 5555678, "54321");
-        Hesap b = new Hesap(2, 1002);
-        m2.mHesapAc(b); // Hesabı müşteriye ekle
-        v.musteriEkle(m2);
 
+    // Müşteri listesini terminale yazdırma metodu
+    private static void musterileriYazdir() {
+        List<Musteri> musteriler = Veznedar.getMusteriler();
+        System.out.println("\n========== MÜŞTERİ LİSTESİ ==========");
+        System.out.println("Toplam Müşteri Sayısı: " + musteriler.size());
+        System.out.println("----------------------------------------");
+
+        if(musteriler.isEmpty()) {
+            System.out.println("Henüz müşteri bulunmamaktadır.");
+        } else {
+            for(Musteri m : musteriler) {
+                System.out.println("\nMüşteri ID: " + m.getMusteriId());
+                System.out.println("Ad Soyad: " + m.getAdi() + " " + m.getSoyad());
+                System.out.println("TC Kimlik: " + m.getTCkimlik());
+                System.out.println("Adres: " + m.getAdres());
+                System.out.println("Telefon: " + m.getTelNo());
+                System.out.println("Hesap Sayısı: " + m.getHesaplar().size());
+
+                if(!m.getHesaplar().isEmpty()) {
+                    System.out.println("Hesaplar:");
+                    for(Hesap h : m.getHesaplar()) {
+                        String hesapTuru = h.getHesapTuru().getHesapTuru();
+                        System.out.println("  - Hesap ID: " + h.getHesapId() +
+                                " | Tür: " + hesapTuru +
+                                " | Bakiye: " + h.getBakiye() + " TL");
+                    }
+                }
+                System.out.println("Toplam Bakiye: " + m.toplamBakiye() + " TL");
+                System.out.println("----------------------------------------");
+            }
+        }
+        System.out.println("========================================\n");
     }
 }

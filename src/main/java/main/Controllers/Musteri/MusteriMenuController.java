@@ -3,6 +3,7 @@ package main.Controllers.Musteri;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import main.Models.Model;
+import main.Views.MusteriMenuOptions;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,12 +26,13 @@ public class MusteriMenuController implements Initializable {
     }
 
     private void anasayfa() {
-        Model.getInstance().getView().getmusterisecilenmenu().set("Anasayfa");
+        Model.getInstance().getView().getmusterisecilenmenu().set(MusteriMenuOptions.ANASAYFA);
     }
     private void islemler() {
-        Model.getInstance().getView().getmusterisecilenmenu().set("İşlemler");
+
+        Model.getInstance().getView().getmusterisecilenmenu().set(MusteriMenuOptions.ISLEMLER);
     }
     private void hesaplarim() {
-        Model.getInstance().getView().getmusterisecilenmenu().set("Hesaplarım");
+        Model.getInstance().getView().getmusterisecilenmenu().set(MusteriMenuOptions.HESAPLARIM);
     }
 }

@@ -1,0 +1,15 @@
+.musteriler_container{
+    -fx-background-color: #5798ff;
+}
+.musteriler_container Text{
+    -fx-fill:#0059d7;
+    -fx-font-size: 1.8em;
+}
+.musteriler_container .list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-width: 0;
+}
+.musteriler_container .list-cell{
+    -fx-background-color: #ffffff;
+    -fx-padding: 10 0 10 0;
+}

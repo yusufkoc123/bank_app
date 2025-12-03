@@ -68,10 +68,9 @@ public class Veznedar {
     }
 
     // Veznedar ekleme metodu
-    public static void veznedarEkle(Veznedar v) {
-        veznedarlar.add(v);
+    public static void veznedarEkle(int tellerId, String ad, String soyad, String vPassword) {
+        Veznedar v = new Veznedar(tellerId, ad, soyad, vPassword);
     }
-
     // Veznedar silme metodu
     public static void veznedarSil(int tellerId) {
         veznedarlar.removeIf(v -> v.getTellerId() == tellerId);
@@ -107,8 +106,6 @@ public class Veznedar {
         m.mHesapAc(vadeliHesap);
         musteriler.add(m);
     }
-
-    // Rastgele hesap ID oluştur (10000-999999 arası)
     private int rastgeleHesapIdOlustur() {
         int yeniId;
         do {
@@ -117,7 +114,6 @@ public class Veznedar {
         return yeniId;
     }
 
-    // Benzersiz müşteri ID kontrolü
     public static boolean musteriIdKullaniliyor(int musteriId) {
         for(Musteri m : musteriler) {
             if(m.getMusteriId() == musteriId) {
@@ -127,7 +123,6 @@ public class Veznedar {
         return false;
     }
 
-    // Benzersiz hesap ID kontrolü
     public static boolean hesapIdKullaniliyor(int hesapId) {
         for(Musteri m : musteriler) {
             for(Hesap h : m.getHesaplar()) {
@@ -155,7 +150,6 @@ public class Veznedar {
         }
     }
 
-    // Vadeli hesap açma metodu
     public void vVadeliHesapAc(int musteriId){
         for(Musteri m : musteriler){
             if(m.getMusteriId()==musteriId){

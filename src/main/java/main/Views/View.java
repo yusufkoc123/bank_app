@@ -19,6 +19,8 @@ public class View {
     //admin
     private final ObjectProperty<AdminMenuOptions> adminsecilenmenu;
     private AnchorPane MusterikayitView;
+    private AnchorPane MusterilerView;
+    private AnchorPane ParayatirView;
 
     //musteri görunum
     public View(){
@@ -83,6 +85,7 @@ public class View {
     }
 
     //admin görünüm
+
     public ObjectProperty<AdminMenuOptions> getAdminsecilenmenu(){
         return adminsecilenmenu;
     }
@@ -90,12 +93,34 @@ public class View {
     public AnchorPane getMusterikayitView() {
         if(MusterikayitView == null){
             try {
-                MusterikayitView= new FXMLLoader(getClass().getResource("/Fxml/Admin/MusteriMenu.fxml")).load();
+                MusterikayitView= new FXMLLoader(getClass().getResource("/Fxml/Admin/Musterikayit.fxml")).load();
 
             }catch (Exception e){
                 e.printStackTrace();
             }
         }return MusterikayitView;
+    }
+
+    public AnchorPane getMusterilerView() {
+        if(MusterilerView == null){
+            try {
+                MusterilerView=new FXMLLoader(getClass().getResource("/Fxml/Admin/Musteriler.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return  MusterilerView;
+    }
+
+    public AnchorPane getParayatirView() {
+        if(ParayatirView == null){
+            try {
+                MusterilerView=new FXMLLoader(getClass().getResource("Fxml/Admin/Parayatir.fxml")).load();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return ParayatirView;
     }
 
     public void AdminWindow(){

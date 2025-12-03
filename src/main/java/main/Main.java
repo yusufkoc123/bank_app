@@ -15,7 +15,31 @@ public class Main extends Application {
     @Override
     public void start(Stage stage)  {
         Model.getInstance().getView().showLoginWindow();
+
+
+
+
+
+
+
+
+        Veznedar veznedar = new Veznedar(1, "Test", "Veznedar", "test123");
+        Musteri musteri1 = new Musteri("Ahmet", "Yılmaz", "12345678901", "İstanbul, Kadıköy", 555123456, "musteri1");
+        veznedar.musteriEkle(musteri1);
+
+        // İkinci müşteri
+        Musteri musteri2 = new Musteri("Ayşe", "Demir", "98765432109", "Ankara", 555987654, "musteri2");
+        veznedar.musteriEkle(musteri2);
+        musterileriYazdir();;
+
+
+
     }
+
+
+
+
+
 
     static void main(String[] args) {
 
@@ -34,19 +58,17 @@ public class Main extends Application {
         } else {
             for(Musteri m : musteriler) {
                 System.out.println("\nMüşteri ID: " + m.getMusteriId());
-                System.out.println("Ad Soyad: " + m.getAdi() + " " + m.getSoyad());
-                System.out.println("TC Kimlik: " + m.getTCkimlik());
-                System.out.println("Adres: " + m.getAdres());
-                System.out.println("Telefon: " + m.getTelNo());
-                System.out.println("Hesap Sayısı: " + m.getHesaplar().size());
+
 
                 if(!m.getHesaplar().isEmpty()) {
                     System.out.println("Hesaplar:");
                     for(Hesap h : m.getHesaplar()) {
+                        m.paraYatir(h.getHesapId(),1000000);
                         String hesapTuru = h.getHesapTuru().getHesapTuru();
                         System.out.println("  - Hesap ID: " + h.getHesapId() +
                                 " | Tür: " + hesapTuru +
-                                " | Bakiye: " + h.getBakiye() + " TL");
+                                " | Bakiye: " + h.getBakiye() + " TL "+
+                                "Şifre: "+m.getMPassword() );
                     }
                 }
                 System.out.println("Toplam Bakiye: " + m.toplamBakiye() + " TL");

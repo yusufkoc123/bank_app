@@ -38,6 +38,36 @@ public class anasayfaController implements Initializable {
             musteri_id_lbl.setText(String.valueOf(current.getMusteriId()));
             // Ad + soyad label'i
             musteri_ad_soyad_lbl.setText(current.getAdi() + " " + current.getSoyad());
+
+            // Hesapları bul ve göster
+            Hesap vadesizHesap = null;
+            Hesap vadeliHesap = null;
+
+            for (Hesap hesap : current.getHesaplar()) {
+                if (hesap.getHesapTuru().getHesapTuru().equals("vadesiz")) {
+                    vadesizHesap = hesap;
+                } else if (hesap.getHesapTuru().getHesapTuru().equals("vadeli")) {
+                    vadeliHesap = hesap;
+                }
+            }
+
+            // Vadesiz hesap bilgilerini göster
+            if (vadesizHesap != null) {
+                vadesiz_id_lbl.setText(String.valueOf(vadesizHesap.getHesapId()));
+                vadesiz_bakiye_lbl.setText(String.valueOf(vadesizHesap.getBakiye()));
+            } else {
+                vadesiz_id_lbl.setText("-");
+                vadesiz_bakiye_lbl.setText("0");
+            }
+
+            // Vadeli hesap bilgilerini göster
+            if (vadeliHesap != null) {
+                vadeli_id_lbl.setText(String.valueOf(vadeliHesap.getHesapId()));
+                vadeli_bakiye_lbl.setText(String.valueOf(vadeliHesap.getBakiye()));
+            } else {
+                vadeli_id_lbl.setText("-");
+                vadeli_bakiye_lbl.setText("0");
+            }
         }
 
         // Para gönderme butonu event handler
@@ -86,6 +116,20 @@ public class anasayfaController implements Initializable {
                 Hesap gonderilenHesap = musteri.getHesaplar().get(0);
                 int gonderilenHesapId = gonderilenHesap.getHesapId();
 
+                // Kendi hesabına gönderme kontrolü
+                boolean kendiHesabinaGonderiyor = false;
+                for (Hesap hesap : musteri.getHesaplar()) {
+                    if (hesap.getHesapId() == gonderilecekHesapId) {
+                        kendiHesabinaGonderiyor = true;
+                        break;
+                    }
+                }
+                if (kendiHesabinaGonderiyor) {
+                    sm_error.setTextFill(Color.RED);
+                    sm_error.setText("Kendi hesabınıza para gönderemezsiniz!");
+                    return;
+                }
+
                 // Miktarın bakiyeden küçük olması kontrolü (miktar pozitif kontrolünden önce)
                 if (miktar > gonderilenHesap.getBakiye()) {
                     sm_error.setTextFill(Color.RED);
@@ -115,6 +159,9 @@ public class anasayfaController implements Initializable {
                     sm_miktar_fld.clear();
                     sm_acıklama_fld.clear();
 
+                    // Bakiyeleri güncelle
+                    guncelleHesapBilgileri();
+
                     // 5 saniye sonra mesajı temizle (UI donmayacak şekilde)
                     PauseTransition pause = new PauseTransition(Duration.seconds(5));
                     pause.setOnFinished(event -> sm_error.setText(""));
@@ -128,5 +175,41 @@ public class anasayfaController implements Initializable {
                 sm_error.setText("Bir hata oluştu: " + ex.getMessage());
             }
         });
+    }
+
+    // Hesap bilgilerini güncelleme metodu
+    private void guncelleHesapBilgileri() {
+        Musteri current = Model.getInstance().getCurrentMusteri();
+
+        if (current != null) {
+            Hesap vadesizHesap = null;
+            Hesap vadeliHesap = null;
+
+            for (Hesap hesap : current.getHesaplar()) {
+                if (hesap.getHesapTuru().getHesapTuru().equals("vadesiz")) {
+                    vadesizHesap = hesap;
+                } else if (hesap.getHesapTuru().getHesapTuru().equals("vadeli")) {
+                    vadeliHesap = hesap;
+                }
+            }
+
+            // Vadesiz hesap bilgilerini güncelle
+            if (vadesizHesap != null) {
+                vadesiz_id_lbl.setText(String.valueOf(vadesizHesap.getHesapId()));
+                vadesiz_bakiye_lbl.setText(String.valueOf(vadesizHesap.getBakiye()));
+            } else {
+                vadesiz_id_lbl.setText("-");
+                vadesiz_bakiye_lbl.setText("0");
+            }
+
+            // Vadeli hesap bilgilerini güncelle
+            if (vadeliHesap != null) {
+                vadeli_id_lbl.setText(String.valueOf(vadeliHesap.getHesapId()));
+                vadeli_bakiye_lbl.setText(String.valueOf(vadeliHesap.getBakiye()));
+            } else {
+                vadeli_id_lbl.setText("-");
+                vadeli_bakiye_lbl.setText("0");
+            }
+        }
     }
 }

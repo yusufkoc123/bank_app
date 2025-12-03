@@ -12,10 +12,10 @@ public class AdminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        Model.getInstance().getView().getmusterisecilenmenu().addListener((observableValue, eskideger, yenideger) ->{
+        Model.getInstance().getView().getAdminsecilenmenu().addListener((observableValue, eskideger, yenideger) ->{
             switch(yenideger){
-                case MUS-> Admin_parent.setCenter(Model.getInstance().getView().getParayatirView());
-                case "Müşteriler"-> Admin_parent.setCenter(Model.getInstance().getView().getMusterilerView());
+                case MUSTERILER-> Admin_parent.setCenter(Model.getInstance().getView().getMusterilerView());
+                case PARA_YATIR -> Admin_parent.setCenter(Model.getInstance().getView().getParayatirView());
                 default ->  Admin_parent.setCenter(Model.getInstance().getView().getMusterikayitView());
             }
         } );

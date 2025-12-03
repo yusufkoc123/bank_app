@@ -4,12 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="750.0" prefWidth="850.0" styleClass="musteriler_container"
-            stylesheets="@../../Styles/Musteriler.css" xmlns="http://javafx.com/javafx/25"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.Admin.MusterilerController">
-    <Text layoutX="142.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Müşteriler"
-          AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0"/>
-    <ListView fx:id="musteriler_listview" layoutX="14.0" layoutY="51.0" prefHeight="650.0" prefWidth="800.0"
-              AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="50.0"/>
+<AnchorPane prefHeight="750.0" prefWidth="850.0" styleClass="musteriler_container" stylesheets="@../../Styles/Musteriler.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.Admin.MusterilerController">
+    <Text layoutX="142.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Müşteriler" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+    <ListView fx:id="musteriler_listview" layoutX="14.0" layoutY="51.0" prefHeight="650.0" prefWidth="800.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="50.0" />
 </AnchorPane>

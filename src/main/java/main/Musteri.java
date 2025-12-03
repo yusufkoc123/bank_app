@@ -14,7 +14,6 @@ public class Musteri {
     private List<Hesap> hesaplar;
     private static Random rand = new Random();
 
-    // Rastgele müşteri ID oluşturan constructor
     public Musteri(String adi, String soyad, String TCkimlik, String adres, int telNo, String mPassword) {
         this.musteriId = rastgeleMusteriIdOlustur();
         this.adi = adi;
@@ -26,19 +25,9 @@ public class Musteri {
         this.hesaplar = new ArrayList<>();
     }
 
-    // Manuel müşteri ID ile constructor (geriye dönük uyumluluk için)
-    Musteri(int musteriId, String adi, String soyad, String TCkimlik, String adres, int telNo, String mPassword){
-        this.musteriId=musteriId;
-        this.adi=adi;
-        this.soyad=soyad;
-        this.TCkimlik=TCkimlik;
-        this.adres=adres;
-        this.telNo=telNo;
-        this.mPassword=mPassword;
-        this.hesaplar = new ArrayList<>();
-    }
 
-    // Rastgele müşteri ID oluştur (1000-999999 arası)
+
+
     private int rastgeleMusteriIdOlustur() {
         int yeniId;
         do {
@@ -60,7 +49,7 @@ public class Musteri {
                 '}';
     }
 
-    //GETTERS
+
     public String getAdi() {
         return adi;
     }

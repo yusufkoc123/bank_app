@@ -1,0 +1,54 @@
+.parayatir_container{
+    -fx-background-color: #5798ff;
+}
+.arama_kutusu{
+    -fx-spacing: 10;
+
+}
+Text{
+     -fx-font-size: 1.8em;
+    -fx-fill: #191cff;
+    -fx-font-weight: bold;
+}
+TextField{
+    -fx-pref-width: 200;
+    -fx-pref-height: 35;
+    -fx-background-color: #a4caff;
+    -fx-effect: dropshadow(three-pass-box, #545dff,3,0,0,3);
+}
+Button{
+    -fx-background-color: linear-gradient(to right,#03388e, #0165fa);
+    -fx-effect: dropshadow(three-pass-box, #545dff,3,0,0,3);
+    -fx-font-size: 1.4em;
+    -fx-text-fill: #ffffff;
+}
+Button:hover{
+    -fx-cursor: hand;
+}
+.bulunan_bilgi{
+    -fx-spacing: 15;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+}
+.bulunan_bilgi Text{
+    -fx-font-size: 1.7em;
+    -fx-fill: #03388e;
+    -fx-font-weight: bold;
+}
+.bulunan_bilgi Label {
+    -fx-text-fill: #0d50c1;
+    -fx-font-size: 1.7em;
+    -fx-font-weight: bold;
+}
+.bulunan_hesap{
+    -fx-background-color: #03388e;
+    -fx-background-radius: 20;
+}
+.bulunan_hesap Text{
+    -fx-fill: #ffffff;
+    -fx-font-size: 1.8em;
+}
+.bulunan_hesap Label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 1.8em;
+}

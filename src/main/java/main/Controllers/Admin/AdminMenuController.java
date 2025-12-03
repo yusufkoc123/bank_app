@@ -19,8 +19,8 @@ public class AdminMenuController implements Initializable {
         addListeners();
     }
     private void addListeners(){
-        musteriler_btn.setOnAction(e -> mkayit());
-        mkayit_btn.setOnAction(e -> musteriler());
+        musteriler_btn.setOnAction(e -> musteriler());
+        mkayit_btn.setOnAction(e -> mkayit());
         parayatir_btn.setOnAction(e -> parayatir());
     }
 

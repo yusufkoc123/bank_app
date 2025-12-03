@@ -115,7 +115,7 @@ public class View {
     public AnchorPane getParayatirView() {
         if(ParayatirView == null){
             try {
-                MusterilerView=new FXMLLoader(getClass().getResource("Fxml/Admin/Parayatir.fxml")).load();
+                ParayatirView=new FXMLLoader(getClass().getResource("/Fxml/Admin/Parayatir.fxml")).load();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -129,18 +129,6 @@ public class View {
             loader.setController(controller);
             createStage(loader);
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -8,11 +8,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="750.0" prefWidth="850.0" styleClass="musterikayit_container" stylesheets="@../../Styles/MusteriKayit.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.Admin.MusteriKayitController">
    <children>
       <Text layoutX="53.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Yeni Müşteri Kayıt" wrappingWidth="136.103515625" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0" />
-      <VBox layoutX="14.0" layoutY="41.0" prefHeight="703.0" prefWidth="372.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="41.0">
+      <VBox layoutX="14.0" layoutY="41.0" prefHeight="705.0" prefWidth="292.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="41.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="İsim:" />
             <TextField fx:id="mkisim_fld" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="318.0" />
@@ -21,7 +20,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Şifre: " />
             <TextField fx:id="mksifre_fld" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Müşteri Numarası:" />
-            <Label fx:id="mkmusterino_lbl" prefHeight="30.0" prefWidth="250.0" styleClass="musterino_lbl" text="Label" />
+            <Label fx:id="mkmusterino_lbl" prefHeight="30.0" prefWidth="250.0" styleClass="musterino_lbl" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hesaplar:" />
             <CheckBox fx:id="vadesiz_box" mnemonicParsing="false" text="Vadesiz Hesap Aç" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vadesiz Hesap Bakiyesi:" />

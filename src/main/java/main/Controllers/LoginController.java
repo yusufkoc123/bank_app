@@ -28,9 +28,21 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
         accountSellect.setItems(FXCollections.observableArrayList(HesapTuru.MUSTERI, HesapTuru.YONETICI));
         accountSellect.setValue(Model.getInstance().getView().getGiristuru());
-        accountSellect.valueProperty().addListener(observable -> Model.getInstance().getView().setGiristuru(accountSellect.getValue()));
+        accountSellect.valueProperty().addListener(observable -> {
+            Model.getInstance().getView().setGiristuru(accountSellect.getValue());
+            updateLabelText();
+        });
+        updateLabelText(); // İlk yüklemede label'ı güncelle
         giris_btn.setOnAction(e->giris());
         error_lbl.setText("");
+    }
+
+    private void updateLabelText() {
+        if (accountSellect.getValue() == HesapTuru.MUSTERI) {
+            giris_lbl.setText("Müşteri ID:");
+        } else if (accountSellect.getValue() == HesapTuru.YONETICI) {
+            giris_lbl.setText("Kullanıcı Adı:");
+        }
     }
 
 

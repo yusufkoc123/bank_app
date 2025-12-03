@@ -12,18 +12,22 @@
     -fx-spacing: 15;
     -fx-background-color: #ffffff;
 }
+.musterikayit_container CheckBox{
+    -fx-font-size: 1.2em;
+    -fx-text-fill: #003181;
+}
 .musterikayit_container TextField {
     -fx-pref-width: 250;
     -fx-pref-height: 35;
-    -fx-background-color: #ffffff;
+    -fx-background-color: #5798ff;
     -fx-font-size: 1.3em;
     -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
-
+    -fx-text-fill: #ffffff;
 }
 .musterino_lbl{
     -fx-pref-width: 250;
     -fx-pref-height: 35;
-    -fx-background-color: #888888;
+    -fx-background-color: #c1c1c1;
     -fx-background-radius: 5;
     -fx-text-fill: #ffffff;
     -fx-font-size: 1.3em;
@@ -35,7 +39,7 @@
     -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
     -fx-pref-width: 250;
     -fx-font-size: 1.5em;
-    -fx-fill: #ffffff;
+    -fx-text-fill: #ffffff;
 }
 .musterikayit_container Button:hover{
     -fx-cursor: hand;

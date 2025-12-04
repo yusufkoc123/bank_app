@@ -1,0 +1,30 @@
+.musteri_cell_container{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box,#0d50c1,5,0,0,7);
+}
+.musteri_cell_container HBox{
+    -fx-spacing: 5;
+    -fx-alignment: Center_left;
+}
+.musteri_cell_container HBox Label{
+    -fx-text-fill: #032aae;
+    -fx-font-size: 1.5em;
+}
+.musteri_cell_container HBox Text {
+    -fx-fill: #00144c;
+    -fx-font-size: 1.5em;
+}
+.hsp_ekran_lbl{
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+.delete_btn{
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #ff0000;
+    -fx-font-size: 1.4em;
+    -fx-font-weight: bold;
+}
+.delete_btn:hover{
+    -fx-cursor: hand;
+}

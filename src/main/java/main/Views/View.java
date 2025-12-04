@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.Controllers.Admin.AdminController;
@@ -141,8 +142,9 @@ public class View {
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.setTitle("İnü Bank");
+            stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/Images/logo.png"))));
             stage.setResizable(false);
+            stage.setTitle("İnü Bank");
             stage.show();
         } catch (Exception e){
             e.printStackTrace();

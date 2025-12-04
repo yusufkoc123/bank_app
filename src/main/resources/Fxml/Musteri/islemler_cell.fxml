@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="60.0" prefWidth="550.0" styleClass="cell_container" stylesheets="@../../Styles/islemler_cell.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.Musteri.islemler_cellController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="750.0" styleClass="cell_container" stylesheets="@../../Styles/islemler_cell.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
     <VBox layoutX="23.0" layoutY="10.0" prefHeight="40.0" prefWidth="38.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="10.0">
         <ImageView fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/left-long-solid-full.png" />
@@ -17,12 +17,12 @@
             <Image url="@../../Images/right-long-solid-full.png" />
         </ImageView>
     </VBox>
-    <Label fx:id="islem_tarih_lbl" layoutX="86.0" layoutY="22.0" prefHeight="17.0" prefWidth="66.0" styleClass="islem_tarih_lbl" text="04.12.2025" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="23.0" />
-    <Label fx:id="gönderen_ad_lbl" layoutX="191.0" layoutY="22.0" prefHeight="17.0" prefWidth="95.0" styleClass="islem_padress_lbl" text="Yusuf " AnchorPane.leftAnchor="191.0" AnchorPane.topAnchor="23.0" />
-    <Label fx:id="alan_ad_lbl" layoutX="326.0" layoutY="23.0" prefHeight="17.0" prefWidth="95.0" styleClass="islem_padress_lbl" text="İbrahim" AnchorPane.leftAnchor="326.0" AnchorPane.topAnchor="23.0" />
-    <Line endY="20.0" layoutX="296.0" layoutY="21.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="295.5" AnchorPane.topAnchor="20.0" />
-    <Label fx:id="islem_miktar_lbl" prefHeight="34.0" prefWidth="75.0" styleClass="miktar_lbl" text="350000" AnchorPane.leftAnchor="465.0" AnchorPane.topAnchor="15.0" />
-    <Label fx:id="islem_birimi_lbl" styleClass="islem_birim_lbl" text="₺" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="9.0">
+    <Label fx:id="islem_tarih_lbl" layoutX="112.0" layoutY="20.0" prefHeight="17.0" prefWidth="95.0" styleClass="islem_tarih_lbl" text="04.12.2025" AnchorPane.leftAnchor="112.0" AnchorPane.topAnchor="20.0" />
+    <Label fx:id="gönderen_ad_lbl" layoutX="230.0" layoutY="20.0" prefHeight="17.0" prefWidth="146.0" styleClass="islem_padress_lbl" text="Yusuf " AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="20.0" />
+    <Label fx:id="alan_ad_lbl" layoutX="409.0" layoutY="20.0" prefHeight="17.0" prefWidth="169.0" styleClass="islem_padress_lbl" text="İbrahim" AnchorPane.leftAnchor="409.0" AnchorPane.topAnchor="20.0" />
+    <Line endY="20.0" layoutX="391.0" layoutY="22.0" AnchorPane.bottomAnchor="19.5" AnchorPane.leftAnchor="390.5" AnchorPane.topAnchor="21.5" />
+    <Label fx:id="islem_miktar_lbl" layoutX="614.0" layoutY="15.0" prefHeight="34.0" prefWidth="125.0" styleClass="miktar_lbl" text="350000" AnchorPane.leftAnchor="614.0" AnchorPane.topAnchor="15.0" />
+    <Label fx:id="islem_birimi_lbl" layoutX="613.0" layoutY="9.0" styleClass="islem_birim_lbl" text="₺" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="9.0">
         <font>
           <Font size="37.0" />
         </font>

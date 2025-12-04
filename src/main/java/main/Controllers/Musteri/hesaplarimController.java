@@ -34,39 +34,85 @@ public class hesaplarimController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourcebundle) {
-        yukleHesapBilgileri();
         hesapsecim_chcbxDoldur();
+        baglaHesapSecimDinleyicisi();
+        yukleHesapBilgileri();
         transferButonlariniBagla();
+    }
+
+    private void hesapsecim_chcbxDoldur() {
+        Musteri current = Model.getInstance().getCurrentMusteri();
+        if (current != null) {
+            hesapsecim_chcbx.getItems().clear();
+            // Sadece vadesiz hesapları seçim kutusuna ekle
+            for (Hesap hesap : current.getHesaplar()) {
+                if (hesap.getHesapTuru() != null &&
+                        "vadesiz".equals(hesap.getHesapTuru().getHesapTuru())) {
+                    hesapsecim_chcbx.getItems().add(hesap);
+                }
+            }
+
+            // ChoiceBox için toString formatını ayarla
+            hesapsecim_chcbx.setConverter(new javafx.util.StringConverter<Hesap>() {
+                @Override
+                public String toString(Hesap hesap) {
+                    if (hesap == null) return "";
+                    return hesap.getHesapTuru().getHesapTuru() + " - " + hesap.getHesapId();
+                }
+
+                @Override
+                public Hesap fromString(String string) {
+                    return null;
+                }
+            });
+
+            // Varsayılan olarak Müşteri'nin hesaplar listesindeki 0. indexteki hesabı seç
+            if (!current.getHesaplar().isEmpty() && !hesapsecim_chcbx.getItems().isEmpty()) {
+                Hesap sifirinciHesap = current.getHesaplar().get(0);
+                Hesap varsayilanVadesiz = null;
+
+                // Seçim kutusundaki vadesizler arasından 0. indexteki hesaba denk geleni bul
+                for (Hesap h : hesapsecim_chcbx.getItems()) {
+                    if (h.getHesapId() == sifirinciHesap.getHesapId()) {
+                        varsayilanVadesiz = h;
+                        break;
+                    }
+                }
+
+                // Eğer 0. indexteki hesap vadesiz değilse veya bulunamazsa, ilk vadesiz hesabı seç
+                if (varsayilanVadesiz == null) {
+                    varsayilanVadesiz = hesapsecim_chcbx.getItems().get(0);
+                }
+
+                hesapsecim_chcbx.getSelectionModel().select(varsayilanVadesiz);
+                vadesizHesap = varsayilanVadesiz;
+            }
+        }
+    }
+
+    private void baglaHesapSecimDinleyicisi() {
+        hesapsecim_chcbx.getSelectionModel().selectedItemProperty().addListener((obs, eski, yeni) -> {
+            vadesizHesap = yeni;
+            guncelleVadesizHesapBilgileri();
+        });
     }
 
     private void yukleHesapBilgileri() {
         Musteri current = Model.getInstance().getCurrentMusteri();
 
         if (current != null) {
-            // Hesapları bul
-            vadesizHesap = null;
+            // Vadeli hesabı bul
             vadeliHesap = null;
-
             for (Hesap hesap : current.getHesaplar()) {
-                if (hesap.getHesapTuru().getHesapTuru().equals("vadesiz")) {
-                    vadesizHesap = hesap;
-                } else if (hesap.getHesapTuru().getHesapTuru().equals("vadeli")) {
+                if (hesap.getHesapTuru() != null &&
+                        "vadeli".equals(hesap.getHesapTuru().getHesapTuru())) {
                     vadeliHesap = hesap;
+                    break; // En fazla bir vadeli hesap olacağı için ilkini almak yeterli
                 }
             }
 
-            // Vadesiz hesap bilgilerini göster
-            if (vadesizHesap != null) {
-                hesap_id_hesaplarim_lbl.setText(String.valueOf(vadesizHesap.getHesapId()));
-                bakiye_hesaplarim_lbl.setText("₺ " + vadesizHesap.getBakiye());
-                islem_limit_hesaplarim_lbl.setText("10"); // Varsayılan işlem limiti
-                open_date_hesaplarim_lbl.setText(tarihFormatla(new Date())); // Varsayılan tarih
-            } else {
-                hesap_id_hesaplarim_lbl.setText("-");
-                bakiye_hesaplarim_lbl.setText("₺ 0");
-                islem_limit_hesaplarim_lbl.setText("-");
-                open_date_hesaplarim_lbl.setText("-");
-            }
+            // Vadesiz hesap bilgilerini güncelle
+            guncelleVadesizHesapBilgileri();
 
             // Vadeli hesap bilgilerini göster
             if (vadeliHesap != null) {
@@ -83,25 +129,17 @@ public class hesaplarimController implements Initializable {
         }
     }
 
-    private void hesapsecim_chcbxDoldur() {
-        Musteri current = Model.getInstance().getCurrentMusteri();
-        if (current != null) {
-            hesapsecim_chcbx.getItems().clear();
-            hesapsecim_chcbx.getItems().addAll(current.getHesaplar());
-
-            // ChoiceBox için toString formatını ayarla
-            hesapsecim_chcbx.setConverter(new javafx.util.StringConverter<Hesap>() {
-                @Override
-                public String toString(Hesap hesap) {
-                    if (hesap == null) return "";
-                    return hesap.getHesapTuru().getHesapTuru() + " - " + hesap.getHesapId();
-                }
-
-                @Override
-                public Hesap fromString(String string) {
-                    return null;
-                }
-            });
+    private void guncelleVadesizHesapBilgileri() {
+        if (vadesizHesap != null) {
+            hesap_id_hesaplarim_lbl.setText(String.valueOf(vadesizHesap.getHesapId()));
+            bakiye_hesaplarim_lbl.setText("₺ " + vadesizHesap.getBakiye());
+            islem_limit_hesaplarim_lbl.setText("10"); // Varsayılan işlem limiti
+            open_date_hesaplarim_lbl.setText(tarihFormatla(new Date())); // Varsayılan tarih
+        } else {
+            hesap_id_hesaplarim_lbl.setText("-");
+            bakiye_hesaplarim_lbl.setText("₺ 0");
+            islem_limit_hesaplarim_lbl.setText("-");
+            open_date_hesaplarim_lbl.setText("-");
         }
     }
 

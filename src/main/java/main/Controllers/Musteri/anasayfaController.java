@@ -2,10 +2,7 @@ package main.Controllers.Musteri;
 
 import javafx.animation.PauseTransition;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import main.Models.Model;
@@ -28,6 +25,7 @@ public class anasayfaController implements Initializable {
     public Label musteri_id_lbl;
     public Label musteri_ad_soyad_lbl;
     public Label sm_error;
+    public ChoiceBox sm_gonderenhsp_chcbx;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

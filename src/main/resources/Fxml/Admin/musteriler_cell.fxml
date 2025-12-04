@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="86.0" prefWidth="750.0" styleClass="musteri_cell_container" stylesheets="@../../Styles/musteri_cell.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.Admin.musteriler_CellController">
+<AnchorPane prefHeight="86.0" prefWidth="750.0" styleClass="musteri_cell_container" stylesheets="@../../Styles/musteri_cell.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
     <ImageView fitHeight="40.0" fitWidth="39.0" layoutX="6.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="24.0">
         <Image url="@../../Images/musteri_icon.png" />
     </ImageView>

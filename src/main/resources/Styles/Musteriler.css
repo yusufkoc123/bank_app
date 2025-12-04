@@ -12,4 +12,28 @@
 .musteriler_container .list-cell{
     -fx-background-color: #ffffff;
     -fx-padding: 10 0 10 0;
+    -fx-pref-width: 750;
+    -fx-max-width: 750;
+    -fx-min-width: 750;
+}
+.musteriler_container .list-view .scroll-bar:vertical {
+    -fx-opacity: 1;
+    -fx-pref-width: 12;
+}
+.musteriler_container .list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #0059d7;
+    -fx-background-radius: 5;
+}
+.musteriler_container .list-view .scroll-bar:vertical .track {
+    -fx-background-color: #e0e0e0;
+    -fx-background-radius: 5;
+}
+.musteriler_container .list-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+.musteriler_container .list-view .scroll-bar:horizontal .thumb,
+.musteriler_container .list-view .scroll-bar:horizontal .track {
+    -fx-opacity: 0;
 }

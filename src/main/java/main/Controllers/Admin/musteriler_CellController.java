@@ -25,6 +25,13 @@ public class musteriler_CellController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        if (musteri != null) {
+            mustericell_isim_lbl.textProperty().bind(musteri.isimProperty());
+            mustericell_soyisim_lbl.textProperty().bind(musteri.soyisimProperty());
+            mustericell_musteriID_lbl.textProperty().bind(musteri.musterIDProperty());
+            mustericell_tc_lbl.textProperty().bind(musteri.tcnoProperty());
+            mustericell_tel_lbl.textProperty().bind(musteri.telnoProperty());
+            mustericell_kayittarih_lbl.textProperty().bind(musteri.kayittarihProperty());
+        }
     }
 }

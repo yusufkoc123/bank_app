@@ -27,6 +27,11 @@ public class Main extends Application {
         Musteri musteri1 = new Musteri("Ahmet", "Yılmaz", "12345678901", "İstanbul, Kadıköy", 555123456, "musteri1");
         veznedar.musteriEkle(musteri1);
 
+        // Müşteri 1 için 4 adet ek vadesiz hesap aç
+        for (int i = 0; i < 4; i++) {
+            veznedar.vHesapAc(musteri1.getMusteriId());
+        }
+
         // İkinci müşteri
         Musteri musteri2 = new Musteri("Ayşe", "Demir", "98765432109", "Ankara", 555987654, "musteri2");
         veznedar.musteriEkle(musteri2);
@@ -58,7 +63,7 @@ public class Main extends Application {
         } else {
             for(Musteri m : musteriler) {
                 System.out.println("\nMüşteri ID: " + m.getMusteriId());
-
+                System.out.println((m.getHesaplar().get(0)));
 
                 if(!m.getHesaplar().isEmpty()) {
                     System.out.println("Hesaplar:");

@@ -2,6 +2,7 @@ package main.Controllers.Admin;
 
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import main.Models.Model;
 import main.Views.AdminMenuOptions;
 
@@ -22,6 +23,7 @@ public class AdminMenuController implements Initializable {
         musteriler_btn.setOnAction(e -> musteriler());
         mkayit_btn.setOnAction(e -> mkayit());
         parayatir_btn.setOnAction(e -> parayatir());
+        acikis_btn.setOnAction(e -> cikis());
     }
 
     private void mkayit() {
@@ -32,5 +34,10 @@ public class AdminMenuController implements Initializable {
     }
     private void parayatir() {
         Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.PARA_YATIR);
+    }
+    private void cikis() {
+        Stage stage = (Stage) acikis_btn.getScene().getWindow();
+        Model.getInstance().getView().closeStage(stage);
+        Model.getInstance().getView().showLoginWindow();
     }
 }

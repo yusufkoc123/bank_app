@@ -80,7 +80,7 @@ islem_bar{
 }
 .new_islem TextField{
     -fx-background-color: #ffffff;
-    -fx-pref-height: 40;
+    -fx-pref-height: 30;
     -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
 }
 .new_islem Button{
@@ -91,6 +91,11 @@ islem_bar{
     -fx-font-family: "Calibri Light";
     -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
+}
+.new_islem ChoiceBox{
+    -fx-effect: dropshadow(three-pass-box, #34b1ff,3,0,0,3);
+    -fx-pref-width: 230;
+    -fx-background-color: #34b1ff;
 }
 .new_islem Button:hover{
     -fx-cursor: hand;

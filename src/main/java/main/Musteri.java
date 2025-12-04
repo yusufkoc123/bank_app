@@ -101,6 +101,18 @@ public class Musteri {
     }
 
     public void mHesapAc(Hesap h) {
+        // Her müşteri için en fazla bir adet vadeli hesap olmasını sağla
+        if (h != null &&
+                h.getHesapTuru() != null &&
+                "vadeli".equals(h.getHesapTuru().getHesapTuru())) {
+            for (Hesap mevcutHesap : hesaplar) {
+                if (mevcutHesap.getHesapTuru() != null &&
+                        "vadeli".equals(mevcutHesap.getHesapTuru())) {
+                    // Zaten bir vadeli hesap var; yeni vadeli hesabı ekleme
+                    return;
+                }
+            }
+        }
         hesaplar.add(h);
     }
 

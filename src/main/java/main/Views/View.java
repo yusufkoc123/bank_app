@@ -14,7 +14,7 @@ public class View {
     private HesapTuru giristuru;
     //musteri
     private final ObjectProperty<MusteriMenuOptions> musterisecilenmenu;
-    private AnchorPane anasayfaView;
+    // Anasayfa görünümü her açıldığında güncel veriyi gösterebilmesi için cache'lenmeden yeniden yüklenecek
     private AnchorPane islemlerView;
     private AnchorPane hesaplarimView;
     //admin
@@ -25,7 +25,7 @@ public class View {
 
     //musteri görunum
     public View(){
-        this.giristuru=HesapTuru.MUSTERI;
+        this.giristuru=HesapTuru.Musteri;
         this.musterisecilenmenu = new SimpleObjectProperty<>();
         this.adminsecilenmenu = new SimpleObjectProperty<>();
     }
@@ -45,15 +45,13 @@ public class View {
 
 
     public AnchorPane getAnasayfaView() {
-        if(anasayfaView == null){
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Musteri/anasayfa.fxml"));
-                anasayfaView = loader.load();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Musteri/anasayfa.fxml"));
+            return loader.load();
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        return anasayfaView;
+        return null;
     }
     public AnchorPane getIslemlerView() {
         if(islemlerView == null){
@@ -67,21 +65,19 @@ public class View {
     }
 
     public AnchorPane getHesaplarimView() {
-        if(hesaplarimView == null){
-            try {
-                hesaplarimView=new  FXMLLoader(getClass().getResource("/Fxml/Musteri/hesaplarim.fxml")).load();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+        try {
+            return new FXMLLoader(getClass().getResource("/Fxml/Musteri/hesaplarim.fxml")).load();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        return hesaplarimView;
+        return null;
     }
 
     public void musteriWindow(){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Musteri/Musteri.fxml"));
-            MusteriController controller = new MusteriController();
-            loader.setController(controller);
-            createStage(loader);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Musteri/Musteri.fxml"));
+        MusteriController controller = new MusteriController();
+        loader.setController(controller);
+        createStage(loader);
 
     }
 
@@ -125,10 +121,10 @@ public class View {
     }
 
     public void AdminWindow(){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Admin/Admin.fxml"));
-            AdminController controller = new AdminController();
-            loader.setController(controller);
-            createStage(loader);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Admin/Admin.fxml"));
+        AdminController controller = new AdminController();
+        loader.setController(controller);
+        createStage(loader);
     }
 
 
@@ -151,7 +147,7 @@ public class View {
         }
     }
     public void  closeStage(Stage stage){
-      stage.close();
+        stage.close();
     }
 
 }

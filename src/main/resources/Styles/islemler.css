@@ -12,5 +12,28 @@
 }
 .islemler_container .list-cell{
     -fx-background-color: #5798ff;
-    -fx-pref-width: 800;
+    -fx-pref-width: 817;
+    -fx-max-width: 817;
+    -fx-min-width: 817;
+}
+.islemler_container .list-view .scroll-bar:vertical {
+    -fx-opacity: 1;
+    -fx-pref-width: 12;
+}
+.islemler_container .list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #97fdff;
+    -fx-background-radius: 5;
+}
+.islemler_container .list-view .scroll-bar:vertical .track {
+    -fx-background-color: #4a7fc7;
+    -fx-background-radius: 5;
+}
+.islemler_container .list-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+.islemler_container .list-view .scroll-bar:horizontal .thumb,
+.islemler_container .list-view .scroll-bar:horizontal .track {
+    -fx-opacity: 0;
 }

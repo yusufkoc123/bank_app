@@ -1,0 +1,78 @@
+.profil_container{
+    -fx-background-color: #5798ff;
+}
+.profil_container Text{
+    -fx-fill: #97fdff;
+    -fx-font-size: 2.5em;
+    -fx-font-family: "Calibri Light";
+}
+.section_title{
+    -fx-fill: #0059d7;
+    -fx-font-size: 1.6em;
+    -fx-font-family: "Calibri Light";
+    -fx-font-weight: bold;
+}
+.profil_bilgi_container{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(three-pass-box, #aaaaaa, 10, 0, 0, 10);
+}
+.profil_bilgi_container VBox{
+    -fx-spacing: 10;
+}
+.profil_bilgi_container VBox Text{
+    -fx-fill: #03388e;
+    -fx-font-size: 1.3em;
+    -fx-font-family: "Calibri Light";
+}
+.profil_bilgi_container VBox Label{
+    -fx-text-fill: #032aae;
+    -fx-font-size: 1.4em;
+    -fx-font-weight: bold;
+    -fx-font-family: "Calibri Light";
+    -fx-background-color: #e8f0ff;
+    -fx-background-radius: 5;
+    -fx-padding: 8;
+}
+.sifre_degistir_container{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(three-pass-box, #aaaaaa, 10, 0, 0, 10);
+}
+.sifre_degistir_container VBox{
+    -fx-spacing: 10;
+}
+.sifre_degistir_container VBox Text{
+    -fx-fill: #03388e;
+    -fx-font-size: 1.3em;
+    -fx-font-family: "Calibri Light";
+}
+.sifre_degistir_container PasswordField{
+    -fx-pref-width: 350;
+    -fx-pref-height: 35;
+    -fx-effect: dropshadow(three-pass-box, #aaaaaa, 3, 0, 0, 3);
+    -fx-background-color: #ffffff;
+    -fx-font-size: 1.2em;
+}
+.sifre_degistir_container Button{
+    -fx-background-color: linear-gradient(to right, #03388e, #0059d7);
+    -fx-pref-width: 350;
+    -fx-font-size: 1.5em;
+    -fx-font-family: "Calibri Light";
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, #aaaaaa, 3, 0, 0, 3);
+}
+.sifre_degistir_container Button:hover{
+    -fx-cursor: hand;
+}
+.sifre_degistir_container Label{
+    -fx-text-fill: #ff0000;
+    -fx-font-size: 1.1em;
+    -fx-font-family: "Calibri Light";
+}
+

@@ -16,7 +16,6 @@ public class Hesap {
         this.hesapTuru = hesapTuru;
     }
 
-    // Eski constructor'ı geriye dönük uyumluluk için tutuyoruz (vadesiz hesap olarak)
     Hesap(int musteriId, int hesapId) {
         this(musteriId, hesapId, new HesapTuru("vadesiz"));
     }

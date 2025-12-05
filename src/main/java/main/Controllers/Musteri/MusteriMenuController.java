@@ -24,6 +24,7 @@ public class MusteriMenuController implements Initializable {
         anasayfa_btn.setOnAction(e -> anasayfa());
         islemler_btn.setOnAction(e -> islemler());
         hesaplarim_btn.setOnAction(e -> hesaplarim());
+        profil_btn.setOnAction(e -> profil());
         cikis_btn.setOnAction(e -> m_cikis());
     }
 
@@ -36,6 +37,9 @@ public class MusteriMenuController implements Initializable {
     }
     private void hesaplarim() {
         Model.getInstance().getView().getmusterisecilenmenu().set(MusteriMenuOptions.HESAPLARIM);
+    }
+    private void profil() {
+        Model.getInstance().getView().getmusterisecilenmenu().set(MusteriMenuOptions.PROFIL);
     }
     private void m_cikis() {
         Stage stage = (Stage) cikis_btn.getScene().getWindow();

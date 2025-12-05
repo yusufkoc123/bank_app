@@ -37,7 +37,6 @@ public class Islemler {
         return this.message;
     }
 
-    // Getters
     public String getSender() {
         return sender.get();
     }

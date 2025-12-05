@@ -1,0 +1,64 @@
+.sifremi_unuttum_container{
+    -fx-background-color: #42bfed;
+}
+.sifremi_unuttum_logo_container{
+    -fx-background-color: #03388e;
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+.sifremi_unuttum_logo_container Text{
+    -fx-font-size: 35px;
+    -fx-fill: #74a0ff;
+}
+.sifremi_unuttum_form_container{
+    -fx-spacing: 15;
+    -fx-alignment: top_left;
+}
+.sifremi_unuttum_baslik{
+    -fx-fill: #03388e;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+.sifremi_unuttum_aciklama{
+    -fx-fill: #03388e;
+    -fx-font-size: 13px;
+    -fx-wrap-text: true;
+}
+.sifremi_unuttum_form_container Label{
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #03388e;
+}
+.input_field{
+    -fx-background-color: #74a0ff;
+    -fx-pref-height: 35;
+    -fx-font-size: 1.2em;
+}
+.sifre_sifirla_btn{
+    -fx-background-color: #03388e;
+    -fx-text-fill: WHITE;
+    -fx-pref-width: 350;
+    -fx-pref-height: 40;
+    -fx-font-size: 1.3em;
+    -fx-font-weight: bold;
+}
+.sifre_sifirla_btn:hover{
+    -fx-cursor: hand;
+}
+.geri_btn{
+    -fx-background-color: transparent;
+    -fx-text-fill: #03388e;
+    -fx-font-size: 12px;
+    -fx-underline: true;
+    -fx-pref-width: 350;
+    -fx-pref-height: 25;
+    -fx-alignment: center;
+}
+.geri_btn:hover{
+    -fx-cursor: hand;
+}
+.error_label{
+    -fx-text-fill: #d10000;
+    -fx-font-size: 13px;
+}
+

@@ -47,6 +47,7 @@
                 <Font name="System Bold" size="21.0" />
             </font>
         </Button>
+        <Button fx:id="sifremi_unuttum_btn" mnemonicParsing="false" styleClass="sifremi_unuttum_btn" text="Şifremi Unuttum" />
         <Label fx:id="error_lbl" styleClass="error_label" />
     </VBox>
 </AnchorPane>

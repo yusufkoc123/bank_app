@@ -17,6 +17,7 @@ public class LoginController implements Initializable {
     public ChoiceBox<HesapTuru> accountSellect;
     public PasswordField password_fld;
     public Button giris_btn;
+    public Button sifremi_unuttum_btn;
     public Label error_lbl;
     public Label giris_lbl;
     public TextField giris_fld;
@@ -29,8 +30,9 @@ public class LoginController implements Initializable {
             Model.getInstance().getView().setGiristuru(accountSellect.getValue());
             updateLabelText();
         });
-        updateLabelText(); // İlk yüklemede label'ı güncelle
+        updateLabelText();
         giris_btn.setOnAction(e->giris());
+        sifremi_unuttum_btn.setOnAction(e -> sifremiUnuttum());
         error_lbl.setText("");
     }
 
@@ -64,7 +66,7 @@ public class LoginController implements Initializable {
         } else if (Model.getInstance().getView().getGiristuru() == HesapTuru.Veznedar){
 //            if(vSifreKontrol()) {
                     Model.getInstance().getView().closeStage(stage);
-//                  Model.getInstance().getView().AdminWindow();
+                    Model.getInstance().getView().AdminWindow();
 //            } else {
 //                error_lbl.setText("Yönetici ID veya şifre yanlış!");
 //            }
@@ -85,7 +87,6 @@ public class LoginController implements Initializable {
         String sifre = password_fld.getText().trim();
         boolean isPassword = false;
 
-        // Alanlar boş değilse devam et
         if(!isEmpty(giris_fld) && !isEmpty(password_fld)){
             try {
                 int musteriId = Integer.parseInt(smusteriId);
@@ -94,14 +95,12 @@ public class LoginController implements Initializable {
                     for (Musteri musteri : musteriler) {
                         if (musteri.getMusteriId() == musteriId && musteri.getMPassword().equals(sifre)) {
                             isPassword = true;
-                            // Başarılı giriş yapan müşteriyi modele kaydet
                             Model.getInstance().setCurrentMusteri(musteri);
                             break;
                         }
                     }
                 }
             } catch (NumberFormatException e) {
-                // Müşteri ID sayısal değilse false döner
                 return false;
             }
         }
@@ -113,7 +112,6 @@ public class LoginController implements Initializable {
         String sifre = password_fld.getText().trim();
         boolean isPassword = false;
 
-        // Alanlar boş değilse devam et
         if(!isEmpty(giris_fld) && !isEmpty(password_fld)){
             try {
                 int veznedarId = Integer.parseInt(sveznedarId);
@@ -125,7 +123,6 @@ public class LoginController implements Initializable {
                     }
                 }
             } catch (NumberFormatException e) {
-                // Veznedar ID sayısal değilse false döner
                 return false;
             }
         }
@@ -138,5 +135,16 @@ public class LoginController implements Initializable {
             return true;
         }
         return false;
+    }
+
+    private void sifremiUnuttum() {
+        try {
+            Stage stage = (Stage) sifremi_unuttum_btn.getScene().getWindow();
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/Fxml/SifremiUnuttum.fxml"));
+            javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

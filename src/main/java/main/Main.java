@@ -27,31 +27,19 @@ public class Main extends Application {
         Musteri musteri1 = new Musteri("Ahmet", "Yılmaz", "12345678901", "İstanbul, Kadıköy", 555123456, "musteri1");
         veznedar.musteriEkle(musteri1);
 
-        // Müşteri 1 için 4 adet ek vadesiz hesap aç
         for (int i = 0; i < 4; i++) {
             veznedar.vHesapAc(musteri1.getMusteriId());
         }
 
-        // İkinci müşteri
         Musteri musteri2 = new Musteri("Ayşe", "Demir", "98765432109", "Ankara", 555987654, "musteri2");
         veznedar.musteriEkle(musteri2);
-        musterileriYazdir();;
-
-
-
+        musterileriYazdir();
     }
-
-
-
-
-
 
     static void main(String[] args) {
 
     }
 
-
-    // Müşteri listesini terminale yazdırma metodu
     private static void musterileriYazdir() {
         List<Musteri> musteriler = Veznedar.getMusteriler();
         System.out.println("\n========== MÜŞTERİ LİSTESİ ==========");
@@ -64,7 +52,7 @@ public class Main extends Application {
             for(Musteri m : musteriler) {
                 System.out.println("\nMüşteri ID: " + m.getMusteriId());
                 System.out.println((m.getHesaplar().get(0)));
-
+                System.out.println(m.getTCkimlik());
                 if(!m.getHesaplar().isEmpty()) {
                     System.out.println("Hesaplar:");
                     for(Hesap h : m.getHesaplar()) {

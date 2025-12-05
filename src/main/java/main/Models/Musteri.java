@@ -11,7 +11,6 @@ public class Musteri {
     private final StringProperty tcno;
     private final StringProperty kayittarih;
 
-    // Constructor
     public Musteri() {
         this.isim = new SimpleStringProperty("");
         this.soyisim = new SimpleStringProperty("");
@@ -30,7 +29,6 @@ public class Musteri {
         this.kayittarih = new SimpleStringProperty(kayittarih);
     }
 
-    // Property getters (for JavaFX binding)
     public StringProperty isimProperty() {
         return isim;
     }
@@ -55,7 +53,6 @@ public class Musteri {
         return kayittarih;
     }
 
-    // Getters
     public String getIsim() {
         return isim.get();
     }
@@ -80,7 +77,6 @@ public class Musteri {
         return kayittarih.get();
     }
 
-    // Setters
     public void setIsim(String isim) {
         this.isim.set(isim);
     }
@@ -105,7 +101,6 @@ public class Musteri {
         this.kayittarih.set(kayittarih);
     }
 
-    // main.Musteri'den Models.Musteri'ye dönüştürme metodu
     public static Musteri fromDomainModel(main.Musteri domainMusteri) {
         if (domainMusteri == null) {
             return null;
@@ -116,7 +111,7 @@ public class Musteri {
             String.valueOf(domainMusteri.getTelNo()),
             String.valueOf(domainMusteri.getMusteriId()),
             domainMusteri.getTCkimlik(),
-            "" // Kayıt tarihi şimdilik boş, gerekirse eklenebilir
+            ""
         );
     }
 }

@@ -44,7 +44,6 @@ public class hesaplarimController implements Initializable {
         Musteri current = Model.getInstance().getCurrentMusteri();
         if (current != null) {
             hesapsecim_chcbx.getItems().clear();
-            // Sadece vadesiz hesapları seçim kutusuna ekle
             for (Hesap hesap : current.getHesaplar()) {
                 if (hesap.getHesapTuru() != null &&
                         "vadesiz".equals(hesap.getHesapTuru().getHesapTuru())) {
@@ -52,7 +51,6 @@ public class hesaplarimController implements Initializable {
                 }
             }
 
-            // ChoiceBox için toString formatını ayarla
             hesapsecim_chcbx.setConverter(new javafx.util.StringConverter<Hesap>() {
                 @Override
                 public String toString(Hesap hesap) {
@@ -66,12 +64,10 @@ public class hesaplarimController implements Initializable {
                 }
             });
 
-            // Varsayılan olarak Müşteri'nin hesaplar listesindeki 0. indexteki hesabı seç
             if (!current.getHesaplar().isEmpty() && !hesapsecim_chcbx.getItems().isEmpty()) {
                 Hesap sifirinciHesap = current.getHesaplar().get(0);
                 Hesap varsayilanVadesiz = null;
 
-                // Seçim kutusundaki vadesizler arasından 0. indexteki hesaba denk geleni bul
                 for (Hesap h : hesapsecim_chcbx.getItems()) {
                     if (h.getHesapId() == sifirinciHesap.getHesapId()) {
                         varsayilanVadesiz = h;
@@ -79,7 +75,6 @@ public class hesaplarimController implements Initializable {
                     }
                 }
 
-                // Eğer 0. indexteki hesap vadesiz değilse veya bulunamazsa, ilk vadesiz hesabı seç
                 if (varsayilanVadesiz == null) {
                     varsayilanVadesiz = hesapsecim_chcbx.getItems().get(0);
                 }
@@ -101,7 +96,6 @@ public class hesaplarimController implements Initializable {
         Musteri current = Model.getInstance().getCurrentMusteri();
 
         if (current != null) {
-            // Vadeli hesabı bul
             vadeliHesap = null;
             for (Hesap hesap : current.getHesaplar()) {
                 if (hesap.getHesapTuru() != null &&
@@ -111,10 +105,8 @@ public class hesaplarimController implements Initializable {
                 }
             }
 
-            // Vadesiz hesap bilgilerini güncelle
             guncelleVadesizHesapBilgileri();
 
-            // Vadeli hesap bilgilerini göster
             if (vadeliHesap != null) {
                 hesap_id2_hesaplarim_lbl.setText(String.valueOf(vadeliHesap.getHesapId()));
                 bakiye2_hesaplarim_lbl.setText("₺ " + vadeliHesap.getBakiye());
@@ -144,7 +136,6 @@ public class hesaplarimController implements Initializable {
     }
 
     private void transferButonlariniBagla() {
-        // Vadesiz hesaptan vadeli hesaba transfer
         transfer_vadeli_btn.setOnAction(e -> {
             try {
                 Musteri musteri = Model.getInstance().getCurrentMusteri();
@@ -182,7 +173,6 @@ public class hesaplarimController implements Initializable {
                     return;
                 }
 
-                // Transfer işlemi
                 boolean basarili = musteri.paraGonder(vadesizHesap.getHesapId(), vadeliHesap.getHesapId(), miktar);
 
                 if (basarili) {
@@ -197,7 +187,6 @@ public class hesaplarimController implements Initializable {
             }
         });
 
-        // Vadeli hesaptan vadesiz hesaba transfer
         transfer_vadesiz_btn.setOnAction(e -> {
             try {
                 Musteri musteri = Model.getInstance().getCurrentMusteri();

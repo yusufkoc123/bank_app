@@ -24,7 +24,6 @@ public class islemlerController implements Initializable {
     private void yukleIslemler() {
         ObservableList<Islemler> islemler = FXCollections.observableArrayList();
         
-        // Örnek işlemler
         islemler.add(new Islemler("Ahmet Yılmaz", "Ayşe Demir", "5000", LocalDate.now().minusDays(2), "Para transferi"));
         islemler.add(new Islemler("Ayşe Demir", "Ahmet Yılmaz", "2500", LocalDate.now().minusDays(1), "Para transferi"));
         islemler.add(new Islemler("Mehmet Kaya", "Ahmet Yılmaz", "10000", LocalDate.now(), "Para transferi"));

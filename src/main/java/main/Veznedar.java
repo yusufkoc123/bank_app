@@ -19,7 +19,6 @@ public class Veznedar {
         this.soyad=soyad;
         this.vPassword=vPassword;
     }
-    // GETTERS
     public int getTellerId() {
         return tellerId;
     }
@@ -33,7 +32,6 @@ public class Veznedar {
         return vPassword;
     }
 
-    // SETTERS
     public void setTellerId(int tellerId) {
         this.tellerId = tellerId;
     }
@@ -49,7 +47,6 @@ public class Veznedar {
 
     private static Random rand = new Random();
 
-    // Static getter ve setter metodları
     public static List<Musteri> getMusteriler() {
         return musteriler;
     }
@@ -58,7 +55,6 @@ public class Veznedar {
         musteriler = musterilerList;
     }
 
-    // Veznedarlar için static getter ve setter metodları
     public static List<Veznedar> getVeznedarlar() {
         return veznedarlar;
     }
@@ -67,16 +63,13 @@ public class Veznedar {
         veznedarlar = veznedarlarList;
     }
 
-    // Veznedar ekleme metodu
     public static void veznedarEkle(int tellerId, String ad, String soyad, String vPassword) {
         Veznedar v = new Veznedar(tellerId, ad, soyad, vPassword);
     }
-    // Veznedar silme metodu
     public static void veznedarSil(int tellerId) {
         veznedarlar.removeIf(v -> v.getTellerId() == tellerId);
     }
 
-    // Veznedar bulma metodu
     public static Veznedar veznedarBul(int tellerId) {
         for(Veznedar v : veznedarlar) {
             if(v.getTellerId() == tellerId) {
@@ -86,7 +79,6 @@ public class Veznedar {
         return null;
     }
 
-    // Veznedar ID kontrolü
     public static boolean veznedarIdKullaniliyor(int tellerId) {
         for(Veznedar v : veznedarlar) {
             if(v.getTellerId() == tellerId) {

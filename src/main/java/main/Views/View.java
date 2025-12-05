@@ -12,18 +12,14 @@ import main.Controllers.Musteri.MusteriController;
 
 public class View {
     private HesapTuru giristuru;
-    //musteri
     private final ObjectProperty<MusteriMenuOptions> musterisecilenmenu;
-    // Anasayfa görünümü her açıldığında güncel veriyi gösterebilmesi için cache'lenmeden yeniden yüklenecek
     private AnchorPane islemlerView;
     private AnchorPane hesaplarimView;
-    //admin
     private final ObjectProperty<AdminMenuOptions> adminsecilenmenu;
     private AnchorPane MusterikayitView;
     private AnchorPane MusterilerView;
     private AnchorPane ParayatirView;
 
-    //musteri görunum
     public View(){
         this.giristuru=HesapTuru.Musteri;
         this.musterisecilenmenu = new SimpleObjectProperty<>();
@@ -73,6 +69,15 @@ public class View {
         return null;
     }
 
+    public AnchorPane getProfilView() {
+        try {
+            return new FXMLLoader(getClass().getResource("/Fxml/Musteri/Profil.fxml")).load();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void musteriWindow(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Musteri/Musteri.fxml"));
         MusteriController controller = new MusteriController();
@@ -80,8 +85,6 @@ public class View {
         createStage(loader);
 
     }
-
-    //admin görünüm
 
     public ObjectProperty<AdminMenuOptions> getAdminsecilenmenu(){
         return adminsecilenmenu;

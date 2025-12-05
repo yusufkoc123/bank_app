@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
                 switch(yenideger){
                     case ISLEMLER-> musteri_parent.setCenter(Model.getInstance().getView().getIslemlerView());
                     case HESAPLARIM-> musteri_parent.setCenter(Model.getInstance().getView().getHesaplarimView());
+                    case PROFIL-> musteri_parent.setCenter(Model.getInstance().getView().getProfilView());
                     default ->  musteri_parent.setCenter(Model.getInstance().getView().getAnasayfaView());
                 }
             } );

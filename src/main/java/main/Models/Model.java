@@ -6,8 +6,6 @@ import main.Views.View;
 public class Model {
     private static Model model;
     private final View view;
-
-    // Giriş yapan aktif müşteri
     private Musteri currentMusteri;
 
     public Model() {

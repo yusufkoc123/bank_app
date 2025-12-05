@@ -3,5 +3,6 @@ package main.Views;
 public enum MusteriMenuOptions {
     ANASAYFA,
     ISLEMLER,
-    HESAPLARIM
+    HESAPLARIM,
+    PROFIL
 }

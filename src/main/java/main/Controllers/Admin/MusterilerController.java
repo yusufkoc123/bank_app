@@ -10,7 +10,7 @@ import main.Views.musteriler_cellView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+import main.dataStructures.ArrayList;
 
 public class MusterilerController implements Initializable {
     public ListView<Musteri> musteriler_listview;
@@ -22,11 +22,19 @@ public class MusterilerController implements Initializable {
     }
 
     private void yukleMusteriler() {
-        ObservableList<Musteri> musteriler = FXCollections.observableArrayList(
-            Veznedar.getMusteriler().stream()
-                .map(Musteri::fromDomainModel)
-                .collect(Collectors.toList())
-        );
+        ObservableList<Musteri> musteriler = FXCollections.observableArrayList();
+        ArrayList<main.Musteri> domainMusteriler = Veznedar.getMusteriler();
+        for(int i = 0; i < domainMusteriler.size(); i++){
+            main.Musteri domainMusteri = domainMusteriler.get(i);
+            Musteri uiMusteri = Musteri.fromDomainModel(domainMusteri);
+            if(uiMusteri != null){
+                musteriler.add(uiMusteri);
+            }
+        }
         musteriler_listview.setItems(musteriler);
+    }
+    
+    public void refreshMusteriler() {
+        yukleMusteriler();
     }
 }

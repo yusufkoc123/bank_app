@@ -56,4 +56,17 @@ public class Islemler {
     public String getMessage() {
         return message.get();
     }
+
+    public static Islemler fromDomainModel(main.Islem domainIslem) {
+        if (domainIslem == null) {
+            return null;
+        }
+        return new Islemler(
+            domainIslem.getGondericiAdi(),
+            domainIslem.getAliciAdi(),
+            String.valueOf(domainIslem.getMiktar()),
+            domainIslem.getTarih(),
+            domainIslem.getMesaj()
+        );
+    }
 }

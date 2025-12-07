@@ -1,17 +1,18 @@
 package main;
-import java.util.List;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Random;
+import main.dataStructures.ArrayList;
 
-public class Veznedar {
+public class Veznedar implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int tellerId;
     private String ad;
     private String soyad;
     private String vPassword;
 
-    private static List<Musteri> musteriler = new ArrayList<>();
+    private static ArrayList<Musteri> musteriler = new ArrayList<>();
 
-    private static List<Veznedar> veznedarlar = new ArrayList<>();
+    private static ArrayList<Veznedar> veznedarlar = new ArrayList<>();
 
     Veznedar(int tellerId,String ad,String soyad,String vPassword){
         this.tellerId=tellerId;
@@ -47,31 +48,33 @@ public class Veznedar {
 
     private static Random rand = new Random();
 
-    public static List<Musteri> getMusteriler() {
+    public static ArrayList<Musteri> getMusteriler() {
         return musteriler;
     }
 
-    public static void setMusteriler(List<Musteri> musterilerList) {
+    public static void setMusteriler(ArrayList<Musteri> musterilerList) {
         musteriler = musterilerList;
     }
 
-    public static List<Veznedar> getVeznedarlar() {
+    public static ArrayList<Veznedar> getVeznedarlar() {
         return veznedarlar;
     }
 
-    public static void setVeznedarlar(List<Veznedar> veznedarlarList) {
+    public static void setVeznedarlar(ArrayList<Veznedar> veznedarlarList) {
         veznedarlar = veznedarlarList;
     }
 
     public static void veznedarEkle(int tellerId, String ad, String soyad, String vPassword) {
         Veznedar v = new Veznedar(tellerId, ad, soyad, vPassword);
+        veznedarlar.add(v);
     }
     public static void veznedarSil(int tellerId) {
         veznedarlar.removeIf(v -> v.getTellerId() == tellerId);
     }
 
     public static Veznedar veznedarBul(int tellerId) {
-        for(Veznedar v : veznedarlar) {
+        for(int i = 0; i < veznedarlar.size(); i++) {
+            Veznedar v = veznedarlar.get(i);
             if(v.getTellerId() == tellerId) {
                 return v;
             }
@@ -80,7 +83,8 @@ public class Veznedar {
     }
 
     public static boolean veznedarIdKullaniliyor(int tellerId) {
-        for(Veznedar v : veznedarlar) {
+        for(int i = 0; i < veznedarlar.size(); i++) {
+            Veznedar v = veznedarlar.get(i);
             if(v.getTellerId() == tellerId) {
                 return true;
             }
@@ -107,7 +111,8 @@ public class Veznedar {
     }
 
     public static boolean musteriIdKullaniliyor(int musteriId) {
-        for(Musteri m : musteriler) {
+        for(int i = 0; i < musteriler.size(); i++) {
+            Musteri m = musteriler.get(i);
             if(m.getMusteriId() == musteriId) {
                 return true;
             }
@@ -116,8 +121,11 @@ public class Veznedar {
     }
 
     public static boolean hesapIdKullaniliyor(int hesapId) {
-        for(Musteri m : musteriler) {
-            for(Hesap h : m.getHesaplar()) {
+        for(int i = 0; i < musteriler.size(); i++) {
+            Musteri m = musteriler.get(i);
+            ArrayList<Hesap> hesaplar = m.getHesaplar();
+            for(int j = 0; j < hesaplar.size(); j++) {
+                Hesap h = hesaplar.get(j);
                 if(h.getHesapId() == hesapId) {
                     return true;
                 }
@@ -125,16 +133,18 @@ public class Veznedar {
         }
         return false;
     }
-    public void musteriSil(int musteriId){
-        for(Musteri m : musteriler){
+    public static void musteriSil(int musteriId){
+        for(int i = 0; i < musteriler.size(); i++){
+            Musteri m = musteriler.get(i);
             if(m.getMusteriId()==musteriId){
-                musteriler.remove(m);
+                musteriler.removeAt(i);
                 break;
             }
         }
     }
     public void vHesapAc(int musteriId){
-        for(Musteri m : musteriler){
+        for(int i = 0; i < musteriler.size(); i++){
+            Musteri m = musteriler.get(i);
             if(m.getMusteriId()==musteriId){
                 int rastgeleHesapId = rastgeleHesapIdOlustur();
                 m.mHesapAc(new Hesap(musteriId, rastgeleHesapId, new HesapTuru("vadesiz")));
@@ -143,7 +153,8 @@ public class Veznedar {
     }
 
     public void vVadeliHesapAc(int musteriId){
-        for(Musteri m : musteriler){
+        for(int i = 0; i < musteriler.size(); i++){
+            Musteri m = musteriler.get(i);
             if(m.getMusteriId()==musteriId){
                 int rastgeleHesapId = rastgeleHesapIdOlustur();
                 m.mHesapAc(new Hesap(musteriId, rastgeleHesapId, new HesapTuru("vadeli")));
@@ -151,21 +162,24 @@ public class Veznedar {
         }
     }
     public void vHesapKapat(int musteriId,int hesapId){
-        for(Musteri m : musteriler){
+        for(int i = 0; i < musteriler.size(); i++){
+            Musteri m = musteriler.get(i);
             if(m.getMusteriId()==musteriId){
                 m.mHesapKapat(hesapId);
             }
         }
     }
     public void vParaYatir(int musteriId, int hesapId,int yatırılacak){
-        for(Musteri m : musteriler){
+        for(int i = 0; i < musteriler.size(); i++){
+            Musteri m = musteriler.get(i);
             if(m.getMusteriId()==musteriId){
                 m.paraYatir(hesapId,yatırılacak);
             }
         }
     }
     public void vParaCek(int musteriId, int hesapId,int cekilecek){
-        for(Musteri m : musteriler){
+        for(int i = 0; i < musteriler.size(); i++){
+            Musteri m = musteriler.get(i);
             if(m.getMusteriId()==musteriId){
                 m.paraCek(hesapId,cekilecek);
             }

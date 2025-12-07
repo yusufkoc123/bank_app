@@ -13,6 +13,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import main.dataStructures.ArrayList;
 
 public class hesaplarimController implements Initializable {
     public ChoiceBox<Hesap> hesapsecim_chcbx;
@@ -44,7 +45,9 @@ public class hesaplarimController implements Initializable {
         Musteri current = Model.getInstance().getCurrentMusteri();
         if (current != null) {
             hesapsecim_chcbx.getItems().clear();
-            for (Hesap hesap : current.getHesaplar()) {
+            ArrayList<Hesap> hesaplar = current.getHesaplar();
+            for (int i = 0; i < hesaplar.size(); i++) {
+                Hesap hesap = hesaplar.get(i);
                 if (hesap.getHesapTuru() != null &&
                         "vadesiz".equals(hesap.getHesapTuru().getHesapTuru())) {
                     hesapsecim_chcbx.getItems().add(hesap);
@@ -68,7 +71,9 @@ public class hesaplarimController implements Initializable {
                 Hesap sifirinciHesap = current.getHesaplar().get(0);
                 Hesap varsayilanVadesiz = null;
 
-                for (Hesap h : hesapsecim_chcbx.getItems()) {
+                javafx.collections.ObservableList<Hesap> items = hesapsecim_chcbx.getItems();
+                for (int i = 0; i < items.size(); i++) {
+                    Hesap h = items.get(i);
                     if (h.getHesapId() == sifirinciHesap.getHesapId()) {
                         varsayilanVadesiz = h;
                         break;
@@ -97,7 +102,9 @@ public class hesaplarimController implements Initializable {
 
         if (current != null) {
             vadeliHesap = null;
-            for (Hesap hesap : current.getHesaplar()) {
+            ArrayList<Hesap> hesaplar = current.getHesaplar();
+            for (int i = 0; i < hesaplar.size(); i++) {
+                Hesap hesap = hesaplar.get(i);
                 if (hesap.getHesapTuru() != null &&
                         "vadeli".equals(hesap.getHesapTuru().getHesapTuru())) {
                     vadeliHesap = hesap;

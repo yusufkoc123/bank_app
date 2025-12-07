@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import main.Models.Model;
 import main.Views.AdminMenuOptions;
+import main.dosyaIslemleri;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,6 +37,8 @@ public class AdminMenuController implements Initializable {
         Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.PARA_YATIR);
     }
     private void cikis() {
+        // Çıkış yapılınca tüm verileri kaydet
+        dosyaIslemleri.tumVerileriKaydet();
         Stage stage = (Stage) acikis_btn.getScene().getWindow();
         Model.getInstance().getView().closeStage(stage);
         Model.getInstance().getView().showLoginWindow();

@@ -8,16 +8,15 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-public class islemler_cellController implements Initializable {
+public class mainislemler_cellController implements Initializable {
     public Label islem_tarih_lbl;
     public Label gönderen_ad_lbl;
     public Label alan_ad_lbl;
     public Label islem_miktar_lbl;
     public Label islem_birimi_lbl;
-    public Label islem_mesaj_lbl;
     private final Islemler islemler;
 
-    public islemler_cellController(Islemler islemler) {
+    public mainislemler_cellController(Islemler islemler) {
         this.islemler = islemler;
     }
 
@@ -31,15 +30,7 @@ public class islemler_cellController implements Initializable {
             gönderen_ad_lbl.textProperty().bind(islemler.senderProperty());
             alan_ad_lbl.textProperty().bind(islemler.receiverProperty());
             islem_miktar_lbl.textProperty().bind(islemler.miktarProperty());
-            // Mesaj/açıklama bilgisini göster
-            islem_mesaj_lbl.textProperty().bind(islemler.messageProperty());
-            // Mesaj varsa göster, yoksa gizle
-            islem_mesaj_lbl.visibleProperty().bind(
-                javafx.beans.binding.Bindings.createBooleanBinding(
-                    () -> islemler.getMessage() != null && !islemler.getMessage().isEmpty(),
-                    islemler.messageProperty()
-                )
-            );
         }
     }
 }
+

@@ -34,9 +34,4 @@
     -fx-padding: 5;
     -fx-font-weight: 700;
 }
-.islem_mesaj_lbl{
-    -fx-text-fill: #666666;
-    -fx-font-weight: 500;
-    -fx-font-size: 1.1em;
-    -fx-wrap-text: true;
-}
+

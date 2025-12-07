@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="560.0" styleClass="cell_container" stylesheets="@../../Styles/mainislemler_cell.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox layoutX="23.0" layoutY="10.0" prefHeight="40.0" prefWidth="38.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="10.0">
+        <ImageView fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/left-long-solid-full.png" />
+        </ImageView>
+        <ImageView fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/right-long-solid-full.png" />
+        </ImageView>
+    </VBox>
+    <Label fx:id="islem_tarih_lbl" layoutX="92.0" layoutY="21.0" prefHeight="17.0" prefWidth="95.0" styleClass="islem_tarih_lbl" text="04.12.2025" AnchorPane.leftAnchor="92.0" AnchorPane.topAnchor="21.0" />
+    <Label fx:id="gönderen_ad_lbl" layoutX="207.0" layoutY="18.0" prefHeight="24.0" prefWidth="105.0" styleClass="islem_padress_lbl" text="Yusuf " AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="20.0" />
+    <Label fx:id="alan_ad_lbl" layoutX="324.0" layoutY="18.0" prefHeight="24.0" prefWidth="145.0" styleClass="islem_padress_lbl" text="İbrahim" AnchorPane.leftAnchor="324.0" AnchorPane.topAnchor="20.0" />
+    <Line endY="20.0" layoutX="313.0" layoutY="20.0" AnchorPane.bottomAnchor="19.5" AnchorPane.leftAnchor="312.5" AnchorPane.topAnchor="19.5" />
+    <Label fx:id="islem_miktar_lbl" layoutX="487.0" layoutY="15.0" prefHeight="34.0" prefWidth="72.0" styleClass="miktar_lbl" text="350000" AnchorPane.leftAnchor="487.0" AnchorPane.topAnchor="15.0" />
+    <Label fx:id="islem_birimi_lbl" layoutX="469.0" layoutY="10.0" styleClass="islem_birim_lbl" text="₺" AnchorPane.rightAnchor="72.0" AnchorPane.topAnchor="10.0">
+        <font>
+            <Font size="37.0" />
+        </font>
+    </Label>
+</AnchorPane>
+

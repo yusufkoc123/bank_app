@@ -12,8 +12,8 @@ import main.Musteri;
 import main.Veznedar;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
+import main.dataStructures.ArrayList;
 
 public class SifremiUnuttumController implements Initializable {
     public TextField musteri_id_fld;
@@ -54,10 +54,11 @@ public class SifremiUnuttumController implements Initializable {
 
         try {
             int musteriId = Integer.parseInt(musteriIdText);
-            List<Musteri> musteriler = Veznedar.getMusteriler();
+            ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
             
             boolean bulundu = false;
-            for (Musteri musteri : musteriler) {
+            for (int i = 0; i < musteriler.size(); i++) {
+                Musteri musteri = musteriler.get(i);
                 if (musteri.getMusteriId() == musteriId && musteri.getTCkimlik().equals(tcText)) {
                     musteri.setMPassword(yeniSifre);
                     hata_lbl.setStyle("-fx-text-fill: green;");

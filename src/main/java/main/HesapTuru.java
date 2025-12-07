@@ -1,6 +1,9 @@
 package main;
 
-public class HesapTuru {
+import java.io.Serializable;
+
+public class HesapTuru implements Serializable {
+    private static final long serialVersionUID = 1L;
     private boolean tur;
     private double vadeMiktari;
     private String hesapTuru;

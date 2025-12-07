@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="750.0" styleClass="cell_container" stylesheets="@../../Styles/islemler_cell.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="750.0" styleClass="cell_container" stylesheets="@../../Styles/islemler_cell.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
     <VBox layoutX="23.0" layoutY="10.0" prefHeight="40.0" prefWidth="38.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="10.0">
         <ImageView fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/left-long-solid-full.png" />
@@ -27,4 +27,5 @@
           <Font size="37.0" />
         </font>
     </Label>
+    <Label fx:id="islem_mesaj_lbl" layoutX="112.0" layoutY="40.0" prefHeight="15.0" prefWidth="500.0" styleClass="islem_mesaj_lbl" text="" AnchorPane.leftAnchor="112.0" AnchorPane.topAnchor="40.0" />
 </AnchorPane>

@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import main.Controllers.Admin.AdminController;
 import main.Controllers.Musteri.MusteriController;
+import main.Models.Model;
 
 public class View {
     private HesapTuru giristuru;
@@ -19,6 +20,7 @@ public class View {
     private AnchorPane MusterikayitView;
     private AnchorPane MusterilerView;
     private AnchorPane ParayatirView;
+    private main.Controllers.Admin.MusterilerController musterilerController;
 
     public View(){
         this.giristuru=HesapTuru.Musteri;
@@ -104,12 +106,31 @@ public class View {
     public AnchorPane getMusterilerView() {
         if(MusterilerView == null){
             try {
-                MusterilerView=new FXMLLoader(getClass().getResource("/Fxml/Admin/Musteriler.fxml")).load();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Admin/Musteriler.fxml"));
+                MusterilerView = loader.load();
+                musterilerController = loader.getController();
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
         return  MusterilerView;
+    }
+    
+    public void refreshMusterilerView() {
+        // Eğer controller varsa direkt refresh et (en hızlı yöntem)
+        if(musterilerController != null) {
+            musterilerController.refreshMusteriler();
+        } else {
+            // Controller yoksa cache'i null yap ve yeniden yükle
+            MusterilerView = null;
+            // Eğer şu an müşteriler görünüyorsa, view'ı yeniden yükle
+            AdminMenuOptions currentMenu = Model.getInstance().getView().getAdminsecilenmenu().get();
+            if(currentMenu == AdminMenuOptions.MUSTERILER) {
+                // Menu'yu değiştirip geri değiştirerek view'ı yeniden yükle
+                Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.MUSTERI_KAYIT);
+                Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.MUSTERILER);
+            }
+        }
     }
 
     public AnchorPane getParayatirView() {

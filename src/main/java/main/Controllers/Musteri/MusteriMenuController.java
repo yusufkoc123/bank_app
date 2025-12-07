@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import main.Models.Model;
 import main.Views.MusteriMenuOptions;
+import main.dosyaIslemleri;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,6 +43,8 @@ public class MusteriMenuController implements Initializable {
         Model.getInstance().getView().getmusterisecilenmenu().set(MusteriMenuOptions.PROFIL);
     }
     private void m_cikis() {
+        // Çıkış yapılınca tüm verileri kaydet
+        dosyaIslemleri.tumVerileriKaydet();
         Stage stage = (Stage) cikis_btn.getScene().getWindow();
         Model.getInstance().getView().closeStage(stage);
         Model.getInstance().getView().showLoginWindow();

@@ -10,8 +10,8 @@ import main.Veznedar;
 import main.Views.HesapTuru;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
+import main.dataStructures.ArrayList;
 
 public class LoginController implements Initializable {
     public ChoiceBox<HesapTuru> accountSellect;
@@ -74,8 +74,9 @@ public class LoginController implements Initializable {
     }
 
     public boolean isRegistered(int musteriId){
-        List<Musteri> musteriler = Veznedar.getMusteriler();
-        for(Musteri musteri : musteriler){
+        ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
+        for(int i = 0; i < musteriler.size(); i++){
+            Musteri musteri = musteriler.get(i);
             if(musteri.getMusteriId() == musteriId){
                 return true;
             }
@@ -90,9 +91,10 @@ public class LoginController implements Initializable {
         if(!isEmpty(giris_fld) && !isEmpty(password_fld)){
             try {
                 int musteriId = Integer.parseInt(smusteriId);
-                List<Musteri> musteriler = Veznedar.getMusteriler();
+                ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
                 if(isRegistered(musteriId)) {
-                    for (Musteri musteri : musteriler) {
+                    for (int i = 0; i < musteriler.size(); i++) {
+                        Musteri musteri = musteriler.get(i);
                         if (musteri.getMusteriId() == musteriId && musteri.getMPassword().equals(sifre)) {
                             isPassword = true;
                             Model.getInstance().setCurrentMusteri(musteri);
@@ -115,8 +117,9 @@ public class LoginController implements Initializable {
         if(!isEmpty(giris_fld) && !isEmpty(password_fld)){
             try {
                 int veznedarId = Integer.parseInt(sveznedarId);
-                List<Veznedar> veznedarlar = Veznedar.getVeznedarlar();
-                for (Veznedar veznedar : veznedarlar) {
+                ArrayList<Veznedar> veznedarlar = Veznedar.getVeznedarlar();
+                for (int i = 0; i < veznedarlar.size(); i++) {
+                    Veznedar veznedar = veznedarlar.get(i);
                     if (veznedar.getTellerId() == veznedarId && veznedar.getVPassword().equals(sifre)) {
                         isPassword = true;
                         break;

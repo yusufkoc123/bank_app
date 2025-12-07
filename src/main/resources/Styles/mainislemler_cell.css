@@ -1,0 +1,36 @@
+.cell_container {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, #0d50c1, 5, 0, 0, 7);
+}
+.cell_container VBox{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+}
+.islem_tarih_lbl{
+    -fx-text-fill: #011b80;
+    -fx-font-weight:700 ;
+    -fx-font-size: 1.4em;
+}
+.islem_padress_lbl{
+    -fx-text-fill: #032aae;
+    -fx-font-weight:700 ;
+    -fx-font-size: 1.4em;
+}
+.islem_birim_lbl{
+    -fx-background-radius: 5;
+    -fx-font-size: 2em;
+    -fx-text-fill: #032aae;
+    -fx-padding: 5;
+    -fx-font-weight: 700;
+}
+.cell_container Line{
+    -fx-stroke: #1f62ec;
+}
+.miktar_lbl{
+    -fx-background-radius: 2;
+    -fx-font-size: 1.4em;
+    -fx-text-fill: #032aae;
+    -fx-padding: 5;
+    -fx-font-weight: 700;
+}

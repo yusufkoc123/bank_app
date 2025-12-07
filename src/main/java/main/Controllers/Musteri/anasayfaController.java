@@ -1,15 +1,20 @@
 package main.Controllers.Musteri;
 
 import javafx.animation.PauseTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import main.Models.Islemler;
 import main.Models.Model;
 import main.Musteri;
 import main.Hesap;
+import main.Views.mainislemler_cellView;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class anasayfaController implements Initializable {
@@ -17,7 +22,7 @@ public class anasayfaController implements Initializable {
     public Label vadesiz_id_lbl;
     public Label vadeli_id_lbl;
     public Label vadeli_bakiye_lbl;
-    public ListView islem_listview;
+    public ListView<Islemler> islem_listview;
     public TextField sm_hesapid_fld;
     public TextField sm_miktar_fld;
     public TextField sm_acıklama_fld;
@@ -62,6 +67,10 @@ public class anasayfaController implements Initializable {
                 vadeli_bakiye_lbl.setText("0");
             }
         }
+
+        // İşlem geçmişi ListView'ını ayarla
+        islem_listview.setCellFactory(listView -> new mainislemler_cellView());
+        yukleIslemler();
 
         sm_gonder_btn.setOnAction(e -> {
             sm_error.setText(""); // Önceki hata mesajını temizle
@@ -143,6 +152,7 @@ public class anasayfaController implements Initializable {
                     sm_acıklama_fld.clear();
 
                     guncelleHesapBilgileri();
+                    yukleIslemler(); // İşlem geçmişini güncelle
 
                     PauseTransition pause = new PauseTransition(Duration.seconds(5));
                     pause.setOnFinished(event -> sm_error.setText(""));
@@ -156,6 +166,19 @@ public class anasayfaController implements Initializable {
                 sm_error.setText("Bir hata oluştu: " + ex.getMessage());
             }
         });
+    }
+
+    private void yukleIslemler() {
+        ObservableList<Islemler> islemler = FXCollections.observableArrayList();
+        
+        // Son işlemleri yükle (örnek veriler - gerçek uygulamada veritabanından veya Model'den gelecek)
+        islemler.add(new Islemler("Ahmet Yılmaz", "Ayşe Demir", "5000", LocalDate.now().minusDays(2), "Para transferi"));
+        islemler.add(new Islemler("Ayşe Demir", "Ahmet Yılmaz", "2500", LocalDate.now().minusDays(1), "Para transferi"));
+        islemler.add(new Islemler("Mehmet Kaya", "Ahmet Yılmaz", "10000", LocalDate.now(), "Para transferi"));
+        islemler.add(new Islemler("Ahmet Yılmaz", "Fatma Şahin", "7500", LocalDate.now().minusDays(5), "Para transferi"));
+        islemler.add(new Islemler("Ayşe Demir", "Mehmet Kaya", "3000", LocalDate.now().minusDays(3), "Para transferi"));
+        
+        islem_listview.setItems(islemler);
     }
 
     private void guncelleHesapBilgileri() {

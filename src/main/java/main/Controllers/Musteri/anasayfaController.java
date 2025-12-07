@@ -7,8 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import main.Models.Model;
 import main.Models.Islemler;
+import main.Models.Model;
 import main.Musteri;
 import main.Hesap;
 import main.Islem;
@@ -36,10 +36,6 @@ public class anasayfaController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Musteri current = Model.getInstance().getCurrentMusteri();
-
-        // İşlemler ListView'ını ayarla
-        islem_listview.setCellFactory(listView -> new mainislemler_cellView());
-        yukleIslemler();
 
         if (current != null) {
             musteri_id_lbl.setText(String.valueOf(current.getMusteriId()));
@@ -99,7 +95,19 @@ public class anasayfaController implements Initializable {
             if (!hesapListesi.isEmpty()) {
                 sm_gonderenhsp_chcbx.setValue(hesapListesi.get(0));
             }
+        } else {
+            // Müşteri bilgisi yoksa label'ları temizle
+            musteri_id_lbl.setText("");
+            musteri_ad_soyad_lbl.setText("");
+            vadesiz_id_lbl.setText("");
+            vadesiz_bakiye_lbl.setText("");
+            vadeli_id_lbl.setText("");
+            vadeli_bakiye_lbl.setText("");
         }
+
+        // İşlem geçmişi ListView'ını ayarla
+        islem_listview.setCellFactory(listView -> new mainislemler_cellView());
+        yukleIslemler();
 
         sm_gonder_btn.setOnAction(e -> {
             sm_error.setText(""); // Önceki hata mesajını temizle

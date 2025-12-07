@@ -27,4 +27,3 @@ public class mainislemler_cellView extends ListCell<Islemler> {
         }
     }
 }
-

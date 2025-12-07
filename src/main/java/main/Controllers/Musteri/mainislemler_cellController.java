@@ -33,4 +33,3 @@ public class mainislemler_cellController implements Initializable {
         }
     }
 }
-

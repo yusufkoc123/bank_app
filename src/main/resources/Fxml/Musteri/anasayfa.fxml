@@ -21,9 +21,9 @@
                 <String fx:value="hesap" />
                 <String fx:value="hesap_gecis" />
             </styleClass>
-            <Label fx:id="vadesiz_bakiye_lbl" layoutX="33.0" layoutY="25.0" styleClass="hesap_bakiye" text="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="25.0" />
+            <Label fx:id="vadesiz_bakiye_lbl" layoutX="33.0" layoutY="25.0" styleClass="hesap_bakiye" text="" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="25.0" />
             <Label layoutX="14.0" layoutY="25.0" prefHeight="17.0" prefWidth="8.0" styleClass="hesap_bakiye" text="₺" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="25.0" />
-            <Label fx:id="vadesiz_id_lbl" layoutX="9.0" layoutY="93.0" prefHeight="22.0" prefWidth="83.0" styleClass="hesap_no" text="44014653" textAlignment="CENTER" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="10.0" />
+            <Label fx:id="vadesiz_id_lbl" layoutX="9.0" layoutY="93.0" prefHeight="22.0" prefWidth="83.0" styleClass="hesap_no" text="" textAlignment="CENTER" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="10.0" />
             <VBox layoutX="241.0" layoutY="62.0" prefHeight="100.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="19.0" />
             <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="138.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="2.0">
                 <Image url="@../../Images/logo.png" />
@@ -35,13 +35,13 @@
                 <String fx:value="hesap_gecis" />
                 <String fx:value="hesap" />
             </styleClass>
-            <Label fx:id="vadeli_id_lbl" layoutX="9.0" layoutY="93.0" prefHeight="22.0" prefWidth="83.0" styleClass="hesap_no" text="35423452" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="10.0" />
+            <Label fx:id="vadeli_id_lbl" layoutX="9.0" layoutY="93.0" prefHeight="22.0" prefWidth="83.0" styleClass="hesap_no" text="" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="10.0" />
             <VBox layoutX="189.0" layoutY="-20.0" prefHeight="100.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="19.0" />
             <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="231.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="2.0">
                 <Image url="@../../Images/logo.png" />
             </ImageView>
             <Text layoutX="14.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vadeli Hesap" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" />
-            <Label fx:id="vadeli_bakiye_lbl" layoutX="38.0" layoutY="30.0" styleClass="hesap_bakiye" text="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="25.0" />
+            <Label fx:id="vadeli_bakiye_lbl" layoutX="38.0" layoutY="30.0" styleClass="hesap_bakiye" text="" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="25.0" />
             <Label layoutX="19.0" layoutY="30.0" prefHeight="17.0" prefWidth="8.0" styleClass="hesap_bakiye" text="₺" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="25.0" />
         </AnchorPane>
     </HBox>
@@ -49,19 +49,19 @@
     <Text fill="#03388e" layoutX="766.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="section_title" text="Para Gönder" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="340.0" />
     <ListView fx:id="islem_listview" layoutX="18.0" layoutY="371.0" prefHeight="365.0" prefWidth="570.0" styleClass="islem_liste" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="18.0" />
     <VBox layoutX="670.0" layoutY="382.0" prefHeight="366.0" prefWidth="240.0" styleClass="new_islem" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
-      <Label text="Gönderileceği Hesabı Seçin:" />
+      <Label text="Gönderen Hesabı Seçin:" />
       <ChoiceBox fx:id="sm_gonderenhsp_chcbx" prefHeight="28.0" prefWidth="222.0" />
         <Label text="Hesap Numarası:" />
         <TextField fx:id="sm_hesapid_fld" />
         <Label text="Miktar:" />
         <TextField fx:id="sm_miktar_fld" />
-        <Label text="Açıklama:(İsteğe Baglı)" />
+        <Label text="Açıklama: (İsteğe Bağlı)" />
         <TextField fx:id="sm_acıklama_fld" prefHeight="70.0" prefWidth="200.0" />
         <Button fx:id="sm_gonder_btn" mnemonicParsing="false" text="Gönder" />
       <Label fx:id="sm_error" prefHeight="42.0" prefWidth="220.0" wrapText="true" />
     </VBox>
-    <Text fill="#03388e" layoutX="668.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="musteri_id_lbl" text="Müşteri Numaran:" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="29.0" />
-    <Label fx:id="musteri_id_lbl" layoutX="770.0" layoutY="29.0" prefHeight="17.0" prefWidth="45.0" styleClass="musteri_id_lbl" text="000000" textFill="#03388e" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="27.0" />
+    <Text fill="#03388e" layoutX="668.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="musteri_id_lbl" text="Müşteri Numarası:" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="29.0" />
+    <Label fx:id="musteri_id_lbl" layoutX="770.0" layoutY="29.0" prefHeight="17.0" prefWidth="45.0" styleClass="musteri_id_lbl" text="" textFill="#03388e" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="27.0" />
     <Text fill="#03388e" layoutX="20.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="section_title" text="Hesaplarım" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0" />
-    <Label fx:id="musteri_ad_soyad_lbl" layoutX="162.0" layoutY="26.0" prefHeight="36.0" prefWidth="349.0" styleClass="musteri_adi" text="Yusuf KOÇ" textFill="#03388e" AnchorPane.bottomAnchor="690.0" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="25.0" />
+    <Label fx:id="musteri_ad_soyad_lbl" layoutX="162.0" layoutY="26.0" prefHeight="36.0" prefWidth="349.0" styleClass="musteri_adi" text="" textFill="#03388e" AnchorPane.bottomAnchor="690.0" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="25.0" />
 </AnchorPane>

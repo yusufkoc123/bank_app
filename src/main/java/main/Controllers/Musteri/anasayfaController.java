@@ -38,7 +38,7 @@ public class anasayfaController implements Initializable {
         Musteri current = Model.getInstance().getCurrentMusteri();
 
         if (current != null) {
-            musteri_id_lbl.setText(String.valueOf(current.getMusteriId()));
+            musteri_id_lbl.setText(String.format("%06d", current.getMusteriId()));
             musteri_ad_soyad_lbl.setText(current.getAdi() + " " + current.getSoyad());
 
             Hesap vadesizHesap = null;

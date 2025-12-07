@@ -30,7 +30,7 @@ public class dosyaIslemleri {
             for (int i = 0; i < musteriler.size(); i++) {
                 Musteri m = musteriler.get(i);
                 StringBuilder sb = new StringBuilder();
-                sb.append(m.getMusteriId()).append("|");
+                sb.append(esc(String.valueOf(m.getMusteriId()))).append("|");
                 sb.append(esc(m.getAdi())).append("|");
                 sb.append(esc(m.getSoyad())).append("|");
                 sb.append(esc(m.getTCkimlik())).append("|");
@@ -104,7 +104,7 @@ public class dosyaIslemleri {
                 
                 Musteri m = new Musteri(unesc(parts[1]), unesc(parts[2]), unesc(parts[3]), 
                     unesc(parts[4]), Integer.parseInt(parts[5]), unesc(parts[6]));
-                m.setMusteriId(Integer.parseInt(parts[0]));
+                m.setMusteriId(Integer.parseInt(unesc(parts[0])));
                 
                 // Hesaplar
                 if (!parts[7].isEmpty()) {

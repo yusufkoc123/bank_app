@@ -31,6 +31,13 @@ public class LoginController implements Initializable {
             updateLabelText();
         });
         updateLabelText();
+
+        giris_fld.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (accountSellect.getValue() == HesapTuru.Musteri && !newValue.matches("\\d*")) {
+                giris_fld.setText(oldValue);
+            }
+        });
+
         giris_btn.setOnAction(e->giris());
         sifremi_unuttum_btn.setOnAction(e -> sifremiUnuttum());
         error_lbl.setText("");
@@ -65,8 +72,8 @@ public class LoginController implements Initializable {
             }
         } else if (Model.getInstance().getView().getGiristuru() == HesapTuru.Veznedar){
 //            if(vSifreKontrol()) {
-                    Model.getInstance().getView().closeStage(stage);
-                    Model.getInstance().getView().AdminWindow();
+            Model.getInstance().getView().closeStage(stage);
+            Model.getInstance().getView().AdminWindow();
 //            } else {
 //                error_lbl.setText("Yönetici ID veya şifre yanlış!");
 //            }

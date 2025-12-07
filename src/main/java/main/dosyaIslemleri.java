@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 import main.dataStructures.ArrayList;
 
 public class dosyaIslemleri {
-    private static final String DATA_DIR = "data";
-    private static final String MUSTERI_DOSYA = DATA_DIR + File.separator + "musteriler.txt";
-    private static final String VEZNEDAR_DOSYA = DATA_DIR + File.separator + "veznedarlar.txt";
+    private static final String DATA_DIR = "src/main/resources/data";
+    private static final String MUSTERI_DOSYA = DATA_DIR + File.separator + "musteriler.yib";
+    private static final String VEZNEDAR_DOSYA = DATA_DIR + File.separator + "veznedarlar.yib";
 
     private static void klasorOlustur() {
         new File(DATA_DIR).mkdirs();
@@ -37,6 +37,7 @@ public class dosyaIslemleri {
                 sb.append(esc(m.getAdres())).append("|");
                 sb.append(m.getTelNo()).append("|");
                 sb.append(esc(m.getMPassword())).append("|");
+                sb.append(m.getKayitTarihi() != null ? m.getKayitTarihi().format(DateTimeFormatter.ISO_LOCAL_DATE) : "").append("|");
                 
                 // Hesaplar
                 ArrayList<Hesap> hesaplar = m.getHesaplar();
@@ -106,6 +107,22 @@ public class dosyaIslemleri {
                     unesc(parts[4]), Integer.parseInt(parts[5]), unesc(parts[6]));
                 m.setMusteriId(Integer.parseInt(unesc(parts[0])));
                 
+                // Kayıt tarihi (yeni format: parts[7], eski format: yok)
+                int hesapIndex;
+                if (parts.length > 7 && !parts[7].isEmpty() && !parts[7].contains(",") && !parts[7].contains(";")) {
+                    // parts[7] kayıt tarihi
+                    try {
+                        m.setKayitTarihi(LocalDate.parse(parts[7], DateTimeFormatter.ISO_LOCAL_DATE));
+                    } catch (Exception e) {
+                        m.setKayitTarihi(LocalDate.now());
+                    }
+                    hesapIndex = 8;
+                } else {
+                    // Eski format - kayıt tarihi yok
+                    m.setKayitTarihi(LocalDate.now());
+                    hesapIndex = 7;
+                }
+                
                 // Hesaplar
                 if (!parts[7].isEmpty()) {
                     String[] hesaplar = parts[7].split(";");
@@ -122,8 +139,9 @@ public class dosyaIslemleri {
                 }
                 
                 // İşlemler
-                if (parts.length > 8 && !parts[8].isEmpty()) {
-                    String[] islemler = parts[8].split(";");
+                int islemIndex = hesapIndex + 1;
+                if (parts.length > islemIndex && !parts[islemIndex].isEmpty()) {
+                    String[] islemler = parts[islemIndex].split(";");
                     for (String islemStr : islemler) {
                         if (islemStr.isEmpty()) continue;
                         String[] i = islemStr.split(",");

@@ -14,11 +14,11 @@
     </ImageView>
     <HBox layoutX="62.0" layoutY="-21.0" prefHeight="40.0" prefWidth="563.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="5.0">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="İsim:" wrappingWidth="39.193359375" />
-        <Label fx:id="mustericell_isim_lbl" prefHeight="27.0" prefWidth="136.0" text="Yusuf" />
+        <Label fx:id="mustericell_isim_lbl" prefHeight="27.0" prefWidth="136.0" text="" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Soyisim:" />
-        <Label fx:id="mustericell_soyisim_lbl" prefHeight="27.0" prefWidth="112.0" text="KOÇ" />
+        <Label fx:id="mustericell_soyisim_lbl" prefHeight="27.0" prefWidth="112.0" text="" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Müşteri ID:" />
-        <Label fx:id="mustericell_musteriID_lbl" prefHeight="27.0" prefWidth="69.0" text="345678" />
+        <Label fx:id="mustericell_musteriID_lbl" prefHeight="27.0" prefWidth="69.0" text="" />
     </HBox>
     <Button fx:id="musteri_sil_btn" layoutX="658.0" layoutY="24.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="78.0" styleClass="delete_btn" text="Sil">
         <graphic>
@@ -29,10 +29,10 @@
     </Button>
     <HBox layoutX="60.0" layoutY="45.0" prefHeight="40.0" prefWidth="576.0">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tc NO:" wrappingWidth="56.61328125" />
-        <Label fx:id="mustericell_tc_lbl" prefHeight="28.0" prefWidth="118.0" text="10244579934" />
+        <Label fx:id="mustericell_tc_lbl" prefHeight="28.0" prefWidth="118.0" text="" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tel No:" />
-        <Label fx:id="mustericell_tel_lbl" prefHeight="27.0" prefWidth="121.0" text="05382452745" />
+        <Label fx:id="mustericell_tel_lbl" prefHeight="27.0" prefWidth="121.0" text="" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kayıt Tarihi:" wrappingWidth="95.353515625" />
-        <Label fx:id="mustericell_kayittarih_lbl" prefHeight="27.0" prefWidth="93.0" text="04.12.2005" />
+        <Label fx:id="mustericell_kayittarih_lbl" prefHeight="27.0" prefWidth="93.0" text="" />
     </HBox>
 </AnchorPane>

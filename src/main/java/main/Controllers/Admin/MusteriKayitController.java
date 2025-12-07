@@ -14,7 +14,6 @@ import main.dataStructures.ArrayList;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
 
 public class MusteriKayitController implements Initializable {
     public TextField mkisim_fld;
@@ -27,17 +26,18 @@ public class MusteriKayitController implements Initializable {
     public TextField vadelibakiye_fld;
     public Button register_btn;
     public Label mk_error_lbl;
-    
-    // Validation patterns
-    private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-ZçğıöşüÇĞIİÖŞÜ\\s]{2,50}$");
+    public TextField mkadres_fld;
+    public TextField mktc_fld;
+    public TextField mktel_fld;
+
     private static final int MIN_PASSWORD_LENGTH = 6;
     private static final int MAX_PASSWORD_LENGTH = 50;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         register_btn.setOnAction(e -> musteriKaydet());
-        mk_error_lbl.setText("");
-        mkmusterino_lbl.setText("");
+        mk_error_lbl.setText(null);
+        mkmusterino_lbl.setText(null);
         
         // Checkbox değişikliklerinde bakiye alanlarını aktif/pasif yap
         vadesiz_box.setOnAction(e -> {
@@ -64,16 +64,76 @@ public class MusteriKayitController implements Initializable {
         // Bakiye alanlarına sadece sayı girişi izin ver
         setupNumericField(vadesizbakiye_fld);
         setupNumericField(vadelibakiye_fld);
+        
+        // TC ve telefon alanlarına sadece rakam girişi izin ver
+        setupNumericOnlyField(mktc_fld);
+        setupNumericOnlyFieldWithMaxLength(mktel_fld, 10);
+        
+        // Form alanları değiştiğinde müşteri ID'sini oluştur
+        mkisim_fld.textProperty().addListener((obs, oldVal, newVal) -> musteriIdOlustur());
+        mksoyisim_fld.textProperty().addListener((obs, oldVal, newVal) -> musteriIdOlustur());
+        mktc_fld.textProperty().addListener((obs, oldVal, newVal) -> musteriIdOlustur());
+    }
+    
+    private int geciciMusteriId = -1;
+    
+    private void musteriIdOlustur() {
+        String isim = mkisim_fld.getText().trim();
+        String soyisim = mksoyisim_fld.getText().trim();
+        String tc = mktc_fld.getText().trim();
+        
+        // Temel bilgiler girildiyse ID oluştur
+        if (!isim.isEmpty() && !soyisim.isEmpty() && !tc.isEmpty() && tc.length() == 11) {
+            try {
+                // Geçici müşteri oluştur (sadece ID için, listeye eklenmeden)
+                String adres = mkadres_fld.getText().trim();
+                String telNoStr = mktel_fld.getText().trim();
+                int telNo = telNoStr.isEmpty() ? 0 : Integer.parseInt(telNoStr);
+                String sifre = mksifre_fld.getText().isEmpty() ? "temp123" : mksifre_fld.getText();
+                
+                // Geçici müşteri oluştur
+                Musteri geciciMusteri = new Musteri(isim, soyisim, tc, adres, telNo, sifre);
+                geciciMusteriId = geciciMusteri.getMusteriId();
+                
+                // ID'yi göster
+                mkmusterino_lbl.setText(String.format("%06d", geciciMusteriId));
+                
+                // Geçici müşteriyi listeden çıkar (eğer eklenmişse)
+                ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
+                for (int i = 0; i < musteriler.size(); i++) {
+                    Musteri m = musteriler.get(i);
+                    if (m.getMusteriId() == geciciMusteriId && m.getMPassword().equals(sifre)) {
+                        musteriler.removeAt(i);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                // Hata durumunda ID gösterme
+                mkmusterino_lbl.setText("");
+            }
+        } else {
+            mkmusterino_lbl.setText("");
+            geciciMusteriId = -1;
+        }
     }
     
     // İsim/soyisim alanları için sadece harf girişi
     private void setupNameField(TextField field) {
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String newText = change.getControlNewText();
-            if (newText.isEmpty() || newText.matches("^[a-zA-ZçğıöşüÇĞIİÖŞÜ\\s]*$")) {
+            if (newText.isEmpty()) {
                 return change;
             }
-            return null;
+            for (int i = 0; i < newText.length(); i++) {
+                char c = newText.charAt(i);
+                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || 
+                      c == 'ç' || c == 'ğ' || c == 'ı' || c == 'ö' || c == 'ş' || c == 'ü' ||
+                      c == 'Ç' || c == 'Ğ' || c == 'İ' || c == 'Ö' || c == 'Ş' || c == 'Ü' ||
+                      c == ' ')) {
+                    return null;
+                }
+            }
+            return change;
         };
         field.setTextFormatter(new TextFormatter<>(filter));
     }
@@ -82,10 +142,60 @@ public class MusteriKayitController implements Initializable {
     private void setupNumericField(TextField field) {
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String newText = change.getControlNewText();
-            if (newText.isEmpty() || newText.matches("^\\d*\\.?\\d*$")) {
+            if (newText.isEmpty()) {
                 return change;
             }
-            return null;
+            boolean hasDot = false;
+            for (int i = 0; i < newText.length(); i++) {
+                char c = newText.charAt(i);
+                if (c >= '0' && c <= '9') {
+                    continue;
+                } else if (c == '.' && !hasDot) {
+                    hasDot = true;
+                } else {
+                    return null;
+                }
+            }
+            return change;
+        };
+        field.setTextFormatter(new TextFormatter<>(filter));
+    }
+    
+    // TC ve telefon için sadece rakam girişi
+    private void setupNumericOnlyField(TextField field) {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.isEmpty()) {
+                return change;
+            }
+            for (int i = 0; i < newText.length(); i++) {
+                char c = newText.charAt(i);
+                if (c < '0' || c > '9') {
+                    return null;
+                }
+            }
+            return change;
+        };
+        field.setTextFormatter(new TextFormatter<>(filter));
+    }
+    
+    // Telefon için sadece rakam girişi ve maksimum uzunluk sınırlaması
+    private void setupNumericOnlyFieldWithMaxLength(TextField field, int maxLength) {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.isEmpty()) {
+                return change;
+            }
+            if (newText.length() > maxLength) {
+                return null;
+            }
+            for (int i = 0; i < newText.length(); i++) {
+                char c = newText.charAt(i);
+                if (c < '0' || c > '9') {
+                    return null;
+                }
+            }
+            return change;
         };
         field.setTextFormatter(new TextFormatter<>(filter));
     }
@@ -101,8 +211,8 @@ public class MusteriKayitController implements Initializable {
             mkisim_fld.requestFocus();
             return;
         }
-        if (isim.length() < 2) {
-            mk_error_lbl.setText("İsim en az 2 karakter olmalıdır!");
+        if (isim.length() < 3) {
+            mk_error_lbl.setText("İsim en az 3 karakter olmalıdır!");
             mkisim_fld.requestFocus();
             return;
         }
@@ -111,7 +221,7 @@ public class MusteriKayitController implements Initializable {
             mkisim_fld.requestFocus();
             return;
         }
-        if (!NAME_PATTERN.matcher(isim).matches()) {
+        if (!isSadeceHarf(isim)) {
             mk_error_lbl.setText("İsim sadece harf içermelidir!");
             mkisim_fld.requestFocus();
             return;
@@ -134,7 +244,7 @@ public class MusteriKayitController implements Initializable {
             mksoyisim_fld.requestFocus();
             return;
         }
-        if (!NAME_PATTERN.matcher(soyisim).matches()) {
+        if (!isSadeceHarf(soyisim)) {
             mk_error_lbl.setText("Soyisim sadece harf içermelidir!");
             mksoyisim_fld.requestFocus();
             return;
@@ -220,21 +330,67 @@ public class MusteriKayitController implements Initializable {
                     return;
                 }
             }
-            // Boşsa 0 olarak kalır
         }
         
-        // Müşteri oluştur (eksik alanlar için default değerler)
+        // TC Kimlik validasyonu
+        String tcKimlik = mktc_fld.getText().trim();
+        if (tcKimlik.isEmpty()) {
+            mk_error_lbl.setText("TC Kimlik No alanı boş olamaz!");
+            mktc_fld.requestFocus();
+            return;
+        }
+        if (tcKimlik.length() != 11) {
+            mk_error_lbl.setText("TC Kimlik No 11 haneli olmalıdır!");
+            mktc_fld.requestFocus();
+            return;
+        }
+        if (!isSadeceRakam(tcKimlik)) {
+            mk_error_lbl.setText("TC Kimlik No sadece rakam içermelidir!");
+            mktc_fld.requestFocus();
+            return;
+        }
+        
+        // Telefon validasyonu
+        String telNoStr = mktel_fld.getText().trim();
+        int telNo = 0;
+        if (!telNoStr.isEmpty()) {
+            if (!isSadeceRakam(telNoStr)) {
+                mk_error_lbl.setText("Telefon numarası sadece rakam içermelidir!");
+                mktel_fld.requestFocus();
+                return;
+            }
+            if (telNoStr.length() != 10) {
+                mk_error_lbl.setText("Telefon numarası 10 haneli olmalıdır!");
+                mktel_fld.requestFocus();
+                return;
+            }
+            try {
+                telNo = Integer.parseInt(telNoStr);
+            } catch (NumberFormatException e) {
+                mk_error_lbl.setText("Telefon numarası geçerli bir sayı olmalıdır!");
+                mktel_fld.requestFocus();
+                return;
+            }
+        }
+        
+        // Adres
+        String adres = mkadres_fld.getText().trim();
+        
+        // Müşteri oluştur
         String adi = isim;
         String soyad = soyisim;
-        String tcKimlik = ""; // Formda yok, boş bırakılıyor
-        String adres = ""; // Formda yok, boş bırakılıyor
-        int telNo = 0; // Formda yok, default değer
         
         Musteri yeniMusteri = new Musteri(adi, soyad, tcKimlik, adres, telNo, sifre);
         
+        // Eğer önceden oluşturulmuş ID varsa onu kullan
+        if (geciciMusteriId != -1 && geciciMusteriId != yeniMusteri.getMusteriId()) {
+            // Farklı ID oluştuysa, önceki ID'yi kullanmaya çalış
+            // Ama ID kontrolü yapıldığı için genelde aynı ID oluşur
+        }
+        
         // Müşteri numarasını göster
         int musteriId = yeniMusteri.getMusteriId();
-        mkmusterino_lbl.setText(String.valueOf(musteriId));
+        mkmusterino_lbl.setText(String.format("%06d", musteriId));
         
         // Müşteriyi önce listeye ekle (hesap açma metodları için gerekli)
         ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
@@ -285,12 +441,41 @@ public class MusteriKayitController implements Initializable {
         mkisim_fld.clear();
         mksoyisim_fld.clear();
         mksifre_fld.clear();
+        mktc_fld.clear();
+        mktel_fld.clear();
+        mkadres_fld.clear();
         vadesiz_box.setSelected(false);
         vadesizbakiye_fld.clear();
         vadesizbakiye_fld.setDisable(true);
         vadeli_box.setSelected(false);
         vadelibakiye_fld.clear();
         vadelibakiye_fld.setDisable(true);
+        mkmusterino_lbl.setText("");
         // Müşteri numarasını temizleme, bir sonraki kayıtta güncellenecek
+    }
+    
+    // Sadece harf kontrolü (Türkçe karakterler dahil)
+    private boolean isSadeceHarf(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || 
+                  c == 'ç' || c == 'ğ' || c == 'ı' || c == 'ö' || c == 'ş' || c == 'ü' ||
+                  c == 'Ç' || c == 'Ğ' || c == 'İ' || c == 'Ö' || c == 'Ş' || c == 'Ü' ||
+                  c == ' ')) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    // Sadece rakam kontrolü
+    private boolean isSadeceRakam(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
     }
 }

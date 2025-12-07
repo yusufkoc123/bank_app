@@ -17,6 +17,7 @@ public class Musteri implements Serializable {
     private String adres;
     private int telNo;
     private String mPassword;
+    private LocalDate kayitTarihi;
     private ArrayList<Hesap> hesaplar;
     private Queue<Islem> islemler;
     private static final int MAX_ISLEM_SAYISI = 20;
@@ -30,6 +31,7 @@ public class Musteri implements Serializable {
         this.adres = adres;
         this.telNo = telNo;
         this.mPassword = mPassword;
+        this.kayitTarihi = LocalDate.now();
         this.hesaplar = new ArrayList<>();
         this.islemler = new Queue<>();
     }
@@ -123,6 +125,14 @@ public class Musteri implements Serializable {
     }
     public void setHesaplar(ArrayList<Hesap> hesaplar) {
         this.hesaplar = hesaplar;
+    }
+    
+    public LocalDate getKayitTarihi() {
+        return kayitTarihi;
+    }
+    
+    public void setKayitTarihi(LocalDate kayitTarihi) {
+        this.kayitTarihi = kayitTarihi;
     }
 
     public void mHesapAc(Hesap h) {
@@ -323,6 +333,14 @@ public class Musteri implements Serializable {
         adres = (String) fields.get("adres", null);
         telNo = fields.get("telNo", 0);
         mPassword = (String) fields.get("mPassword", null);
+        
+        // kayitTarihi alanını oku (eski kayıtlarda null olabilir)
+        Object kayitTarihiObj = fields.get("kayitTarihi", null);
+        if (kayitTarihiObj instanceof LocalDate) {
+            kayitTarihi = (LocalDate) kayitTarihiObj;
+        } else {
+            kayitTarihi = LocalDate.now(); // Eski kayıtlar için bugünün tarihi
+        }
         
         // hesaplar alanını Object olarak oku ve tip dönüşümü yap
         Object hesaplarObj = fields.get("hesaplar", null);

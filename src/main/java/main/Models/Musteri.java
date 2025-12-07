@@ -2,6 +2,8 @@ package main.Models;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Musteri {
     private final StringProperty isim;
@@ -105,13 +107,17 @@ public class Musteri {
         if (domainMusteri == null) {
             return null;
         }
+        String kayitTarihi = "";
+        if (domainMusteri.getKayitTarihi() != null) {
+            kayitTarihi = domainMusteri.getKayitTarihi().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        }
         return new Musteri(
             domainMusteri.getAdi(),
             domainMusteri.getSoyad(),
             String.valueOf(domainMusteri.getTelNo()),
             String.valueOf(domainMusteri.getMusteriId()),
             domainMusteri.getTCkimlik(),
-            ""
+            kayitTarihi
         );
     }
 }

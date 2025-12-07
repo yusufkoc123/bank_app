@@ -105,7 +105,7 @@ public class Veznedar implements Serializable {
     private int rastgeleHesapIdOlustur() {
         int yeniId;
         do {
-            yeniId = 10000 + rand.nextInt(990000); // 10000 ile 999999 arası
+            yeniId = 100000 + rand.nextInt(990000); // 100000 ile 999999 arası
         } while(hesapIdKullaniliyor(yeniId));
         return yeniId;
     }

@@ -6,7 +6,7 @@
     -fx-font-size: 1.3em;
     -fx-fill: #003181;
 }
-.musterikayit_container VBox{
+.musterikayit_container AnchorPane{
     -fx-background-radius: 20;
     -fx-padding: 10;
     -fx-spacing: 15;

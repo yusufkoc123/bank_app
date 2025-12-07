@@ -18,31 +18,31 @@
         </HBox>
         <VBox alignment="TOP_CENTER" prefHeight="430.0" prefWidth="820.0">
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="703.0" styleClass="bulunan_bilgi" stylesheets="@../../Styles/Parayatir.css">
-                <Label fx:id="pyc_soyad_lbl" layoutX="176.0" layoutY="55.0" prefHeight="33.0" prefWidth="156.0" text="KOÇ" AnchorPane.leftAnchor="176.0" AnchorPane.topAnchor="69.0" />
-                <Label fx:id="pyc_telno_lbl" layoutX="176.0" layoutY="91.0" prefHeight="33.0" prefWidth="192.0" text="05382452745" wrapText="true" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="335.0" AnchorPane.topAnchor="125.0" />
-                <Label fx:id="pyc_tcno_lbl" layoutX="452.0" layoutY="6.0" prefHeight="33.0" prefWidth="200.0" text="10244579934" AnchorPane.leftAnchor="452.0" AnchorPane.topAnchor="14.0" />
-                <Label fx:id="pyc_ad_lbl" layoutX="176.0" layoutY="20.0" prefHeight="33.0" prefWidth="174.0" text="Yusuf" AnchorPane.leftAnchor="176.0" AnchorPane.topAnchor="14.0" />
+                <Label fx:id="pyc_soyad_lbl" layoutX="176.0" layoutY="55.0" prefHeight="33.0" prefWidth="156.0" text="" AnchorPane.leftAnchor="176.0" AnchorPane.topAnchor="69.0" />
+                <Label fx:id="pyc_telno_lbl" layoutX="176.0" layoutY="91.0" prefHeight="33.0" prefWidth="192.0" text="" wrapText="true" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="335.0" AnchorPane.topAnchor="125.0" />
+                <Label fx:id="pyc_tcno_lbl" layoutX="452.0" layoutY="6.0" prefHeight="33.0" prefWidth="200.0" text="" AnchorPane.leftAnchor="452.0" AnchorPane.topAnchor="14.0" />
+                <Label fx:id="pyc_ad_lbl" layoutX="176.0" layoutY="20.0" prefHeight="33.0" prefWidth="174.0" text="" AnchorPane.leftAnchor="176.0" AnchorPane.topAnchor="14.0" />
                 <Text layoutX="134.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ad:" AnchorPane.rightAnchor="535.0" AnchorPane.topAnchor="14.0" />
                 <Text layoutX="103.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Soyad:" AnchorPane.rightAnchor="535.0" AnchorPane.topAnchor="69.0" />
                 <Text layoutX="35.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefon NO:" AnchorPane.rightAnchor="535.0" AnchorPane.topAnchor="125.0" />
                 <Text layoutX="338.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TC No:" AnchorPane.rightAnchor="263.0" AnchorPane.topAnchor="14.0" />
                 <Text layoutX="377.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adres:" AnchorPane.rightAnchor="265.36777114868164" AnchorPane.topAnchor="125.0" />
-                <Label fx:id="pyc_adres_lbl" layoutX="452.0" layoutY="114.0" prefHeight="111.0" prefWidth="248.0" text="Esatpaşa mah 1202 sokak no 8 daire 2 Menemen /İzmir" wrapText="true" AnchorPane.leftAnchor="452.0" AnchorPane.topAnchor="114.0">
+                <Label fx:id="pyc_adres_lbl" layoutX="452.0" layoutY="114.0" prefHeight="111.0" prefWidth="248.0" text="" wrapText="true" AnchorPane.leftAnchor="452.0" AnchorPane.topAnchor="114.0">
                     <font>
                         <Font size="8.0" />
                     </font>
                 </Label>
                 <Text layoutX="341.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Müşteri ID:" AnchorPane.rightAnchor="263.0" AnchorPane.topAnchor="69.0" />
-                <Label fx:id="pyc_musteriid_lbl" layoutX="452.0" layoutY="69.0" prefHeight="33.0" prefWidth="183.0" text="645453" AnchorPane.leftAnchor="452.0" AnchorPane.topAnchor="69.0" />
+                <Label fx:id="pyc_musteriid_lbl" layoutX="452.0" layoutY="69.0" prefHeight="33.0" prefWidth="183.0" text="" AnchorPane.leftAnchor="452.0" AnchorPane.topAnchor="69.0" />
                 <AnchorPane layoutX="134.0" layoutY="258.0" prefHeight="122.0" prefWidth="435.0" styleClass="bulunan_hesap" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="134.0" AnchorPane.rightAnchor="134.0">
                     <Text layoutX="49.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bakiye:" AnchorPane.topAnchor="30.0" />
-                    <Label fx:id="pyc_bakiye_lbl" layoutX="61.0" layoutY="65.0" prefHeight="36.0" prefWidth="122.0" text="0" textAlignment="CENTER" AnchorPane.leftAnchor="64.0" AnchorPane.topAnchor="68.0" />
+                    <Label fx:id="pyc_bakiye_lbl" layoutX="61.0" layoutY="65.0" prefHeight="36.0" prefWidth="122.0" text="" textAlignment="CENTER" AnchorPane.leftAnchor="64.0" AnchorPane.topAnchor="68.0" />
                     <Text layoutX="257.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hesap Türü:" AnchorPane.topAnchor="30.0" />
-                    <Label fx:id="pyc_hesapturu_lbl" layoutX="281.0" layoutY="67.0" text="Vadesiz" textAlignment="CENTER" AnchorPane.topAnchor="67.0" />
+                    <Label fx:id="pyc_hesapturu_lbl" layoutX="281.0" layoutY="67.0" text="" textAlignment="CENTER" AnchorPane.topAnchor="67.0" />
                     <Label layoutX="49.0" layoutY="68.0" text="₺" AnchorPane.topAnchor="68.0" />
                 </AnchorPane>
                 <Text layoutX="264.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hesap ID:" AnchorPane.leftAnchor="264.0" AnchorPane.topAnchor="234.986328125" />
-                <Label fx:id="pyc_hesapid_lbl" layoutX="366.0" layoutY="234.0" text="654321" AnchorPane.rightAnchor="266.0" AnchorPane.topAnchor="234.0" />
+                <Label fx:id="pyc_hesapid_lbl" layoutX="366.0" layoutY="234.0" text="" AnchorPane.rightAnchor="266.0" AnchorPane.topAnchor="234.0" />
             </AnchorPane>
         </VBox>
         <AnchorPane prefHeight="180.0" prefWidth="820.0" styleClass="parayatir_container" stylesheets="@../../Styles/Parayatir.css">
@@ -50,6 +50,7 @@
             <TextField fx:id="pyc_miktar_fld" layoutX="310.0" layoutY="48.0" />
             <Button fx:id="pyc_topla_btn" layoutX="290.0" layoutY="96.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="114.0" text="Para Topla" />
             <Button fx:id="pyc_cek_btn" layoutX="417.0" layoutY="96.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="114.0" text="Para Çek" />
+            <Label fx:id="pyc_error_lbl" layoutX="15.0" layoutY="140.0" prefHeight="30.0" prefWidth="790.0" wrapText="true" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="140.0" />
         </AnchorPane>
     </VBox>
 </AnchorPane>

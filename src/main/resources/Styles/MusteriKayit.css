@@ -44,6 +44,8 @@
 .musterikayit_container Button:hover{
     -fx-cursor: hand;
 }
-.hata_lbl{
-    -fx-fill: #ff0000;
+.musterikayit_container Label#mk_error_lbl{
+    -fx-text-fill: #ff0000;
+    -fx-font-size: 1.1em;
+    -fx-font-weight: bold;
 }

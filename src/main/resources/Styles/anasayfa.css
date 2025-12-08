@@ -103,3 +103,8 @@ islem_bar{
 .new_islem Button:hover{
     -fx-cursor: hand;
 }
+.new_islem Label#sm_error{
+    -fx-text-fill: #ff0000;
+    -fx-font-size: 1.1em;
+    -fx-font-weight: bold;
+}

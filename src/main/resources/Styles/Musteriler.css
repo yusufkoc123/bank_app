@@ -33,7 +33,7 @@
     -fx-pref-height: 0;
     -fx-max-height: 0;
 }
-.musteriler_container .list-view .scroll-bar:horizontal .thumb,
+.musteriler_container .list-vie .scroll-bar:horizontal .thumb,
 .musteriler_container .list-view .scroll-bar:horizontal .track {
     -fx-opacity: 0;
 }

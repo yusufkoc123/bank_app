@@ -13,7 +13,7 @@
     <VBox alignment="TOP_CENTER" layoutX="15.0" layoutY="30.0" prefHeight="673.0" prefWidth="820.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="30.0">
         <HBox alignment="CENTER" prefHeight="56.0" prefWidth="820.0" styleClass="arama_kutusu">
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hesap Numarası İle Bul:  " />
-            <TextField fx:id="deposit_search_fld" />
+            <TextField fx:id="deposit_search_fld" prefHeight="35.0" prefWidth="200.0" />
             <Button fx:id="deposit_search_btn" mnemonicParsing="false" text="Ara" />
         </HBox>
         <VBox alignment="TOP_CENTER" prefHeight="430.0" prefWidth="820.0">
@@ -47,7 +47,7 @@
         </VBox>
         <AnchorPane prefHeight="180.0" prefWidth="820.0" styleClass="parayatir_container" stylesheets="@../../Styles/Parayatir.css">
             <Text layoutX="373.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Miktar:" />
-            <TextField fx:id="pyc_miktar_fld" layoutX="310.0" layoutY="48.0" />
+            <TextField fx:id="pyc_miktar_fld" layoutX="310.0" layoutY="48.0" prefHeight="35.0" prefWidth="200.0" />
             <Button fx:id="pyc_topla_btn" layoutX="290.0" layoutY="96.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="114.0" text="Para Topla" />
             <Button fx:id="pyc_cek_btn" layoutX="417.0" layoutY="96.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="114.0" text="Para Çek" />
             <Label fx:id="pyc_error_lbl" layoutX="15.0" layoutY="140.0" prefHeight="30.0" prefWidth="790.0" wrapText="true" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="140.0" />

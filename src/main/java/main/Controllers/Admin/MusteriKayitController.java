@@ -88,25 +88,25 @@ public class MusteriKayitController implements Initializable {
                 // Geçici müşteri oluştur (sadece ID için, listeye eklenmeden)
                 String adres = mkadres_fld.getText().trim();
                 String telNoStr = mktel_fld.getText().trim();
-                int telNo = telNoStr.isEmpty() ? 0 : Integer.parseInt(telNoStr);
+                int telNo = 0;
+                if (!telNoStr.isEmpty()) {
+                    try {
+                        long telNoLong = Long.parseLong(telNoStr);
+                        if (telNoLong <= Integer.MAX_VALUE) {
+                            telNo = (int) telNoLong;
+                        }
+                    } catch (NumberFormatException e) {
+                        // Hata durumunda 0 olarak kalır
+                    }
+                }
                 String sifre = mksifre_fld.getText().isEmpty() ? "temp123" : mksifre_fld.getText();
                 
-                // Geçici müşteri oluştur
+                // Geçici müşteri oluştur (sadece ID için, listeye eklenmez)
                 Musteri geciciMusteri = new Musteri(isim, soyisim, tc, adres, telNo, sifre);
                 geciciMusteriId = geciciMusteri.getMusteriId();
                 
                 // ID'yi göster
                 mkmusterino_lbl.setText(String.format("%06d", geciciMusteriId));
-                
-                // Geçici müşteriyi listeden çıkar (eğer eklenmişse)
-                ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
-                for (int i = 0; i < musteriler.size(); i++) {
-                    Musteri m = musteriler.get(i);
-                    if (m.getMusteriId() == geciciMusteriId && m.getMPassword().equals(sifre)) {
-                        musteriler.removeAt(i);
-                        break;
-                    }
-                }
             } catch (Exception e) {
                 // Hata durumunda ID gösterme
                 mkmusterino_lbl.setText("");
@@ -365,7 +365,13 @@ public class MusteriKayitController implements Initializable {
                 return;
             }
             try {
-                telNo = Integer.parseInt(telNoStr);
+                long telNoLong = Long.parseLong(telNoStr);
+                if (telNoLong > Integer.MAX_VALUE) {
+                    mk_error_lbl.setText("Telefon numarası çok büyük!");
+                    mktel_fld.requestFocus();
+                    return;
+                }
+                telNo = (int) telNoLong;
             } catch (NumberFormatException e) {
                 mk_error_lbl.setText("Telefon numarası geçerli bir sayı olmalıdır!");
                 mktel_fld.requestFocus();
@@ -381,12 +387,6 @@ public class MusteriKayitController implements Initializable {
         String soyad = soyisim;
         
         Musteri yeniMusteri = new Musteri(adi, soyad, tcKimlik, adres, telNo, sifre);
-        
-        // Eğer önceden oluşturulmuş ID varsa onu kullan
-        if (geciciMusteriId != -1 && geciciMusteriId != yeniMusteri.getMusteriId()) {
-            // Farklı ID oluştuysa, önceki ID'yi kullanmaya çalış
-            // Ama ID kontrolü yapıldığı için genelde aynı ID oluşur
-        }
         
         // Müşteri numarasını göster
         int musteriId = yeniMusteri.getMusteriId();

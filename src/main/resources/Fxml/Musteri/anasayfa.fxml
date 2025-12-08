@@ -52,11 +52,11 @@
       <Label text="Gönderen Hesabı Seçin:" />
       <ChoiceBox fx:id="sm_gonderenhsp_chcbx" prefHeight="28.0" prefWidth="222.0" />
         <Label text="Hesap Numarası:" />
-        <TextField fx:id="sm_hesapid_fld" />
+        <TextField fx:id="sm_hesapid_fld" prefHeight="35.0" prefWidth="222.0" />
         <Label text="Miktar:" />
-        <TextField fx:id="sm_miktar_fld" />
+        <TextField fx:id="sm_miktar_fld" prefHeight="35.0" prefWidth="222.0" />
         <Label text="Açıklama: (İsteğe Bağlı)" />
-        <TextField fx:id="sm_acıklama_fld" prefHeight="70.0" prefWidth="200.0" />
+        <TextField fx:id="sm_acıklama_fld" prefHeight="70.0" prefWidth="222.0" />
         <Button fx:id="sm_gonder_btn" mnemonicParsing="false" text="Gönder" />
       <Label fx:id="sm_error" prefHeight="42.0" prefWidth="220.0" wrapText="true" />
     </VBox>

@@ -52,3 +52,8 @@ Button:hover{
     -fx-text-fill: #ffffff;
     -fx-font-size: 1.8em;
 }
+.parayatir_container Label#pyc_error_lbl{
+    -fx-text-fill: #ff0000;
+    -fx-font-size: 1.1em;
+    -fx-font-weight: bold;
+}

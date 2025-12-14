@@ -39,19 +39,14 @@ public class ParayatirController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Arama butonu
         deposit_search_btn.setOnAction(e -> musteriAra());
         
-        // Para Topla butonu
         pyc_topla_btn.setOnAction(e -> paraYatir());
         
-        // Para Çek butonu
         pyc_cek_btn.setOnAction(e -> paraCek());
         
-        // Miktar alanına sadece sayı girişi izin ver
         setupNumericField(pyc_miktar_fld);
         
-        // Başlangıçta label'ları temizle
         if (pyc_error_lbl != null) {
             pyc_error_lbl.setText("");
         }
@@ -81,7 +76,6 @@ public class ParayatirController implements Initializable {
             seciliMusteri = null;
             seciliHesap = null;
             
-            // Tüm müşterilerde hesabı ara
             ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
             for (int i = 0; i < musteriler.size(); i++) {
                 Musteri m = musteriler.get(i);
@@ -98,20 +92,17 @@ public class ParayatirController implements Initializable {
             }
             
             if (seciliMusteri != null && seciliHesap != null) {
-                // Müşteri bilgilerini göster
                 pyc_ad_lbl.setText(seciliMusteri.getAdi());
                 pyc_soyad_lbl.setText(seciliMusteri.getSoyad());
                 pyc_tcno_lbl.setText(seciliMusteri.getTCkimlik());
-                pyc_telno_lbl.setText(String.valueOf(seciliMusteri.getTelNo()));
+                pyc_telno_lbl.setText(seciliMusteri.getTelNo() != null ? seciliMusteri.getTelNo() : "");
                 pyc_adres_lbl.setText(seciliMusteri.getAdres());
                 pyc_musteriid_lbl.setText(String.format("%06d", seciliMusteri.getMusteriId()));
                 
-                // Hesap bilgilerini göster
                 pyc_hesapid_lbl.setText(String.valueOf(seciliHesap.getHesapId()));
                 pyc_bakiye_lbl.setText(String.valueOf(seciliHesap.getBakiye()));
                 pyc_hesapturu_lbl.setText(seciliHesap.getHesapTuru().getHesapTuru());
                 
-                // Hata mesajını temizle
                 pyc_error_lbl.setText("");
             } else {
                 temizle();
@@ -148,13 +139,11 @@ public class ParayatirController implements Initializable {
                 return;
             }
             
-            // Para yatır
             ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
             for (int i = 0; i < musteriler.size(); i++) {
                 Musteri m = musteriler.get(i);
                 if (m.getMusteriId() == seciliMusteri.getMusteriId()) {
                     m.paraYatir(seciliHesap.getHesapId(), miktar);
-                    // Güncel bakiyeyi al
                     ArrayList<Hesap> hesaplar = m.getHesaplar();
                     for (int j = 0; j < hesaplar.size(); j++) {
                         Hesap h = hesaplar.get(j);
@@ -167,13 +156,8 @@ public class ParayatirController implements Initializable {
                 }
             }
             
-            // Bakiyeyi güncelle
             pyc_bakiye_lbl.setText(String.valueOf(seciliHesap.getBakiye()));
             
-            // Verileri kaydet
-            dosyaIslemleri.tumMusterileriKaydet();
-            
-            // Başarı mesajı
             pyc_error_lbl.setText("Para başarıyla yatırıldı!");
             pyc_error_lbl.setTextFill(Color.GREEN);
             pyc_miktar_fld.clear();
@@ -212,13 +196,11 @@ public class ParayatirController implements Initializable {
                 return;
             }
             
-            // Para çek
             ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
             for (int i = 0; i < musteriler.size(); i++) {
                 Musteri m = musteriler.get(i);
                 if (m.getMusteriId() == seciliMusteri.getMusteriId()) {
                     m.paraCek(seciliHesap.getHesapId(), miktar);
-                    // Güncel bakiyeyi al
                     ArrayList<Hesap> hesaplar = m.getHesaplar();
                     for (int j = 0; j < hesaplar.size(); j++) {
                         Hesap h = hesaplar.get(j);
@@ -231,13 +213,8 @@ public class ParayatirController implements Initializable {
                 }
             }
             
-            // Bakiyeyi güncelle
             pyc_bakiye_lbl.setText(String.valueOf(seciliHesap.getBakiye()));
             
-            // Verileri kaydet
-            dosyaIslemleri.tumMusterileriKaydet();
-            
-            // Başarı mesajı
             pyc_error_lbl.setText("Para başarıyla çekildi!");
             pyc_error_lbl.setTextFill(Color.GREEN);
             pyc_miktar_fld.clear();

@@ -15,7 +15,7 @@ public class Musteri implements Serializable {
     private String soyad;
     private  String TCkimlik;
     private String adres;
-    private int telNo;
+    private String telNo;
     private String mPassword;
     private LocalDate kayitTarihi;
     private ArrayList<Hesap> hesaplar;
@@ -23,7 +23,7 @@ public class Musteri implements Serializable {
     private static final int MAX_ISLEM_SAYISI = 20;
     private static Random rand = new Random();
 
-    public Musteri(String adi, String soyad, String TCkimlik, String adres, int telNo, String mPassword) {
+    public Musteri(String adi, String soyad, String TCkimlik, String adres, String telNo, String mPassword) {
         this.musteriId = rastgeleMusteriIdOlustur();
         this.adi = adi;
         this.soyad = soyad;
@@ -42,7 +42,7 @@ public class Musteri implements Serializable {
     private int rastgeleMusteriIdOlustur() {
         int yeniId;
         do {
-            yeniId = 1000 + rand.nextInt(999000); // 1000 ile 999999 arası
+            yeniId = 1000 + rand.nextInt(999000);
         } while(Veznedar.musteriIdKullaniliyor(yeniId));
         return yeniId;
     }
@@ -73,7 +73,7 @@ public class Musteri implements Serializable {
     public String getAdres() {
         return adres;
     }
-    public int getTelNo() {
+    public String getTelNo() {
         return telNo;
     }
     public String getMPassword() {
@@ -86,22 +86,22 @@ public class Musteri implements Serializable {
         return hesaplar;
     }
     public ArrayList<Islem> getIslemler() {
-        // Queue'yu ArrayList'e çevir (son 20 işlem)
         return islemler.toArrayList();
     }
     
-    // İşlem ekleme metodu - Queue mantığıyla çalışır, 20'den fazla olursa en eski olanı çıkarır
     public void islemEkle(Islem islem) {
         if (islem == null) {
             return;
         }
-        islemler.offer(islem); // Queue'ya ekle
-        // 20'den fazla işlem varsa en eski olanı çıkar (FIFO)
+        islemler.offer(islem);
         while (islemler.size() > MAX_ISLEM_SAYISI) {
-            islemler.poll(); // En eski işlemi çıkar
+            islemler.poll();
         }
     }
-    //SETTERS
+    
+    public void islemleriTemizle() {
+        islemler = new Queue<>();
+    }
     public void setMusteriId(int musteriId) {
         this.musteriId = musteriId;
     }
@@ -117,7 +117,7 @@ public class Musteri implements Serializable {
     public void setAdres(String adres) {
         this.adres = adres;
     }
-    public void setTelNo(int telNo) {
+    public void setTelNo(String telNo) {
         this.telNo = telNo;
     }
     public void setMPassword(String mPassword) {
@@ -135,8 +135,9 @@ public class Musteri implements Serializable {
         this.kayitTarihi = kayitTarihi;
     }
 
+
+
     public void mHesapAc(Hesap h) {
-        // Her müşteri için en fazla bir adet vadeli hesap olmasını sağla
         if (h != null &&
                 h.getHesapTuru() != null &&
                 "vadeli".equals(h.getHesapTuru().getHesapTuru())) {
@@ -144,7 +145,6 @@ public class Musteri implements Serializable {
                 Hesap mevcutHesap = hesaplar.get(i);
                 if (mevcutHesap.getHesapTuru() != null &&
                         "vadeli".equals(mevcutHesap.getHesapTuru().getHesapTuru())) {
-                    // Zaten bir vadeli hesap var; yeni vadeli hesabı ekleme
                     return;
                 }
             }
@@ -152,25 +152,22 @@ public class Musteri implements Serializable {
         hesaplar.add(h);
     }
 
-    // Rastgele ID ile vadesiz hesap açma
     public void mHesapAcVadesiz() {
         int rastgeleHesapId = rastgeleHesapIdOlustur();
         Hesap yeniHesap = new Hesap(this.musteriId, rastgeleHesapId, new HesapTuru("vadesiz"));
         hesaplar.add(yeniHesap);
     }
 
-    // Rastgele ID ile vadeli hesap açma
     public void mHesapAcVadeli() {
         int rastgeleHesapId = rastgeleHesapIdOlustur();
         Hesap yeniHesap = new Hesap(this.musteriId, rastgeleHesapId, new HesapTuru("vadeli"));
         hesaplar.add(yeniHesap);
     }
 
-    // Rastgele hesap ID oluştur (10000-999999 arası)
     private int rastgeleHesapIdOlustur() {
         int yeniId;
         do {
-            yeniId = 10000 + rand.nextInt(990000); // 10000 ile 999999 arası
+            yeniId = 10000 + rand.nextInt(990000);
         } while(Veznedar.hesapIdKullaniliyor(yeniId));
         return yeniId;
     }
@@ -184,7 +181,6 @@ public class Musteri implements Serializable {
             Hesap h = hesaplar.get(i);
             if(h.getHesapId()==hesapId){
                 h.setBakiye(h.getBakiye()+yatırılacakPara);
-                // İşlem kaydı ekle
                 String musteriAdi = this.adi + " " + this.soyad;
                 Islem islem = new Islem("Banka", musteriAdi, yatırılacakPara, LocalDate.now(), 
                     "Para Yatırma - Hesap ID: " + hesapId, "Para Yatırma");
@@ -198,7 +194,6 @@ public class Musteri implements Serializable {
             Hesap h = hesaplar.get(i);
             if(h.getHesapId()==hesapId){
                 h.setBakiye(h.getBakiye()-cekilecekPara);
-                // İşlem kaydı ekle
                 String musteriAdi = this.adi + " " + this.soyad;
                 Islem islem = new Islem(musteriAdi, "Banka", cekilecekPara, LocalDate.now(), 
                     "Para Çekme - Hesap ID: " + hesapId, "Para Çekme");
@@ -220,7 +215,6 @@ public class Musteri implements Serializable {
     }
     
     public boolean paraGonder(int gonderilenHesapId, int gonderilecekHesapId, int miktar, String mesaj){
-        // Gönderen hesabı bul ve bakiyeyi kontrol et
         Hesap gonderilenHesap = null;
         for(int i = 0; i < this.hesaplar.size(); i++){
             Hesap h = this.hesaplar.get(i);
@@ -231,17 +225,16 @@ public class Musteri implements Serializable {
         }
 
         if(gonderilenHesap == null){
-            return false; // Gönderen hesap bulunamadı
+            return false;
         }
 
         if(gonderilenHesap.getBakiye() < miktar){
-            return false; // Yetersiz bakiye
+            return false;
         }
 
-        // Alıcı hesabı Veznedar sınıfındaki müşteriler listesinden bul
         ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
         if(musteriler == null){
-            return false; // Müşteriler listesi bulunamadı
+            return false;
         }
 
         Hesap gonderilecekHesap = null;
@@ -264,11 +257,9 @@ public class Musteri implements Serializable {
             return false;
         }
 
-        // Para transferi yap
         gonderilenHesap.setBakiye(gonderilenHesap.getBakiye() - miktar);
         gonderilecekHesap.setBakiye(gonderilecekHesap.getBakiye() + miktar);
 
-        // İşlem kaydı ekle - gönderen müşteri için
         String gondericiAdi = this.adi + " " + this.soyad;
         String aliciAdi = "";
         for(int i = 0; i < musteriler.size(); i++){
@@ -285,35 +276,33 @@ public class Musteri implements Serializable {
                 break;
             }
         }
-        // Mesaj varsa kullan, yoksa varsayılan mesaj
         String islemMesaji = (mesaj != null && !mesaj.isEmpty()) ? mesaj : 
             "Para Transferi - Hesap ID: " + gonderilenHesapId + " -> " + gonderilecekHesapId;
         Islem islem = new Islem(gondericiAdi, aliciAdi, miktar, LocalDate.now(), 
             islemMesaji, "Para Transferi");
         this.islemEkle(islem);
 
-        // Alıcı müşteri için de işlem kaydı ekle
         for(int i = 0; i < musteriler.size(); i++){
             Musteri m = musteriler.get(i);
             ArrayList<Hesap> hesaplar = m.getHesaplar();
             for(int j = 0; j < hesaplar.size(); j++){
                 Hesap h = hesaplar.get(j);
                 if(h.getHesapId() == gonderilecekHesapId){
-                    Islem aliciIslem = new Islem(gondericiAdi, m.getAdi() + " " + m.getSoyad(), miktar, LocalDate.now(), 
-                        islemMesaji, "Para Transferi");
-                    m.islemEkle(aliciIslem);
+                    if(m.getMusteriId() != this.musteriId){
+                        Islem aliciIslem = new Islem(gondericiAdi, m.getAdi() + " " + m.getSoyad(), miktar, LocalDate.now(), 
+                            islemMesaji, "Para Transferi");
+                        m.islemEkle(aliciIslem);
+                    }
                     break;
                 }
             }
         }
 
-        return true; // Transfer başarılı
+        return true;
     }
 
-    // Queue'yu serialize etmek için özel metodlar
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
-        // Queue'yu ArrayList'e çevirip kaydet
         if (islemler != null) {
             ArrayList<Islem> islemlerList = islemler.toArrayList();
             out.writeObject(islemlerList);
@@ -323,7 +312,6 @@ public class Musteri implements Serializable {
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        // readFields() kullanarak alanları Object olarak oku, sonra tip dönüşümü yap
         ObjectInputStream.GetField fields = in.readFields();
         
         musteriId = fields.get("musteriId", 0);
@@ -331,23 +319,27 @@ public class Musteri implements Serializable {
         soyad = (String) fields.get("soyad", null);
         TCkimlik = (String) fields.get("TCkimlik", null);
         adres = (String) fields.get("adres", null);
-        telNo = fields.get("telNo", 0);
+        Object telNoObj = fields.get("telNo", null);
+        if (telNoObj instanceof String) {
+            telNo = (String) telNoObj;
+        } else if (telNoObj instanceof Integer) {
+            telNo = String.valueOf(telNoObj);
+        } else {
+            telNo = "";
+        }
         mPassword = (String) fields.get("mPassword", null);
         
-        // kayitTarihi alanını oku (eski kayıtlarda null olabilir)
         Object kayitTarihiObj = fields.get("kayitTarihi", null);
         if (kayitTarihiObj instanceof LocalDate) {
             kayitTarihi = (LocalDate) kayitTarihiObj;
         } else {
-            kayitTarihi = LocalDate.now(); // Eski kayıtlar için bugünün tarihi
+            kayitTarihi = LocalDate.now();
         }
         
-        // hesaplar alanını Object olarak oku ve tip dönüşümü yap
         Object hesaplarObj = fields.get("hesaplar", null);
         if (hesaplarObj != null) {
             String className = hesaplarObj.getClass().getName();
             if (className.equals("java.util.ArrayList")) {
-                // Eski java.util.ArrayList ise, yeni tip'e çevir
                 @SuppressWarnings("unchecked")
                 java.util.ArrayList<Hesap> oldHesaplar = (java.util.ArrayList<Hesap>) hesaplarObj;
                 hesaplar = new ArrayList<>();
@@ -355,7 +347,6 @@ public class Musteri implements Serializable {
                     hesaplar.add(oldHesaplar.get(i));
                 }
             } else {
-                // Zaten doğru tip ise direkt atama yap
                 @SuppressWarnings("unchecked")
                 ArrayList<Hesap> hesaplarList = (ArrayList<Hesap>) hesaplarObj;
                 hesaplar = hesaplarList;
@@ -364,7 +355,6 @@ public class Musteri implements Serializable {
             hesaplar = new ArrayList<>();
         }
         
-        // islemler alanını Object olarak oku
         Object islemlerObj = fields.get("islemler", null);
         islemler = new Queue<>();
         if (islemlerObj != null) {
@@ -387,7 +377,6 @@ public class Musteri implements Serializable {
             }
         }
         
-        // Queue için özel işlem - writeObject'te ekstra yazılan ArrayList'i oku
         try {
             @SuppressWarnings("unchecked")
             ArrayList<Islem> islemlerList = (ArrayList<Islem>) in.readObject();
@@ -398,7 +387,6 @@ public class Musteri implements Serializable {
                 }
             }
         } catch (Exception e) {
-            // Eğer ekstra veri yoksa, mevcut islemler'i kullan
         }
     }
 

@@ -16,6 +16,7 @@ public class AdminController implements Initializable {
             switch(yenideger){
                 case MUSTERILER-> Admin_parent.setCenter(Model.getInstance().getView().getMusterilerView());
                 case PARA_YATIR -> Admin_parent.setCenter(Model.getInstance().getView().getParayatirView());
+                case VEZNEDAR_EKLE -> Admin_parent.setCenter(Model.getInstance().getView().getVeznedarekleView());
                 default ->  Admin_parent.setCenter(Model.getInstance().getView().getMusterikayitView());
             }
         } );

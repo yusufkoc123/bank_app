@@ -4,24 +4,30 @@ import java.util.Random;
 import main.dataStructures.ArrayList;
 
 public class Veznedar implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private int tellerId;
+
+    private String userName;
     private String ad;
     private String soyad;
     private String vPassword;
+    private String tcNo;
+    private String telNo;
+    private int yetki;
 
     private static ArrayList<Musteri> musteriler = new ArrayList<>();
 
     private static ArrayList<Veznedar> veznedarlar = new ArrayList<>();
 
-    Veznedar(int tellerId,String ad,String soyad,String vPassword){
-        this.tellerId=tellerId;
+    Veznedar(String userName,String ad,String soyad,String vPassword,String tcNo,String telNo){
+        this.userName=userName;
         this.ad=ad;
         this.soyad=soyad;
         this.vPassword=vPassword;
+        this.tcNo=tcNo;
+        this.telNo=telNo;
+        this.yetki=2;
     }
-    public int getTellerId() {
-        return tellerId;
+    public String getUserName() {
+        return userName;
     }
     public String getAd() {
         return ad;
@@ -32,9 +38,15 @@ public class Veznedar implements Serializable {
     public String getVPassword() {
         return vPassword;
     }
+    public String getTcNo() {
+        return tcNo;
+    }
+    public String getTelNo() {
+        return telNo;
+    }
 
-    public void setTellerId(int tellerId) {
-        this.tellerId = tellerId;
+    public void setTellerId(String userName) {
+        this.userName = userName;
     }
     public void setAd(String ad) {
         this.ad = ad;
@@ -44,6 +56,20 @@ public class Veznedar implements Serializable {
     }
     public void setVPassword(String vPassword) {
         this.vPassword = vPassword;
+    }
+    public void setTcNo(String tc) {
+        this.tcNo = tc;
+    }
+    public void setTelNo(String telNo) {
+        this.telNo = telNo;
+    }
+    
+    public int getYetki() {
+        return yetki;
+    }
+    
+    public void setYetki(int yetki) {
+        this.yetki = yetki;
     }
 
     private static Random rand = new Random();
@@ -64,28 +90,29 @@ public class Veznedar implements Serializable {
         veznedarlar = veznedarlarList;
     }
 
-    public static void veznedarEkle(int tellerId, String ad, String soyad, String vPassword) {
-        Veznedar v = new Veznedar(tellerId, ad, soyad, vPassword);
+    public static void veznedarEkle(String userName, String ad, String soyad, String vPassword,String tcNo,String telNo) {
+        Veznedar v = new Veznedar(userName, ad, soyad, vPassword,tcNo,telNo);
+        v.setYetki(2);
         veznedarlar.add(v);
     }
-    public static void veznedarSil(int tellerId) {
-        veznedarlar.removeIf(v -> v.getTellerId() == tellerId);
+    public static void veznedarSil(String userName) {
+        veznedarlar.removeIf(v -> v.getUserName() != null && v.getUserName().equals(userName));
     }
 
-    public static Veznedar veznedarBul(int tellerId) {
+    public static Veznedar veznedarBul(String userName) {
         for(int i = 0; i < veznedarlar.size(); i++) {
             Veznedar v = veznedarlar.get(i);
-            if(v.getTellerId() == tellerId) {
+            if(v.getUserName() != null && v.getUserName().equals(userName)) {
                 return v;
             }
         }
         return null;
     }
 
-    public static boolean veznedarIdKullaniliyor(int tellerId) {
+    public static boolean veznedarIdKullaniliyor(String userName) {
         for(int i = 0; i < veznedarlar.size(); i++) {
             Veznedar v = veznedarlar.get(i);
-            if(v.getTellerId() == tellerId) {
+            if(v.getUserName() != null && v.getUserName().equals(userName)) {
                 return true;
             }
         }
@@ -105,7 +132,7 @@ public class Veznedar implements Serializable {
     private int rastgeleHesapIdOlustur() {
         int yeniId;
         do {
-            yeniId = 100000 + rand.nextInt(990000); // 100000 ile 999999 arası
+            yeniId = 100000 + rand.nextInt(990000);
         } while(hesapIdKullaniliyor(yeniId));
         return yeniId;
     }
@@ -185,4 +212,5 @@ public class Veznedar implements Serializable {
             }
         }
     }
+
 }

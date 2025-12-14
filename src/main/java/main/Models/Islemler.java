@@ -13,13 +13,15 @@ public class Islemler {
     private final StringProperty miktar;
     private final ObjectProperty<LocalDate> date;
     private final StringProperty message;
+    private final StringProperty islemTuru;
 
-    public Islemler(String sender, String receiver, String miktar, LocalDate date, String message) {
+    public Islemler(String sender, String receiver, String miktar, LocalDate date, String message, String islemTuru) {
         this.sender = new SimpleStringProperty(this,"Gönderen", sender);
         this.receiver=new SimpleStringProperty(this,"Alıcı", receiver);
         this.miktar=new SimpleStringProperty(this,"Miktar", miktar);
         this.date=new SimpleObjectProperty<>(this,"Tarih",date);
         this.message=new SimpleStringProperty(this,"Mesaj",message);
+        this.islemTuru=new SimpleStringProperty(this,"İşlem Türü", islemTuru != null ? islemTuru : "");
     }
     public StringProperty senderProperty() {
         return this.sender;
@@ -35,6 +37,10 @@ public class Islemler {
     }
     public StringProperty messageProperty() {
         return this.message;
+    }
+    
+    public StringProperty islemTuruProperty() {
+        return this.islemTuru;
     }
 
     public String getSender() {
@@ -57,6 +63,10 @@ public class Islemler {
         return message.get();
     }
 
+    public String getIslemTuru() {
+        return islemTuru.get();
+    }
+
     public static Islemler fromDomainModel(main.Islem domainIslem) {
         if (domainIslem == null) {
             return null;
@@ -66,7 +76,8 @@ public class Islemler {
             domainIslem.getAliciAdi(),
             String.valueOf(domainIslem.getMiktar()),
             domainIslem.getTarih(),
-            domainIslem.getMesaj()
+            domainIslem.getMesaj(),
+            domainIslem.getIslemTuru()
         );
     }
 }

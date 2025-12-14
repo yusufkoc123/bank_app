@@ -114,7 +114,7 @@ public class Musteri {
         return new Musteri(
             domainMusteri.getAdi(),
             domainMusteri.getSoyad(),
-            String.valueOf(domainMusteri.getTelNo()),
+            domainMusteri.getTelNo() != null ? domainMusteri.getTelNo() : "",
             String.valueOf(domainMusteri.getMusteriId()),
             domainMusteri.getTCkimlik(),
             kayitTarihi

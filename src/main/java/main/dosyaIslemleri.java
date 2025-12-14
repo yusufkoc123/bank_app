@@ -6,12 +6,36 @@ import java.time.format.DateTimeFormatter;
 import main.dataStructures.ArrayList;
 
 public class dosyaIslemleri {
-    private static final String DATA_DIR = "src/main/resources/data";
-    private static final String MUSTERI_DOSYA = DATA_DIR + File.separator + "musteriler.yib";
-    private static final String VEZNEDAR_DOSYA = DATA_DIR + File.separator + "veznedarlar.yib";
+    private static String getDataDir() {
+        File idePath = new File("src/main/resources/data");
+        if (idePath.exists()) {
+            return idePath.getAbsolutePath();
+        }
+        File runtimePath = new File("data");
+        if (runtimePath.exists() || runtimePath.mkdirs()) {
+            return runtimePath.getAbsolutePath();
+        }
+        return new File(System.getProperty("user.dir"), "data").getAbsolutePath();
+    }
+    
+    private static String getMusteriDosya() {
+        return getDataDir() + File.separator + "musteriler.yib";
+    }
+    
+    private static String getVeznedarDosya() {
+        return getDataDir() + File.separator + "veznedarlar.yib";
+    }
+    
+    private static String getHesapDosya() {
+        return getDataDir() + File.separator + "hesaplar.yib";
+    }
+    
+    private static String getIslemDosya() {
+        return getDataDir() + File.separator + "islemler.yib";
+    }
 
     private static void klasorOlustur() {
-        new File(DATA_DIR).mkdirs();
+        new File(getDataDir()).mkdirs();
     }
 
     private static String esc(String s) {
@@ -26,58 +50,95 @@ public class dosyaIslemleri {
         ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
         if (musteriler == null) return;
         klasorOlustur();
-        try (PrintWriter w = new PrintWriter(new FileWriter(MUSTERI_DOSYA))) {
+        
+        try (PrintWriter w = new PrintWriter(new FileWriter(getMusteriDosya()))) {
             for (int i = 0; i < musteriler.size(); i++) {
                 Musteri m = musteriler.get(i);
-                StringBuilder sb = new StringBuilder();
-                sb.append(esc(String.valueOf(m.getMusteriId()))).append("|");
-                sb.append(esc(m.getAdi())).append("|");
-                sb.append(esc(m.getSoyad())).append("|");
-                sb.append(esc(m.getTCkimlik())).append("|");
-                sb.append(esc(m.getAdres())).append("|");
-                sb.append(m.getTelNo()).append("|");
-                sb.append(esc(m.getMPassword())).append("|");
-                sb.append(m.getKayitTarihi() != null ? m.getKayitTarihi().format(DateTimeFormatter.ISO_LOCAL_DATE) : "").append("|");
-                
-                // Hesaplar
-                ArrayList<Hesap> hesaplar = m.getHesaplar();
-                for (int j = 0; j < hesaplar.size(); j++) {
-                    if (j > 0) sb.append(";");
-                    Hesap h = hesaplar.get(j);
-                    sb.append(h.getHesapId()).append(",");
-                    sb.append(h.getMusteriId()).append(",");
-                    sb.append(h.getBakiye()).append(",");
-                    sb.append(esc(h.getHesapTuru().getHesapTuru()));
+                if (m != null) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(esc(String.valueOf(m.getMusteriId()))).append("|");
+                    sb.append(esc(m.getAdi() != null ? m.getAdi() : "")).append("|");
+                    sb.append(esc(m.getSoyad() != null ? m.getSoyad() : "")).append("|");
+                    sb.append(esc(m.getTCkimlik() != null ? m.getTCkimlik() : "")).append("|");
+                    sb.append(esc(m.getAdres() != null ? m.getAdres() : "")).append("|");
+                    sb.append(esc(m.getTelNo() != null ? m.getTelNo() : "")).append("|");
+                    sb.append(esc(m.getMPassword() != null ? m.getMPassword() : "")).append("|");
+                    sb.append(m.getKayitTarihi() != null ? m.getKayitTarihi().format(DateTimeFormatter.ISO_LOCAL_DATE) : "");
+                    w.println(sb.toString());
                 }
-                sb.append("|");
-                
-                // İşlemler
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void tumHesaplariKaydet() {
+        ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
+        if (musteriler == null) return;
+        klasorOlustur();
+        
+        try (PrintWriter w = new PrintWriter(new FileWriter(getHesapDosya()))) {
+            for (int i = 0; i < musteriler.size(); i++) {
+                Musteri m = musteriler.get(i);
+                ArrayList<Hesap> hesaplar = m.getHesaplar();
+                if (hesaplar != null) {
+                    for (int j = 0; j < hesaplar.size(); j++) {
+                        Hesap h = hesaplar.get(j);
+                        if (h != null) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(h.getHesapId()).append("|");
+                            sb.append(h.getMusteriId()).append("|");
+                            sb.append(h.getBakiye()).append("|");
+                            sb.append(esc(h.getHesapTuru() != null && h.getHesapTuru().getHesapTuru() != null ? h.getHesapTuru().getHesapTuru() : ""));
+                            w.println(sb.toString());
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void tumIslemleriKaydet() {
+        ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
+        if (musteriler == null) return;
+        klasorOlustur();
+        
+        try (PrintWriter w = new PrintWriter(new FileWriter(getIslemDosya()))) {
+            for (int i = 0; i < musteriler.size(); i++) {
+                Musteri m = musteriler.get(i);
                 ArrayList<Islem> islemler = m.getIslemler();
                 if (islemler != null) {
                     for (int j = 0; j < islemler.size(); j++) {
-                        if (j > 0) sb.append(";");
                         Islem islem = islemler.get(j);
-                        sb.append(esc(islem.getGondericiAdi())).append(",");
-                        sb.append(esc(islem.getAliciAdi())).append(",");
-                        sb.append(islem.getMiktar()).append(",");
-                        sb.append(islem.getTarih() != null ? islem.getTarih().format(DateTimeFormatter.ISO_LOCAL_DATE) : "").append(",");
-                        sb.append(esc(islem.getMesaj())).append(",");
-                        sb.append(esc(islem.getIslemTuru()));
+                        if (islem != null) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(m.getMusteriId()).append("|");
+                            sb.append(esc(islem.getGondericiAdi() != null ? islem.getGondericiAdi() : "")).append("|");
+                            sb.append(esc(islem.getAliciAdi() != null ? islem.getAliciAdi() : "")).append("|");
+                            sb.append(islem.getMiktar()).append("|");
+                            sb.append(islem.getTarih() != null ? islem.getTarih().format(DateTimeFormatter.ISO_LOCAL_DATE) : "").append("|");
+                            sb.append(esc(islem.getMesaj() != null ? islem.getMesaj() : "")).append("|");
+                            sb.append(esc(islem.getIslemTuru() != null ? islem.getIslemTuru() : ""));
+                            w.println(sb.toString());
+                        }
                     }
                 }
-                w.println(sb.toString());
             }
         } catch (IOException e) {
-            System.err.println("Müşteriler kaydedilemedi: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     public static void tumMusterileriYukle() {
         klasorOlustur();
-        File f = new File(MUSTERI_DOSYA);
-        if (!f.exists()) return;
+        File f = new File(getMusteriDosya());
+        if (!f.exists()) {
+            Veznedar.setMusteriler(new ArrayList<>());
+            return;
+        }
         
-        // Binary format kontrolü
         try (FileInputStream fis = new FileInputStream(f)) {
             byte[] h = new byte[2];
             if (fis.read(h) == 2 && h[0] == (byte)0xAC && h[1] == (byte)0xED) {
@@ -87,45 +148,49 @@ public class dosyaIslemleri {
                         convertList((java.util.ArrayList<Musteri>) obj) : (ArrayList<Musteri>) obj;
                     if (list != null) {
                         Veznedar.setMusteriler(list);
-                        tumMusterileriKaydet();
                         return;
                     }
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
-        // Text formatını oku
         try (BufferedReader r = new BufferedReader(new FileReader(f))) {
             ArrayList<Musteri> list = new ArrayList<>();
             String line;
             while ((line = r.readLine()) != null) {
                 if (line.trim().isEmpty() || line.startsWith("#")) continue;
                 String[] parts = line.split("\\|", -1);
-                if (parts.length < 8) continue;
+                if (parts.length < 7) continue;
+                
+                String telNo = parts[5];
+                try {
+                    Integer.parseInt(telNo);
+                    telNo = unesc(telNo);
+                } catch (NumberFormatException e) {
+                    telNo = unesc(telNo);
+                }
                 
                 Musteri m = new Musteri(unesc(parts[1]), unesc(parts[2]), unesc(parts[3]), 
-                    unesc(parts[4]), Integer.parseInt(parts[5]), unesc(parts[6]));
+                    unesc(parts[4]), telNo, unesc(parts[6]));
                 m.setMusteriId(Integer.parseInt(unesc(parts[0])));
                 
-                // Kayıt tarihi (yeni format: parts[7], eski format: yok)
-                int hesapIndex;
                 if (parts.length > 7 && !parts[7].isEmpty() && !parts[7].contains(",") && !parts[7].contains(";")) {
-                    // parts[7] kayıt tarihi
                     try {
                         m.setKayitTarihi(LocalDate.parse(parts[7], DateTimeFormatter.ISO_LOCAL_DATE));
                     } catch (Exception e) {
                         m.setKayitTarihi(LocalDate.now());
                     }
-                    hesapIndex = 8;
                 } else {
-                    // Eski format - kayıt tarihi yok
                     m.setKayitTarihi(LocalDate.now());
-                    hesapIndex = 7;
                 }
                 
-                // Hesaplar
-                if (!parts[7].isEmpty()) {
-                    String[] hesaplar = parts[7].split(";");
+                int hesapIndex = parts.length > 7 && !parts[7].isEmpty() && !parts[7].contains(",") && !parts[7].contains(";") ? 8 : 7;
+                if (parts.length > hesapIndex && !parts[hesapIndex].isEmpty() && parts[hesapIndex].contains(",")) {
+                    String[] hesaplar = parts[hesapIndex].split(";");
                     for (String hesapStr : hesaplar) {
                         if (hesapStr.isEmpty()) continue;
                         String[] h = hesapStr.split(",");
@@ -138,27 +203,121 @@ public class dosyaIslemleri {
                     }
                 }
                 
-                // İşlemler
                 int islemIndex = hesapIndex + 1;
-                if (parts.length > islemIndex && !parts[islemIndex].isEmpty()) {
+                if (parts.length > islemIndex && !parts[islemIndex].isEmpty() && parts[islemIndex].contains(",")) {
                     String[] islemler = parts[islemIndex].split(";");
                     for (String islemStr : islemler) {
                         if (islemStr.isEmpty()) continue;
                         String[] i = islemStr.split(",");
-                        if (i.length == 6) {
-                            Islem islem = new Islem(unesc(i[0]), unesc(i[1]), Integer.parseInt(i[2]), 
-                                i[3].isEmpty() ? LocalDate.now() : LocalDate.parse(i[3], DateTimeFormatter.ISO_LOCAL_DATE),
-                                unesc(i[4]), unesc(i[5]));
+                        if (i.length >= 5) {
+                            String gondericiAdi = unesc(i[0]);
+                            String aliciAdi = unesc(i[1]);
+                            int miktar = Integer.parseInt(i[2]);
+                            LocalDate tarih = i[3].isEmpty() ? LocalDate.now() : LocalDate.parse(i[3], DateTimeFormatter.ISO_LOCAL_DATE);
+                            String mesaj = unesc(i[4]);
+                            String islemTuru = i.length >= 6 ? unesc(i[5]) : "Para Transferi";
+                            Islem islem = new Islem(gondericiAdi, aliciAdi, miktar, tarih, mesaj, islemTuru);
                             m.islemEkle(islem);
                         }
                     }
                 }
                 list.add(m);
             }
-            if (!list.isEmpty()) Veznedar.setMusteriler(list);
+            if (!list.isEmpty()) {
+                Veznedar.setMusteriler(list);
+            } else {
+                Veznedar.setMusteriler(new ArrayList<>());
+            }
         } catch (Exception e) {
-            System.err.println("Müşteriler yüklenemedi: " + e.getMessage());
+            e.printStackTrace();
             Veznedar.setMusteriler(new ArrayList<>());
+        }
+    }
+    
+    public static void tumHesaplariYukle() {
+        klasorOlustur();
+        File f = new File(getHesapDosya());
+        if (!f.exists()) {
+            return;
+        }
+        
+        try (BufferedReader r = new BufferedReader(new FileReader(f))) {
+            ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
+            if (musteriler == null) return;
+            
+            String line;
+            while ((line = r.readLine()) != null) {
+                if (line.trim().isEmpty() || line.startsWith("#")) continue;
+                String[] parts = line.split("\\|", -1);
+                if (parts.length < 4) continue;
+                
+                int hesapId = Integer.parseInt(parts[0]);
+                int musteriId = Integer.parseInt(parts[1]);
+                int bakiye = Integer.parseInt(parts[2]);
+                String hesapTuru = unesc(parts[3]);
+                
+                for (int i = 0; i < musteriler.size(); i++) {
+                    Musteri m = musteriler.get(i);
+                    if (m.getMusteriId() == musteriId) {
+                        boolean hesapVar = false;
+                        ArrayList<Hesap> hesaplar = m.getHesaplar();
+                        for (int j = 0; j < hesaplar.size(); j++) {
+                            if (hesaplar.get(j).getHesapId() == hesapId) {
+                                hesapVar = true;
+                                hesaplar.get(j).setBakiye(bakiye);
+                                break;
+                            }
+                        }
+                        if (!hesapVar) {
+                            Hesap hesap = new Hesap(musteriId, hesapId, new HesapTuru(hesapTuru));
+                            hesap.setBakiye(bakiye);
+                            m.mHesapAc(hesap);
+                        }
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void tumIslemleriYukle() {
+        klasorOlustur();
+        File f = new File(getIslemDosya());
+        if (!f.exists()) {
+            return;
+        }
+        
+        try (BufferedReader r = new BufferedReader(new FileReader(f))) {
+            ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
+            if (musteriler == null) return;
+            
+            String line;
+            while ((line = r.readLine()) != null) {
+                if (line.trim().isEmpty() || line.startsWith("#")) continue;
+                String[] parts = line.split("\\|", -1);
+                if (parts.length < 7) continue;
+                
+                int musteriId = Integer.parseInt(parts[0]);
+                String gondericiAdi = unesc(parts[1]);
+                String aliciAdi = unesc(parts[2]);
+                int miktar = Integer.parseInt(parts[3]);
+                LocalDate tarih = parts[4].isEmpty() ? LocalDate.now() : LocalDate.parse(parts[4], DateTimeFormatter.ISO_LOCAL_DATE);
+                String mesaj = unesc(parts[5]);
+                String islemTuru = parts.length > 6 && !parts[6].isEmpty() ? unesc(parts[6]) : "Para Transferi";
+                
+                for (int i = 0; i < musteriler.size(); i++) {
+                    Musteri m = musteriler.get(i);
+                    if (m.getMusteriId() == musteriId) {
+                        Islem islem = new Islem(gondericiAdi, aliciAdi, miktar, tarih, mesaj, islemTuru);
+                        m.islemEkle(islem);
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -172,23 +331,28 @@ public class dosyaIslemleri {
         ArrayList<Veznedar> v = Veznedar.getVeznedarlar();
         if (v == null) return;
         klasorOlustur();
-        try (PrintWriter w = new PrintWriter(new FileWriter(VEZNEDAR_DOSYA))) {
+        try (PrintWriter w = new PrintWriter(new FileWriter(getVeznedarDosya()))) {
             for (int i = 0; i < v.size(); i++) {
                 Veznedar veznedar = v.get(i);
-                w.println(veznedar.getTellerId() + "|" + esc(veznedar.getAd()) + "|" + 
-                    esc(veznedar.getSoyad()) + "|" + esc(veznedar.getVPassword()));
+                w.println(esc(String.valueOf(veznedar.getUserName())) + "|" + esc(veznedar.getAd()) + "|" +
+                    esc(veznedar.getSoyad()) + "|" + esc(veznedar.getVPassword()) + "|" +
+                    esc(veznedar.getTcNo() != null ? veznedar.getTcNo() : "") + "|" +
+                    esc(veznedar.getTelNo() != null ? veznedar.getTelNo() : "") + "|" +
+                    veznedar.getYetki());
             }
         } catch (IOException e) {
-            System.err.println("Veznedarlar kaydedilemedi: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     public static void tumVeznedarlariYukle() {
         klasorOlustur();
-        File f = new File(VEZNEDAR_DOSYA);
-        if (!f.exists()) return;
+        File f = new File(getVeznedarDosya());
+        if (!f.exists()) {
+            Veznedar.setVeznedarlar(new ArrayList<>());
+            return;
+        }
         
-        // Binary format kontrolü
         try (FileInputStream fis = new FileInputStream(f)) {
             byte[] h = new byte[2];
             if (fis.read(h) == 2 && h[0] == (byte)0xAC && h[1] == (byte)0xED) {
@@ -198,27 +362,45 @@ public class dosyaIslemleri {
                         convertVeznedarList((java.util.ArrayList<Veznedar>) obj) : (ArrayList<Veznedar>) obj;
                     if (list != null) {
                         Veznedar.setVeznedarlar(list);
-                        tumVeznedarlariKaydet();
                         return;
                     }
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
-        // Text formatını oku
         try (BufferedReader r = new BufferedReader(new FileReader(f))) {
             ArrayList<Veznedar> list = new ArrayList<>();
             String line;
             while ((line = r.readLine()) != null) {
                 if (line.trim().isEmpty() || line.startsWith("#")) continue;
                 String[] p = line.split("\\|", -1);
-                if (p.length == 4) {
-                    list.add(new Veznedar(Integer.parseInt(p[0]), unesc(p[1]), unesc(p[2]), unesc(p[3])));
+                if (p.length >= 4) {
+                    String tcNo = p.length > 4 && !p[4].isEmpty() ? unesc(p[4]) : "";
+                    String telNo = p.length > 5 && !p[5].isEmpty() ? unesc(p[5]) : "";
+                    Veznedar v = new Veznedar(unesc(p[0]), unesc(p[1]), unesc(p[2]), unesc(p[3]), tcNo, telNo);
+                    if (p.length > 6 && !p[6].isEmpty()) {
+                        try {
+                            v.setYetki(Integer.parseInt(p[6]));
+                        } catch (NumberFormatException e) {
+                            v.setYetki(0);
+                        }
+                    } else {
+                        v.setYetki(0);
+                    }
+                    list.add(v);
                 }
             }
-            if (!list.isEmpty()) Veznedar.setVeznedarlar(list);
+            if (!list.isEmpty()) {
+                Veznedar.setVeznedarlar(list);
+            } else {
+                Veznedar.setVeznedarlar(new ArrayList<>());
+            }
         } catch (Exception e) {
-            System.err.println("Veznedarlar yüklenemedi: " + e.getMessage());
+            e.printStackTrace();
             Veznedar.setVeznedarlar(new ArrayList<>());
         }
     }
@@ -231,11 +413,15 @@ public class dosyaIslemleri {
 
     public static void tumVerileriKaydet() {
         tumMusterileriKaydet();
+        tumHesaplariKaydet();
+        tumIslemleriKaydet();
         tumVeznedarlariKaydet();
     }
 
     public static void tumVerileriYukle() {
         tumMusterileriYukle();
+        tumHesaplariYukle();
+        tumIslemleriYukle();
         tumVeznedarlariYukle();
     }
 }

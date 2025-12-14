@@ -19,21 +19,28 @@
             <Button fx:id="mkayit_btn" mnemonicParsing="false" prefWidth="137.0" text="Müşteri Kayıt">
             <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../Images/artı.png"/>
+                    <Image url="@../../Images/artı.png" />
                 </ImageView>
             </graphic></Button>
             <Button fx:id="musteriler_btn" mnemonicParsing="false" text="Müşteriler">
             <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../Images/list.png"/>
+                    <Image url="@../../Images/list.png" />
                 </ImageView>
             </graphic></Button>
             <Button fx:id="parayatir_btn" mnemonicParsing="false" prefWidth="137.0" text="Para Topla/Ver">
             <graphic>
                 <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../Images/money-bill.png"/>
+                    <Image url="@../../Images/money-bill.png" />
                 </ImageView>
             </graphic></Button>
+         <Button fx:id="veznedarekle_btn" mnemonicParsing="false" text="Veznedar Ekle">
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../../Images/artı.png" />
+                </ImageView>
+            </graphic>
+         </Button>
             <Button fx:id="acikis_btn" mnemonicParsing="false" styleClass="alt_menu_btn" text="Çıkış">
                 <graphic>
                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

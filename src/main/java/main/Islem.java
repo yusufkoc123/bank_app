@@ -10,7 +10,7 @@ public class Islem implements Serializable {
     private int miktar;
     private LocalDate tarih;
     private String mesaj;
-    private String islemTuru; // "Para Yatırma", "Para Çekme", "Para Transferi"
+    private String islemTuru;
 
     public Islem(String gondericiAdi, String aliciAdi, int miktar, LocalDate tarih, String mesaj, String islemTuru) {
         this.gondericiAdi = gondericiAdi;

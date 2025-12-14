@@ -3,15 +3,8 @@ package main;
 import java.io.Serializable;
 import java.util.Iterator;
 
-/**
- * Özel veri yapıları sınıfı
- * Node, Queue, ArrayList ve LinkedList implementasyonları
- */
 public class dataStructures {
 
-    /**
-     * Node sınıfı - LinkedList ve Queue için
-     */
     public static class Node<T> implements Serializable {
         private static final long serialVersionUID = 1L;
         T data;
@@ -39,14 +32,10 @@ public class dataStructures {
         }
     }
 
-    /**
-     * Queue implementasyonu (FIFO - First In First Out)
-     * Node kullanarak LinkedList mantığıyla çalışır
-     */
     public static class Queue<T> implements Serializable, Iterable<T> {
         private static final long serialVersionUID = 1L;
-        private Node<T> front; // İlk eleman
-        private Node<T> rear;  // Son eleman
+        private Node<T> front;
+        private Node<T> rear;
         private int size;
 
         public Queue() {
@@ -55,7 +44,6 @@ public class dataStructures {
             this.size = 0;
         }
 
-        // Kuyruğa eleman ekle (enqueue)
         public void offer(T item) {
             Node<T> newNode = new Node<>(item);
             if (rear == null) {
@@ -67,7 +55,6 @@ public class dataStructures {
             size++;
         }
 
-        // Kuyruktan eleman çıkar (dequeue)
         public T poll() {
             if (front == null) {
                 return null;
@@ -81,7 +68,6 @@ public class dataStructures {
             return data;
         }
 
-        // Kuyruğun başındaki elemana bak (çıkarmadan)
         public T peek() {
             if (front == null) {
                 return null;
@@ -89,24 +75,20 @@ public class dataStructures {
             return front.getData();
         }
 
-        // Kuyruk boş mu?
         public boolean isEmpty() {
             return front == null;
         }
 
-        // Kuyruk boyutu
         public int size() {
             return size;
         }
 
-        // Kuyruğu temizle
         public void clear() {
             front = null;
             rear = null;
             size = 0;
         }
 
-        // Iterator implementasyonu
         @Override
         public Iterator<T> iterator() {
             return new QueueIterator();
@@ -131,7 +113,6 @@ public class dataStructures {
             }
         }
 
-        // ArrayList'e dönüştür
         public ArrayList<T> toArrayList() {
             ArrayList<T> list = new ArrayList<>();
             Node<T> current = front;
@@ -143,10 +124,6 @@ public class dataStructures {
         }
     }
 
-    /**
-     * ArrayList implementasyonu
-     * Dinamik boyutlu dizi
-     */
     public static class ArrayList<T> implements Serializable, Iterable<T> {
         private static final long serialVersionUID = 1L;
         private static final int DEFAULT_CAPACITY = 10;
@@ -163,7 +140,6 @@ public class dataStructures {
             this.size = 0;
         }
 
-        // Eleman ekle
         public void add(T element) {
             if (size >= elements.length) {
                 resize();
@@ -171,7 +147,6 @@ public class dataStructures {
             elements[size++] = element;
         }
 
-        // Belirli bir index'e eleman ekle
         public void add(int index, T element) {
             if (index < 0 || index > size) {
                 throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -179,7 +154,6 @@ public class dataStructures {
             if (size >= elements.length) {
                 resize();
             }
-            // Elemanları sağa kaydır
             for (int i = size; i > index; i--) {
                 elements[i] = elements[i - 1];
             }
@@ -187,7 +161,6 @@ public class dataStructures {
             size++;
         }
 
-        // Belirli bir index'teki elemanı getir
         @SuppressWarnings("unchecked")
         public T get(int index) {
             if (index < 0 || index >= size) {
@@ -196,7 +169,6 @@ public class dataStructures {
             return (T) elements[index];
         }
 
-        // Belirli bir index'teki elemanı değiştir
         @SuppressWarnings("unchecked")
         public T set(int index, T element) {
             if (index < 0 || index >= size) {
@@ -207,7 +179,6 @@ public class dataStructures {
             return oldValue;
         }
 
-        // Eleman sil
         public boolean remove(T element) {
             for (int i = 0; i < size; i++) {
                 if (elements[i].equals(element)) {
@@ -218,22 +189,19 @@ public class dataStructures {
             return false;
         }
 
-        // Belirli bir index'teki elemanı sil
         @SuppressWarnings("unchecked")
         public T removeAt(int index) {
             if (index < 0 || index >= size) {
                 throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
             }
             T removed = (T) elements[index];
-            // Elemanları sola kaydır
             for (int i = index; i < size - 1; i++) {
                 elements[i] = elements[i + 1];
             }
-            elements[--size] = null; // Garbage collection için
+            elements[--size] = null;
             return removed;
         }
 
-        // Belirli bir koşula göre eleman sil
         public boolean removeIf(java.util.function.Predicate<T> predicate) {
             boolean removed = false;
             for (int i = size - 1; i >= 0; i--) {
@@ -247,7 +215,6 @@ public class dataStructures {
             return removed;
         }
 
-        // Eleman var mı?
         public boolean contains(T element) {
             for (int i = 0; i < size; i++) {
                 if (elements[i].equals(element)) {
@@ -257,17 +224,14 @@ public class dataStructures {
             return false;
         }
 
-        // Liste boş mu?
         public boolean isEmpty() {
             return size == 0;
         }
 
-        // Liste boyutu
         public int size() {
             return size;
         }
 
-        // Listeyi temizle
         public void clear() {
             for (int i = 0; i < size; i++) {
                 elements[i] = null;
@@ -275,7 +239,6 @@ public class dataStructures {
             size = 0;
         }
 
-        // Diziyi büyüt
         private void resize() {
             int newCapacity = elements.length * 2;
             Object[] newElements = new Object[newCapacity];
@@ -283,7 +246,6 @@ public class dataStructures {
             elements = newElements;
         }
 
-        // Iterator implementasyonu
         @Override
         public Iterator<T> iterator() {
             return new ArrayListIterator();
@@ -307,7 +269,6 @@ public class dataStructures {
             }
         }
 
-        // Queue'dan oluştur
         public static <T> ArrayList<T> fromQueue(Queue<T> queue) {
             ArrayList<T> list = new ArrayList<>();
             for (T item : queue) {
@@ -317,10 +278,6 @@ public class dataStructures {
         }
     }
 
-    /**
-     * LinkedList implementasyonu
-     * Node kullanarak çift yönlü bağlı liste
-     */
     public static class LinkedList<T> implements Serializable, Iterable<T> {
         private static final long serialVersionUID = 1L;
         private Node<T> head;
@@ -333,7 +290,6 @@ public class dataStructures {
             this.size = 0;
         }
 
-        // Başa eleman ekle
         public void addFirst(T data) {
             Node<T> newNode = new Node<>(data);
             if (head == null) {
@@ -345,7 +301,6 @@ public class dataStructures {
             size++;
         }
 
-        // Sona eleman ekle
         public void addLast(T data) {
             Node<T> newNode = new Node<>(data);
             if (tail == null) {
@@ -357,12 +312,10 @@ public class dataStructures {
             size++;
         }
 
-        // Eleman ekle (sona ekler)
         public void add(T data) {
             addLast(data);
         }
 
-        // Belirli bir index'e eleman ekle
         public void add(int index, T data) {
             if (index < 0 || index > size) {
                 throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -385,7 +338,6 @@ public class dataStructures {
             size++;
         }
 
-        // Belirli bir index'teki elemanı getir
         public T get(int index) {
             if (index < 0 || index >= size) {
                 throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -397,7 +349,6 @@ public class dataStructures {
             return current.getData();
         }
 
-        // İlk elemanı sil
         public T removeFirst() {
             if (head == null) {
                 return null;
@@ -411,7 +362,6 @@ public class dataStructures {
             return data;
         }
 
-        // Eleman sil
         public boolean remove(T data) {
             if (head == null) {
                 return false;
@@ -435,7 +385,6 @@ public class dataStructures {
             return false;
         }
 
-        // Belirli bir koşula göre eleman sil
         public boolean removeIf(java.util.function.Predicate<T> predicate) {
             boolean removed = false;
             while (head != null && predicate.test(head.getData())) {
@@ -462,7 +411,6 @@ public class dataStructures {
             return removed;
         }
 
-        // Eleman var mı?
         public boolean contains(T data) {
             Node<T> current = head;
             while (current != null) {
@@ -474,24 +422,20 @@ public class dataStructures {
             return false;
         }
 
-        // Liste boş mu?
         public boolean isEmpty() {
             return head == null;
         }
 
-        // Liste boyutu
         public int size() {
             return size;
         }
 
-        // Listeyi temizle
         public void clear() {
             head = null;
             tail = null;
             size = 0;
         }
 
-        // Iterator implementasyonu
         @Override
         public Iterator<T> iterator() {
             return new LinkedListIterator();
@@ -516,7 +460,6 @@ public class dataStructures {
             }
         }
 
-        // ArrayList'e dönüştür
         public ArrayList<T> toArrayList() {
             ArrayList<T> list = new ArrayList<>();
             Node<T> current = head;

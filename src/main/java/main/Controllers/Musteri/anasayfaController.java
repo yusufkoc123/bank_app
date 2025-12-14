@@ -70,7 +70,6 @@ public class anasayfaController implements Initializable {
                 vadeli_bakiye_lbl.setText("0");
             }
 
-            // Gönderen hesap ChoiceBox'ını doldur
             ObservableList<Hesap> hesapListesi = FXCollections.observableArrayList();
             main.dataStructures.ArrayList<Hesap> hesaplarList = current.getHesaplar();
             for (int i = 0; i < hesaplarList.size(); i++) {
@@ -91,12 +90,10 @@ public class anasayfaController implements Initializable {
                     return null;
                 }
             });
-            // İlk hesabı varsayılan olarak seç
             if (!hesapListesi.isEmpty()) {
                 sm_gonderenhsp_chcbx.setValue(hesapListesi.get(0));
             }
         } else {
-            // Müşteri bilgisi yoksa label'ları temizle
             musteri_id_lbl.setText("");
             musteri_ad_soyad_lbl.setText("");
             vadesiz_id_lbl.setText("");
@@ -105,12 +102,11 @@ public class anasayfaController implements Initializable {
             vadeli_bakiye_lbl.setText("");
         }
 
-        // İşlem geçmişi ListView'ını ayarla
         islem_listview.setCellFactory(listView -> new mainislemler_cellView());
         yukleIslemler();
 
         sm_gonder_btn.setOnAction(e -> {
-            sm_error.setText(""); // Önceki hata mesajını temizle
+            sm_error.setText("");
 
             try {
                 Musteri musteri = Model.getInstance().getCurrentMusteri();
@@ -126,7 +122,6 @@ public class anasayfaController implements Initializable {
                     return;
                 }
 
-                // Gönderen hesabı kontrol et
                 Hesap secilenGonderilenHesap = sm_gonderenhsp_chcbx.getValue();
                 if (secilenGonderilenHesap == null) {
                     sm_error.setTextFill(Color.RED);
@@ -189,7 +184,6 @@ public class anasayfaController implements Initializable {
                     return;
                 }
 
-                // Açıklama varsa mesaja ekle
                 String mesaj = "Para Transferi - Hesap ID: " + gonderilenHesapId + " -> " + gonderilecekHesapId;
                 if (!aciklama.isEmpty()) {
                     mesaj += " - Açıklama: " + aciklama;
@@ -205,7 +199,7 @@ public class anasayfaController implements Initializable {
                     sm_acıklama_fld.clear();
 
                     guncelleHesapBilgileri();
-                    yukleIslemler(); // İşlemler listesini güncelle
+                    yukleIslemler();
 
                     PauseTransition pause = new PauseTransition(Duration.seconds(5));
                     pause.setOnFinished(event -> sm_error.setText(""));
@@ -254,7 +248,6 @@ public class anasayfaController implements Initializable {
                 vadeli_bakiye_lbl.setText("0");
             }
 
-            // ChoiceBox'ı güncelle (bakiye değişikliklerini yansıtmak için)
             ObservableList<Hesap> hesapListesi = FXCollections.observableArrayList();
             main.dataStructures.ArrayList<Hesap> hesaplarList = current.getHesaplar();
             for (int i = 0; i < hesaplarList.size(); i++) {
@@ -263,7 +256,6 @@ public class anasayfaController implements Initializable {
             Hesap seciliHesap = sm_gonderenhsp_chcbx.getValue();
             sm_gonderenhsp_chcbx.setItems(hesapListesi);
             if (seciliHesap != null) {
-                // Aynı hesabı tekrar seç (ID'ye göre)
                 javafx.collections.ObservableList<Hesap> items = hesapListesi;
                 for (int i = 0; i < items.size(); i++) {
                     Hesap h = items.get(i);
@@ -282,13 +274,15 @@ public class anasayfaController implements Initializable {
 
         if (currentMusteri != null && currentMusteri.getIslemler() != null) {
             ArrayList<Islem> domainIslemler = currentMusteri.getIslemler();
-            final int MAX_ISLEM_SAYISI = 5; // Anasayfada sadece son 5 işlemi göster
+            final int MAX_ISLEM_SAYISI = 5;
 
-            for (int i = 0; i < domainIslemler.size() && i < MAX_ISLEM_SAYISI; i++) {
+            int sayac = 0;
+            for (int i = domainIslemler.size() - 1; i >= 0 && sayac < MAX_ISLEM_SAYISI; i--) {
                 Islem domainIslem = domainIslemler.get(i);
                 Islemler islem = Islemler.fromDomainModel(domainIslem);
                 if (islem != null) {
                     islemler.add(islem);
+                    sayac++;
                 }
             }
         }

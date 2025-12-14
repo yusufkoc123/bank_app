@@ -15,16 +15,29 @@ public class AdminMenuController implements Initializable {
     public Button musteriler_btn;
     public Button parayatir_btn;
     public Button acikis_btn;
+    public Button veznedarekle_btn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         addListeners();
+        yetkiKontrolu();
+    }
+    
+    private void yetkiKontrolu() {
+        main.Veznedar currentVeznedar = Model.getInstance().getCurrentVeznedar();
+        if (currentVeznedar != null) {
+            if (currentVeznedar.getYetki() != 1) {
+                veznedarekle_btn.setVisible(false);
+                veznedarekle_btn.setManaged(false);
+            }
+        }
     }
     private void addListeners(){
         musteriler_btn.setOnAction(e -> musteriler());
         mkayit_btn.setOnAction(e -> mkayit());
         parayatir_btn.setOnAction(e -> parayatir());
         acikis_btn.setOnAction(e -> cikis());
+        veznedarekle_btn.setOnAction(e -> veznedarekle());
     }
 
     private void mkayit() {
@@ -36,8 +49,9 @@ public class AdminMenuController implements Initializable {
     private void parayatir() {
         Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.PARA_YATIR);
     }
+    private void veznedarekle() {Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.VEZNEDAR_EKLE);
+    }
     private void cikis() {
-        // Çıkış yapılınca tüm verileri kaydet
         dosyaIslemleri.tumVerileriKaydet();
         Stage stage = (Stage) acikis_btn.getScene().getWindow();
         Model.getInstance().getView().closeStage(stage);

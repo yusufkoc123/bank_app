@@ -71,12 +71,13 @@ public class LoginController implements Initializable {
                 error_lbl.setText("Müşteri ID veya şifre yanlış!");
             }
         } else if (Model.getInstance().getView().getGiristuru() == HesapTuru.Veznedar){
-//            if(vSifreKontrol()) {
-            Model.getInstance().getView().closeStage(stage);
-            Model.getInstance().getView().AdminWindow();
-//            } else {
-//                error_lbl.setText("Yönetici ID veya şifre yanlış!");
-//            }
+            if(vSifreKontrol()) {
+                Model.getInstance().getView().closeStage(stage);
+                Model.getInstance().getView().AdminWindow();
+            } else {
+                error_lbl.setText("Kullanıcı adı veya şifre yanlış!");
+            }
+
         }
     }
 
@@ -85,6 +86,16 @@ public class LoginController implements Initializable {
         for(int i = 0; i < musteriler.size(); i++){
             Musteri musteri = musteriler.get(i);
             if(musteri.getMusteriId() == musteriId){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean vIsRegistered(String userName){
+        ArrayList<Veznedar> veznedarlar = Veznedar.getVeznedarlar();
+        for(int i = 0; i < veznedarlar.size(); i++){
+            Veznedar veznedar = veznedarlar.get(i);
+            if(veznedar.getUserName() != null && veznedar.getUserName().equals(userName)){
                 return true;
             }
         }
@@ -123,16 +134,23 @@ public class LoginController implements Initializable {
 
         if(!isEmpty(giris_fld) && !isEmpty(password_fld)){
             try {
-                int veznedarId = Integer.parseInt(sveznedarId);
                 ArrayList<Veznedar> veznedarlar = Veznedar.getVeznedarlar();
+                if (veznedarlar == null) {
+                    return false;
+                }
                 for (int i = 0; i < veznedarlar.size(); i++) {
                     Veznedar veznedar = veznedarlar.get(i);
-                    if (veznedar.getTellerId() == veznedarId && veznedar.getVPassword().equals(sifre)) {
+                    if (veznedar == null) continue;
+                    String userName = veznedar.getUserName();
+                    String vPassword = veznedar.getVPassword();
+                    if (userName != null && userName.equals(sveznedarId) && 
+                        vPassword != null && vPassword.equals(sifre)) {
+                        Model.getInstance().setCurrentVeznedar(veznedar);
                         isPassword = true;
                         break;
                     }
                 }
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 return false;
             }
         }
@@ -157,4 +175,5 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
+
 }

@@ -7,11 +7,11 @@
   <groupId>main</groupId>
   <artifactId>banka</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>banka</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<junit.version>5.12.1</junit.version>  </properties>
+    <junit.version>5.12.1</junit.version>
+  </properties>
 
   <dependencies>
     <dependency>

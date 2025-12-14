@@ -11,14 +11,14 @@ public class Hesap implements Serializable {
     private HesapTuru hesapTuru;
     Random rand = new Random();
 
-    Hesap(int musteriId, int hesapId, HesapTuru hesapTuru) {
+    public Hesap(int musteriId, int hesapId, HesapTuru hesapTuru) {
         this.hesapId = hesapId;
         this.musteriId = musteriId;
         this.bakiye = 0;
         this.hesapTuru = hesapTuru;
     }
 
-    Hesap(int musteriId, int hesapId) {
+    public Hesap(int musteriId, int hesapId) {
         this(musteriId, hesapId, new HesapTuru("vadesiz"));
     }
     @Override

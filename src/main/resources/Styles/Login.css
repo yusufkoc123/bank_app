@@ -12,7 +12,7 @@
 .Login_logo_container ImageView{
     -fx-fill: #EEEEEE;
 }
-/*hesap seçimi*/
+
 .acount_selector{
     -fx-background-color: #74a0ff;
 }

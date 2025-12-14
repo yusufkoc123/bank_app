@@ -14,12 +14,11 @@ import main.Models.Model;
 public class View {
     private HesapTuru giristuru;
     private final ObjectProperty<MusteriMenuOptions> musterisecilenmenu;
-    private AnchorPane islemlerView;
-    private AnchorPane hesaplarimView;
     private final ObjectProperty<AdminMenuOptions> adminsecilenmenu;
     private AnchorPane MusterikayitView;
     private AnchorPane MusterilerView;
     private AnchorPane ParayatirView;
+    private AnchorPane VeznedarekleView;
     private main.Controllers.Admin.MusterilerController musterilerController;
 
     public View(){
@@ -52,21 +51,18 @@ public class View {
         return null;
     }
     public AnchorPane getIslemlerView() {
-        if(islemlerView == null){
-            try {
-                islemlerView=new  FXMLLoader(getClass().getResource("/Fxml/Musteri/islemler.fxml")).load();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+        try {
+            return new FXMLLoader(getClass().getResource("/Fxml/Musteri/islemler.fxml")).load();
+        } catch (Exception e){
+            e.printStackTrace();
         }
-        return islemlerView;
+        return null;
     }
 
     public AnchorPane getHesaplarimView() {
         try {
             return new FXMLLoader(getClass().getResource("/Fxml/Musteri/hesaplarim.fxml")).load();
         }catch (Exception e){
-            e.printStackTrace();
         }
         return null;
     }
@@ -75,7 +71,6 @@ public class View {
         try {
             return new FXMLLoader(getClass().getResource("/Fxml/Musteri/Profil.fxml")).load();
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
@@ -117,16 +112,12 @@ public class View {
     }
     
     public void refreshMusterilerView() {
-        // Eğer controller varsa direkt refresh et (en hızlı yöntem)
         if(musterilerController != null) {
             musterilerController.refreshMusteriler();
         } else {
-            // Controller yoksa cache'i null yap ve yeniden yükle
             MusterilerView = null;
-            // Eğer şu an müşteriler görünüyorsa, view'ı yeniden yükle
             AdminMenuOptions currentMenu = Model.getInstance().getView().getAdminsecilenmenu().get();
             if(currentMenu == AdminMenuOptions.MUSTERILER) {
-                // Menu'yu değiştirip geri değiştirerek view'ı yeniden yükle
                 Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.MUSTERI_KAYIT);
                 Model.getInstance().getView().getAdminsecilenmenu().set(AdminMenuOptions.MUSTERILER);
             }
@@ -143,7 +134,17 @@ public class View {
         }
         return ParayatirView;
     }
+    public AnchorPane getVeznedarekleView() {
+        if(VeznedarekleView == null){
+            try {
+                VeznedarekleView= new FXMLLoader(getClass().getResource("/Fxml/Admin/veznedarekle.fxml")).load();
 
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return VeznedarekleView;
+    }
     public void AdminWindow(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Admin/Admin.fxml"));
         AdminController controller = new AdminController();
@@ -165,6 +166,21 @@ public class View {
             stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/Images/logo.png"))));
             stage.setResizable(false);
             stage.setTitle("İnü Bank");
+            
+            stage.setOnCloseRequest(e -> {
+                main.dosyaIslemleri.tumVerileriKaydet();
+                javafx.application.Platform.runLater(() -> {
+                    if (javafx.application.Platform.isFxApplicationThread()) {
+                        long openStages = javafx.stage.Window.getWindows().stream()
+                            .filter(w -> w instanceof javafx.stage.Stage && ((javafx.stage.Stage) w).isShowing())
+                            .count();
+                        if (openStages <= 1) {
+                            javafx.application.Platform.exit();
+                        }
+                    }
+                });
+            });
+            
             stage.show();
         } catch (Exception e){
             e.printStackTrace();

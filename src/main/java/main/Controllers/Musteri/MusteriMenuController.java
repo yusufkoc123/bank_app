@@ -43,7 +43,6 @@ public class MusteriMenuController implements Initializable {
         Model.getInstance().getView().getmusterisecilenmenu().set(MusteriMenuOptions.PROFIL);
     }
     private void m_cikis() {
-        // Çıkış yapılınca tüm verileri kaydet
         dosyaIslemleri.tumVerileriKaydet();
         Stage stage = (Stage) cikis_btn.getScene().getWindow();
         Model.getInstance().getView().closeStage(stage);

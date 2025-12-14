@@ -26,19 +26,16 @@ public class islemlerController implements Initializable {
     private void yukleIslemler() {
         ObservableList<Islemler> islemler = FXCollections.observableArrayList();
 
-        // Mevcut müşteriyi Model'den al
         Musteri currentMusteri = Model.getInstance().getCurrentMusteri();
         
         if (currentMusteri != null && currentMusteri.getIslemler() != null) {
-            // Müşterinin işlemlerini domain model'den Islemler model'ine dönüştür
             ArrayList<Islem> domainIslemler = currentMusteri.getIslemler();
             int sayac = 0;
             final int MAX_ISLEM_SAYISI = 20;
             
-            // Queue'dan gelen işlemleri al (son 20 işlem)
-            for (int i = 0; i < domainIslemler.size(); i++) {
+            for (int i = domainIslemler.size() - 1; i >= 0; i--) {
                 if (sayac >= MAX_ISLEM_SAYISI) {
-                    break; // 20 işlemden fazlasını gösterme
+                    break;
                 }
                 Islem domainIslem = domainIslemler.get(i);
                 Islemler islem = Islemler.fromDomainModel(domainIslem);

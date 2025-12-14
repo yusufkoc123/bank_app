@@ -43,12 +43,35 @@ public class SifremiUnuttumController implements Initializable {
             hata_lbl.setText("Tüm alanları doldurun!");
             return;
         }
+        
+        if (tcText.length() != 11) {
+            hata_lbl.setStyle("-fx-text-fill: red;");
+            hata_lbl.setText("TC Kimlik No 11 haneli olmalıdır!");
+            return;
+        }
+        if (!isSadeceRakam(tcText)) {
+            hata_lbl.setStyle("-fx-text-fill: red;");
+            hata_lbl.setText("TC Kimlik No sadece rakam içermelidir!");
+            return;
+        }
+        if (!tcKimlikDogrula(tcText)) {
+            hata_lbl.setStyle("-fx-text-fill: red;");
+            hata_lbl.setText("Geçersiz TC Kimlik No! ");
+            return;
+        }
         if (!yeniSifre.equals(yeniSifreTekrar)) {
             hata_lbl.setText("Yeni şifreler eşleşmiyor!");
             return;
         }
-        if (yeniSifre.length() < 4) {
-            hata_lbl.setText("Şifre en az 4 karakter olmalıdır!");
+        if (yeniSifre.length() < 8) {
+            hata_lbl.setText("Şifre en az 8 karakter olmalıdır!");
+            return;
+        }
+        
+        String sifreHataMesaji = sifreGuvenlikKontrolu(yeniSifre);
+        if (sifreHataMesaji != null) {
+            hata_lbl.setStyle("-fx-text-fill: red;");
+            hata_lbl.setText(sifreHataMesaji);
             return;
         }
 
@@ -88,6 +111,80 @@ public class SifremiUnuttumController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    private boolean isSadeceRakam(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean tcKimlikDogrula(String tcKimlik) {
+        if (tcKimlik == null || tcKimlik.length() != 11) {
+            return false;
+        }
+        
+        int toplam = 0;
+        for (int i = 0; i < 10; i++) {
+            toplam += Character.getNumericValue(tcKimlik.charAt(i));
+        }
+        
+        int kalan = toplam % 10;
+        
+        int sonBasamak = Character.getNumericValue(tcKimlik.charAt(10));
+        
+        return kalan == sonBasamak;
+    }
+    
+    private String sifreGuvenlikKontrolu(String sifre) {
+        if (sifre.length() < 8) {
+            return "Şifre en az 8 karakter olmalıdır!";
+        }
+        
+        boolean hasKucukHarf = false;
+        boolean hasBuyukHarf = false;
+        boolean hasRakam = false;
+        boolean hasNoktalama = false;
+        
+        String noktalamaIsaretleri = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+        
+        for (int i = 0; i < sifre.length(); i++) {
+            char c = sifre.charAt(i);
+            if (c >= 'a' && c <= 'z') {
+                hasKucukHarf = true;
+            } else if (c >= 'A' && c <= 'Z') {
+                hasBuyukHarf = true;
+            } else if (c >= '0' && c <= '9') {
+                hasRakam = true;
+            } else if (noktalamaIsaretleri.indexOf(c) >= 0) {
+                hasNoktalama = true;
+            }
+        }
+        
+        if (!hasKucukHarf) {
+            return "Şifre en az 1 küçük harf içermelidir!";
+        }
+        
+        if (!hasBuyukHarf) {
+            return "Şifre en az 1 büyük harf içermelidir!";
+        }
+        
+        if (!hasRakam) {
+            return "Şifre en az 1 rakam içermelidir!";
+        }
+        
+        if (!hasNoktalama) {
+            return "Şifre en az 1 noktalama işareti içermelidir!";
+        }
+        
+        return null;
     }
 }
 

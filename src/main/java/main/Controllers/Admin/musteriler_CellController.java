@@ -39,7 +39,6 @@ public class musteriler_CellController implements Initializable {
             mustericell_tel_lbl.textProperty().bind(musteri.telnoProperty());
             mustericell_kayittarih_lbl.textProperty().bind(musteri.kayittarihProperty());
             
-            // Silme butonuna event handler ekle
             musteri_sil_btn.setOnAction(e -> musteriSil());
         }
     }
@@ -49,7 +48,6 @@ public class musteriler_CellController implements Initializable {
             return;
         }
         
-        // Onay dialogu göster
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Müşteri Silme Onayı");
         alert.setHeaderText("Müşteriyi silmek istediğinizden emin misiniz?");
@@ -60,19 +58,12 @@ public class musteriler_CellController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                // Müşteri ID'sini al ve int'e çevir
                 int musteriId = Integer.parseInt(musteri.getMusterID());
                 
-                // Müşteriyi sil
                 Veznedar.musteriSil(musteriId);
                 
-                // Dosyaya kaydet
-                dosyaIslemleri.tumMusterileriKaydet();
-                
-                // Listeyi yenile
                 Model.getInstance().getView().refreshMusterilerView();
                 
-                // Başarı mesajı
                 Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                 successAlert.setTitle("Başarılı");
                 successAlert.setHeaderText(null);
@@ -85,12 +76,12 @@ public class musteriler_CellController implements Initializable {
                 errorAlert.setContentText("Müşteri ID geçersiz!");
                 errorAlert.showAndWait();
             } catch (Exception e) {
+                e.printStackTrace();
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Hata");
                 errorAlert.setHeaderText(null);
                 errorAlert.setContentText("Müşteri silinirken bir hata oluştu: " + e.getMessage());
                 errorAlert.showAndWait();
-                e.printStackTrace();
             }
         }
     }

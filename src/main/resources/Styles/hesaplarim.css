@@ -42,3 +42,38 @@
 .hesaplarim_container Button:hover{
     -fx-cursor: hand;
 }
+.hesapac {
+    -fx-background-color: #81cbff;
+    -fx-text-fill: #00106c;
+    -fx-spacing: 40;
+    -fx-border-width: 0;
+}
+.hesapac Label{
+    -fx-background-color: #818181;
+    -fx-background-radius: 15;
+    -fx-text-fill: #ffffff;
+}
+.hesapac Button:hover {
+    -fx-cursor: hand;
+}
+.hesapkapat {
+    -fx-background-color: #81cbff;
+    -fx-text-fill: #00106c;
+    -fx-spacing: 20;
+    -fx-border-width: 0;
+}
+.hesapkapat Label{
+    -fx-background-color: #818181;
+    -fx-background-radius: 15;
+    -fx-text-fill: #ffffff;
+}
+.hesapkapat Button:hover {
+    -fx-cursor: hand;
+}
+.hata_mesaj {
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-wrap-text: true;
+}

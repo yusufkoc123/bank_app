@@ -1,17 +1,22 @@
 package main.Controllers.Musteri;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
 import main.Models.Model;
 import main.Musteri;
 import main.Hesap;
+import main.HesapTuru;
+import main.Veznedar;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.ResourceBundle;
 import main.dataStructures.ArrayList;
 
@@ -29,9 +34,15 @@ public class hesaplarimController implements Initializable {
     public Label open_date2_hesaplarim_lbl;
     public TextField transfer_vadesiz_fld;
     public Button transfer_vadesiz_btn;
+    public Button hesapac_btn;
+    public Button hesapkapat_btn;
+    public Label hesapacıd_lbl;
+    public TextField hesapkapatid_fld;
+    public Label hata_mesaj_lbl;
 
     private Hesap vadesizHesap;
     private Hesap vadeliHesap;
+    private int yeniHesapId;
 
     @Override
     public void initialize(URL url, ResourceBundle resourcebundle) {
@@ -39,6 +50,10 @@ public class hesaplarimController implements Initializable {
         baglaHesapSecimDinleyicisi();
         yukleHesapBilgileri();
         transferButonlariniBagla();
+        yeniHesapIdOlusturVeGoster();
+        hesapAcButonunuBagla();
+        hesapKapatButonunuBagla();
+        hata_mesaj_lbl.setText("");
     }
 
     private void hesapsecim_chcbxDoldur() {
@@ -108,7 +123,7 @@ public class hesaplarimController implements Initializable {
                 if (hesap.getHesapTuru() != null &&
                         "vadeli".equals(hesap.getHesapTuru().getHesapTuru())) {
                     vadeliHesap = hesap;
-                    break; // En fazla bir vadeli hesap olacağı için ilkini almak yeterli
+                    break;
                 }
             }
 
@@ -117,8 +132,8 @@ public class hesaplarimController implements Initializable {
             if (vadeliHesap != null) {
                 hesap_id2_hesaplarim_lbl.setText(String.valueOf(vadeliHesap.getHesapId()));
                 bakiye2_hesaplarim_lbl.setText("₺ " + vadeliHesap.getBakiye());
-                cekim_limit_hesaplarim_lbl.setText("10"); // Varsayılan çekim limiti
-                open_date2_hesaplarim_lbl.setText(tarihFormatla(new Date())); // Varsayılan tarih
+                cekim_limit_hesaplarim_lbl.setText("10");
+                open_date2_hesaplarim_lbl.setText(tarihFormatla(new Date()));
             } else {
                 hesap_id2_hesaplarim_lbl.setText("-");
                 bakiye2_hesaplarim_lbl.setText("₺ 0");
@@ -132,8 +147,8 @@ public class hesaplarimController implements Initializable {
         if (vadesizHesap != null) {
             hesap_id_hesaplarim_lbl.setText(String.valueOf(vadesizHesap.getHesapId()));
             bakiye_hesaplarim_lbl.setText("₺ " + vadesizHesap.getBakiye());
-            islem_limit_hesaplarim_lbl.setText("10"); // Varsayılan işlem limiti
-            open_date_hesaplarim_lbl.setText(tarihFormatla(new Date())); // Varsayılan tarih
+            islem_limit_hesaplarim_lbl.setText("10");
+            open_date_hesaplarim_lbl.setText(tarihFormatla(new Date()));
         } else {
             hesap_id_hesaplarim_lbl.setText("-");
             bakiye_hesaplarim_lbl.setText("₺ 0");
@@ -183,7 +198,6 @@ public class hesaplarimController implements Initializable {
                 boolean basarili = musteri.paraGonder(vadesizHesap.getHesapId(), vadeliHesap.getHesapId(), miktar);
 
                 if (basarili) {
-                    System.out.println("Transfer başarılı!");
                     transfer_vadeli_fld.clear();
                     yukleHesapBilgileri();
                 } else {
@@ -191,6 +205,7 @@ public class hesaplarimController implements Initializable {
                 }
             } catch (Exception ex) {
                 hataGoster("Bir hata oluştu: " + ex.getMessage());
+                ex.printStackTrace();
             }
         });
 
@@ -231,11 +246,9 @@ public class hesaplarimController implements Initializable {
                     return;
                 }
 
-                // Transfer işlemi
                 boolean basarili = musteri.paraGonder(vadeliHesap.getHesapId(), vadesizHesap.getHesapId(), miktar);
 
                 if (basarili) {
-                    System.out.println("Transfer başarılı!");
                     transfer_vadesiz_fld.clear();
                     yukleHesapBilgileri();
                 } else {
@@ -243,12 +256,127 @@ public class hesaplarimController implements Initializable {
                 }
             } catch (Exception ex) {
                 hataGoster("Bir hata oluştu: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    private void yeniHesapIdOlusturVeGoster() {
+        yeniHesapId = rastgeleHesapIdOlustur();
+        hesapacıd_lbl.setText("Hesap ID: " + yeniHesapId);
+    }
+
+    private int rastgeleHesapIdOlustur() {
+        Random rand = new Random();
+        int yeniId;
+        do {
+            yeniId = 10000 + rand.nextInt(990000);
+        } while(Veznedar.hesapIdKullaniliyor(yeniId));
+        return yeniId;
+    }
+
+    private void hesapAcButonunuBagla() {
+        hesapac_btn.setOnAction(e -> {
+            try {
+                Musteri musteri = Model.getInstance().getCurrentMusteri();
+                if (musteri == null) {
+                    hataGoster("Müşteri bilgisi bulunamadı!");
+                    return;
+                }
+                Hesap yeniHesap = new Hesap(musteri.getMusteriId(), yeniHesapId, new HesapTuru("vadesiz"));
+                musteri.mHesapAc(yeniHesap);
+                
+                basariliMesajGoster("Hesap başarıyla açıldı! Hesap ID: " + yeniHesapId);
+
+                main.dosyaIslemleri.tumVerileriKaydet();
+
+                yeniHesapIdOlusturVeGoster();
+
+                hesapsecim_chcbxDoldur();
+                yukleHesapBilgileri();
+            } catch (Exception ex) {
+                hataGoster("Bir hata oluştu: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    private void hesapKapatButonunuBagla() {
+        hesapkapat_btn.setOnAction(e -> {
+            try {
+                Musteri musteri = Model.getInstance().getCurrentMusteri();
+                if (musteri == null) {
+                    hataGoster("Müşteri bilgisi bulunamadı!");
+                    return;
+                }
+
+                String hesapIdStr = hesapkapatid_fld.getText().trim();
+                if (hesapIdStr.isEmpty()) {
+                    hataGoster("Lütfen kapatmak istediğiniz hesap ID'sini girin!");
+                    return;
+                }
+
+                int hesapId;
+                try {
+                    hesapId = Integer.parseInt(hesapIdStr);
+                } catch (NumberFormatException ex) {
+                    hataGoster("Hesap ID sayı olmalıdır!");
+                    return;
+                }
+
+                ArrayList<Hesap> hesaplar = musteri.getHesaplar();
+                Hesap kapatilacakHesap = null;
+                for (int i = 0; i < hesaplar.size(); i++) {
+                    Hesap h = hesaplar.get(i);
+                    if (h.getHesapId() == hesapId) {
+                        kapatilacakHesap = h;
+                        break;
+                    }
+                }
+
+                if (kapatilacakHesap == null) {
+                    hataGoster("Bu hesap ID'si size ait değil veya bulunamadı!");
+                    return;
+                }
+
+                if (kapatilacakHesap.getBakiye() > 0) {
+                    hataGoster("Hesapta bakiye bulunmaktadır (" + kapatilacakHesap.getBakiye() + " TL). Lütfen önce bakiyeyi başka bir hesaba transfer edin!");
+                    return;
+                }
+
+                musteri.mHesapKapat(hesapId);
+                
+                basariliMesajGoster("Hesap başarıyla kapatıldı! Hesap ID: " + hesapId);
+
+                main.dosyaIslemleri.tumVerileriKaydet();
+
+                hesapkapatid_fld.clear();
+                hesapsecim_chcbxDoldur();
+                yukleHesapBilgileri();
+            } catch (Exception ex) {
+                hataGoster("Bir hata oluştu: " + ex.getMessage());
+                ex.printStackTrace();
             }
         });
     }
 
     private void hataGoster(String mesaj) {
-        System.err.println("Hata: " + mesaj);
+        if (hata_mesaj_lbl != null) {
+            hata_mesaj_lbl.setText(mesaj);
+            hata_mesaj_lbl.setStyle("-fx-text-fill: #ff0000; -fx-font-weight: bold;");
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(5));
+            pause.setOnFinished(e -> hata_mesaj_lbl.setText(""));
+            pause.play();
+        }
+    }
+
+    private void basariliMesajGoster(String mesaj) {
+        if (hata_mesaj_lbl != null) {
+            hata_mesaj_lbl.setText(mesaj);
+            hata_mesaj_lbl.setStyle("-fx-text-fill: #00aa00; -fx-font-weight: bold;");
+
+        }
     }
 
     private String tarihFormatla(Date tarih) {

@@ -1,0 +1,68 @@
+.veznedarekle_container{
+    -fx-background-color: #5798ff;
+
+}
+.veznedarekle_container Text{
+    -fx-font-size: 1.3em;
+    -fx-fill: #003181;
+}
+.veznedarekle_container AnchorPane{
+    -fx-background-radius: 20;
+    -fx-padding: 10;
+    -fx-spacing: 15;
+    -fx-background-color: #ffffff;
+}
+.veznedarekle_container CheckBox{
+    -fx-font-size: 1.2em;
+    -fx-text-fill: #003181;
+}
+.veznedarekle_container TextField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+    -fx-background-color: #5798ff;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+    -fx-text-fill: #ffffff;
+}
+.veznedarekle_container PasswordField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+    -fx-background-color: #5798ff;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+    -fx-text-fill: #ffffff;
+}
+.hata_lbl{
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+    -fx-background-color: #5798ff;
+    -fx-background-radius: 5;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+
+}
+.kullaniciadi_lbl{
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+    -fx-background-color: #c1c1c1;
+    -fx-background-radius: 5;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 1.3em;
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+
+}
+.veznedarekle_container Button{
+    -fx-background-color: linear-gradient(to right,#03388e,#0059d7);
+    -fx-effect: dropshadow(three-pass-box,#aaaaaa,3,0,0,3);
+    -fx-pref-width: 250;
+    -fx-font-size: 1.5em;
+    -fx-text-fill: #ffffff;
+}
+.veznedarekle_container Button:hover{
+    -fx-cursor: hand;
+}
+.veznedarekle_container Label#mk_error_lbl{
+    -fx-text-fill: #ff0000;
+    -fx-font-size: 1.1em;
+    -fx-font-weight: bold;
+}

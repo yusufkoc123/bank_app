@@ -18,7 +18,7 @@
         </ImageView>
     </VBox>
     <Label fx:id="islem_tarih_lbl" layoutX="112.0" layoutY="20.0" prefHeight="17.0" prefWidth="95.0" styleClass="islem_tarih_lbl" text="04.12.2025" AnchorPane.leftAnchor="112.0" AnchorPane.topAnchor="20.0" />
-    <Label fx:id="gönderen_ad_lbl" layoutX="230.0" layoutY="20.0" prefHeight="17.0" prefWidth="146.0" styleClass="islem_padress_lbl" text="Yusuf " AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="20.0" />
+    <Label fx:id="gonderen_ad_lbl" layoutX="230.0" layoutY="20.0" prefHeight="17.0" prefWidth="146.0" styleClass="islem_padress_lbl" text="Yusuf " AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="20.0" />
     <Label fx:id="alan_ad_lbl" layoutX="409.0" layoutY="20.0" prefHeight="17.0" prefWidth="169.0" styleClass="islem_padress_lbl" text="İbrahim" AnchorPane.leftAnchor="409.0" AnchorPane.topAnchor="20.0" />
     <Line endY="20.0" layoutX="391.0" layoutY="22.0" AnchorPane.bottomAnchor="19.5" AnchorPane.leftAnchor="390.5" AnchorPane.topAnchor="21.5" />
     <Label fx:id="islem_miktar_lbl" layoutX="614.0" layoutY="15.0" prefHeight="34.0" prefWidth="125.0" styleClass="miktar_lbl" text="350000" AnchorPane.leftAnchor="614.0" AnchorPane.topAnchor="15.0" />

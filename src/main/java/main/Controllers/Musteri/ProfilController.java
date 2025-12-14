@@ -39,7 +39,7 @@ public class ProfilController implements Initializable {
             profil_soyadi_lbl.setText(musteri.getSoyad());
             profil_musteriid_lbl.setText(String.valueOf(musteri.getMusteriId()));
             profil_tc_lbl.setText(musteri.getTCkimlik());
-            profil_tel_lbl.setText(String.valueOf(musteri.getTelNo()));
+            profil_tel_lbl.setText(musteri.getTelNo() != null ? musteri.getTelNo() : "");
             profil_adres_lbl.setText(musteri.getAdres());
         }
     }
@@ -58,51 +58,92 @@ public class ProfilController implements Initializable {
         String yeniSifre = yeni_sifre_fld.getText();
         String yeniSifreTekrar = yeni_sifre_tekrar_fld.getText();
 
-        // Boş alan kontrolü
         if (mevcutSifre.isEmpty() || yeniSifre.isEmpty() || yeniSifreTekrar.isEmpty()) {
             sifre_error_lbl.setText("Lütfen tüm alanları doldurun!");
             return;
         }
 
-        // Mevcut şifre kontrolü
         if (!mevcutSifre.equals(musteri.getMPassword())) {
             sifre_error_lbl.setText("Mevcut şifre yanlış!");
             return;
         }
 
-        // Yeni şifre uzunluk kontrolü
-        if (yeniSifre.length() < 4) {
-            sifre_error_lbl.setText("Yeni şifre en az 4 karakter olmalıdır!");
+        if (yeniSifre.length() < 8) {
+            sifre_error_lbl.setText("Yeni şifre en az 8 karakter olmalıdır!");
+            return;
+        }
+        
+        String sifreHataMesaji = sifreGuvenlikKontrolu(yeniSifre);
+        if (sifreHataMesaji != null) {
+            sifre_error_lbl.setText(sifreHataMesaji);
             return;
         }
 
-        // Şifre eşleşme kontrolü
         if (!yeniSifre.equals(yeniSifreTekrar)) {
             sifre_error_lbl.setText("Yeni şifreler eşleşmiyor!");
             return;
         }
 
-        // Yeni şifre mevcut şifre ile aynı olamaz
         if (yeniSifre.equals(mevcutSifre)) {
             sifre_error_lbl.setText("Yeni şifre mevcut şifre ile aynı olamaz!");
             return;
         }
 
-        // Şifreyi değiştir
         musteri.setMPassword(yeniSifre);
 
-        // Başarı mesajı
         sifre_error_lbl.setTextFill(Color.GREEN);
         sifre_error_lbl.setText("Şifre başarıyla değiştirildi!");
 
-        // Alanları temizle
         mevcut_sifre_fld.clear();
         yeni_sifre_fld.clear();
         yeni_sifre_tekrar_fld.clear();
 
-        // 5 saniye sonra mesajı temizle
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(event -> sifre_error_lbl.setText(""));
         pause.play();
+    }
+    
+    private String sifreGuvenlikKontrolu(String sifre) {
+        if (sifre.length() < 8) {
+            return "Şifre en az 8 karakter olmalıdır!";
+        }
+        
+        boolean hasKucukHarf = false;
+        boolean hasBuyukHarf = false;
+        boolean hasRakam = false;
+        boolean hasNoktalama = false;
+        
+        String noktalamaIsaretleri = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+        
+        for (int i = 0; i < sifre.length(); i++) {
+            char c = sifre.charAt(i);
+            if (c >= 'a' && c <= 'z') {
+                hasKucukHarf = true;
+            } else if (c >= 'A' && c <= 'Z') {
+                hasBuyukHarf = true;
+            } else if (c >= '0' && c <= '9') {
+                hasRakam = true;
+            } else if (noktalamaIsaretleri.indexOf(c) >= 0) {
+                hasNoktalama = true;
+            }
+        }
+        
+        if (!hasKucukHarf) {
+            return "Şifre en az 1 küçük harf içermelidir!";
+        }
+        
+        if (!hasBuyukHarf) {
+            return "Şifre en az 1 büyük harf içermelidir!";
+        }
+        
+        if (!hasRakam) {
+            return "Şifre en az 1 rakam içermelidir!";
+        }
+        
+        if (!hasNoktalama) {
+            return "Şifre en az 1 noktalama işareti içermelidir!";
+        }
+        
+        return null;
     }
 }

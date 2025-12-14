@@ -145,9 +145,18 @@ public class hesaplarimController implements Initializable {
 
     private void guncelleVadesizHesapBilgileri() {
         if (vadesizHesap != null) {
+            Musteri current = Model.getInstance().getCurrentMusteri();
             hesap_id_hesaplarim_lbl.setText(String.valueOf(vadesizHesap.getHesapId()));
             bakiye_hesaplarim_lbl.setText("₺ " + vadesizHesap.getBakiye());
-            islem_limit_hesaplarim_lbl.setText("10");
+            
+            // Günlük işlem limiti bilgisini göster (sadece kalan limit)
+            if (current != null) {
+                int kalanLimit = current.getKalanGunlukIslemLimiti();
+                islem_limit_hesaplarim_lbl.setText(String.valueOf(kalanLimit) + " TL");
+            } else {
+                islem_limit_hesaplarim_lbl.setText("-");
+            }
+            
             open_date_hesaplarim_lbl.setText(tarihFormatla(new Date()));
         } else {
             hesap_id_hesaplarim_lbl.setText("-");
@@ -190,7 +199,7 @@ public class hesaplarimController implements Initializable {
                     return;
                 }
 
-                if (miktar > vadesizHesap.getBakiye()) {
+                if (miktar > vadesizHesap.getBakiyeInt()) {
                     hataGoster("Yetersiz bakiye! Mevcut bakiye: " + vadesizHesap.getBakiye() + " TL");
                     return;
                 }
@@ -241,7 +250,7 @@ public class hesaplarimController implements Initializable {
                     return;
                 }
 
-                if (miktar > vadeliHesap.getBakiye()) {
+                if (miktar > vadeliHesap.getBakiyeInt()) {
                     hataGoster("Yetersiz bakiye! Mevcut bakiye: " + vadeliHesap.getBakiye() + " TL");
                     return;
                 }
@@ -339,7 +348,7 @@ public class hesaplarimController implements Initializable {
                     return;
                 }
 
-                if (kapatilacakHesap.getBakiye() > 0) {
+                if (kapatilacakHesap.getBakiyeInt() > 0) {
                     hataGoster("Hesapta bakiye bulunmaktadır (" + kapatilacakHesap.getBakiye() + " TL). Lütfen önce bakiyeyi başka bir hesaba transfer edin!");
                     return;
                 }

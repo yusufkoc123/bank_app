@@ -147,6 +147,19 @@ public class Veznedar implements Serializable {
         return false;
     }
 
+    public static boolean tcKimlikKullaniliyor(String tcKimlik) {
+        if (tcKimlik == null || tcKimlik.trim().isEmpty()) {
+            return false;
+        }
+        for(int i = 0; i < musteriler.size(); i++) {
+            Musteri m = musteriler.get(i);
+            if(m.getTCkimlik() != null && m.getTCkimlik().equals(tcKimlik)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean hesapIdKullaniliyor(int hesapId) {
         for(int i = 0; i < musteriler.size(); i++) {
             Musteri m = musteriler.get(i);

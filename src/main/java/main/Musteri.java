@@ -21,6 +21,7 @@ public class Musteri implements Serializable {
     private ArrayList<Hesap> hesaplar;
     private Queue<Islem> islemler;
     private static final int MAX_ISLEM_SAYISI = 20;
+    private static final int GUNLUK_ISLEM_LIMITI = 100000;
     private static Random rand = new Random();
 
     public Musteri(String adi, String soyad, String TCkimlik, String adres, String telNo, String mPassword) {
@@ -102,6 +103,38 @@ public class Musteri implements Serializable {
     public void islemleriTemizle() {
         islemler = new Queue<>();
     }
+    
+    public int getGunlukIslemToplami() {
+        int toplam = 0;
+        LocalDate bugun = LocalDate.now();
+        ArrayList<Islem> islemlerList = getIslemler();
+        
+        for (int i = 0; i < islemlerList.size(); i++) {
+            Islem islem = islemlerList.get(i);
+            if (islem != null && islem.getTarih() != null && islem.getTarih().equals(bugun)) {
+                String islemTuru = islem.getIslemTuru();
+                // Para Çekme ve Para Transferi (gönderen olarak) işlemlerini say
+                if ("Para Çekme".equals(islemTuru)) {
+                    toplam += islem.getMiktar();
+                } else if ("Para Transferi".equals(islemTuru)) {
+                    // Sadece gönderen olarak yapılan transferleri say
+                    String musteriAdi = this.adi + " " + this.soyad;
+                    if (musteriAdi.equals(islem.getGondericiAdi())) {
+                        toplam += islem.getMiktar();
+                    }
+                }
+            }
+        }
+        return toplam;
+    }
+    
+    public static int getGunlukIslemLimiti() {
+        return GUNLUK_ISLEM_LIMITI;
+    }
+    
+    public int getKalanGunlukIslemLimiti() {
+        return GUNLUK_ISLEM_LIMITI - getGunlukIslemToplami();
+    }
     public void setMusteriId(int musteriId) {
         this.musteriId = musteriId;
     }
@@ -180,7 +213,8 @@ public class Musteri implements Serializable {
         for(int i = 0; i < hesaplar.size(); i++){
             Hesap h = hesaplar.get(i);
             if(h.getHesapId()==hesapId){
-                h.setBakiye(h.getBakiye()+yatırılacakPara);
+                int yeniBakiye = h.getBakiyeInt() + yatırılacakPara;
+                h.setBakiye(yeniBakiye);
                 String musteriAdi = this.adi + " " + this.soyad;
                 Islem islem = new Islem("Banka", musteriAdi, yatırılacakPara, LocalDate.now(), 
                     "Para Yatırma - Hesap ID: " + hesapId, "Para Yatırma");
@@ -193,7 +227,8 @@ public class Musteri implements Serializable {
         for(int i = 0; i < hesaplar.size(); i++){
             Hesap h = hesaplar.get(i);
             if(h.getHesapId()==hesapId){
-                h.setBakiye(h.getBakiye()-cekilecekPara);
+                int yeniBakiye = h.getBakiyeInt() - cekilecekPara;
+                h.setBakiye(yeniBakiye);
                 String musteriAdi = this.adi + " " + this.soyad;
                 Islem islem = new Islem(musteriAdi, "Banka", cekilecekPara, LocalDate.now(), 
                     "Para Çekme - Hesap ID: " + hesapId, "Para Çekme");
@@ -206,7 +241,7 @@ public class Musteri implements Serializable {
         double toplamBakiye=0;
         for(int i = 0; i < hesaplar.size(); i++){
             Hesap h = hesaplar.get(i);
-            toplamBakiye+=h.getBakiye();
+            toplamBakiye+=h.getBakiyeInt();
         }
         return toplamBakiye;
     }
@@ -228,7 +263,7 @@ public class Musteri implements Serializable {
             return false;
         }
 
-        if(gonderilenHesap.getBakiye() < miktar){
+        if(gonderilenHesap.getBakiyeInt() < miktar){
             return false;
         }
 
@@ -257,8 +292,10 @@ public class Musteri implements Serializable {
             return false;
         }
 
-        gonderilenHesap.setBakiye(gonderilenHesap.getBakiye() - miktar);
-        gonderilecekHesap.setBakiye(gonderilecekHesap.getBakiye() + miktar);
+        int gonderilenYeniBakiye = gonderilenHesap.getBakiyeInt() - miktar;
+        int gonderilecekYeniBakiye = gonderilecekHesap.getBakiyeInt() + miktar;
+        gonderilenHesap.setBakiye(gonderilenYeniBakiye);
+        gonderilecekHesap.setBakiye(gonderilecekYeniBakiye);
 
         String gondericiAdi = this.adi + " " + this.soyad;
         String aliciAdi = "";

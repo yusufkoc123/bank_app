@@ -167,7 +167,7 @@ public class anasayfaController implements Initializable {
                     return;
                 }
 
-                if (miktar > secilenGonderilenHesap.getBakiye()) {
+                if (miktar > secilenGonderilenHesap.getBakiyeInt()) {
                     sm_error.setTextFill(Color.RED);
                     sm_error.setText("Yetersiz bakiye! Mevcut bakiye: " + secilenGonderilenHesap.getBakiye() + " TL");
                     return;
@@ -178,9 +178,12 @@ public class anasayfaController implements Initializable {
                     sm_error.setText("Miktar 0'dan büyük olmalıdır!");
                     return;
                 }
-                if (miktar >70000) {
+                
+                // Günlük işlem limiti kontrolü
+                int gunlukToplam = musteri.getGunlukIslemToplami();
+                if (gunlukToplam + miktar > 100000) {
                     sm_error.setTextFill(Color.RED);
-                    sm_error.setText("Miktar 70.000'dan küçük olmalıdır!");
+                    sm_error.setText("Günlük işlem limiti aşıldı! Bugünkü toplam: " + gunlukToplam + " TL, Limit: 100.000 TL");
                     return;
                 }
 

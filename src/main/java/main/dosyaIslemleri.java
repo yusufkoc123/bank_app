@@ -197,7 +197,7 @@ public class dosyaIslemleri {
                         if (h.length == 4) {
                             Hesap hesap = new Hesap(Integer.parseInt(h[1]), Integer.parseInt(h[0]), 
                                 new HesapTuru(unesc(h[3])));
-                            hesap.setBakiye(Integer.parseInt(h[2]));
+                            hesap.setBakiye(h[2]); // Bakiye artık String olarak tutuluyor
                             m.mHesapAc(hesap);
                         }
                     }
@@ -253,7 +253,7 @@ public class dosyaIslemleri {
                 
                 int hesapId = Integer.parseInt(parts[0]);
                 int musteriId = Integer.parseInt(parts[1]);
-                int bakiye = Integer.parseInt(parts[2]);
+                String bakiye = parts[2]; // Bakiye artık String olarak tutuluyor
                 String hesapTuru = unesc(parts[3]);
                 
                 for (int i = 0; i < musteriler.size(); i++) {

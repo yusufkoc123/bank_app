@@ -23,7 +23,6 @@
         <TextField fx:id="vadesizbakiye_fld" layoutX="14.0" layoutY="420.0" prefHeight="35.0" prefWidth="250.0" promptText="Bakiye Girin" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="420.0" />
         <Button fx:id="register_btn" layoutX="218.0" layoutY="603.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" text="Kayıt Et" AnchorPane.leftAnchor="218.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="603.0" />
         <Label fx:id="mk_error_lbl" alignment="CENTER" layoutX="116.0" layoutY="541.0" prefHeight="30.0" prefWidth="457.0" wrapText="true" AnchorPane.leftAnchor="116.0" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="541.0" />
-        <CheckBox fx:id="vadeli_box" layoutX="337.0" layoutY="360.0" mnemonicParsing="false" text="Vadeli Hesap Aç" AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="350.0" />
         <Text layoutX="336.0" layoutY="416.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vadeli Hesap Bakiyesi:" AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="389.0" />
         <TextField fx:id="vadelibakiye_fld" layoutX="340.0" layoutY="420.0" prefHeight="35.0" prefWidth="250.0" promptText="Bakiye Girin" AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="420.0" />
         <Text layoutX="387.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TC Kimlik No:" AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="14.0" />

@@ -190,8 +190,16 @@ public class ParayatirController implements Initializable {
                 return;
             }
             
-            if (miktar > seciliHesap.getBakiye()) {
+            if (miktar > seciliHesap.getBakiyeInt()) {
                 pyc_error_lbl.setText("Yetersiz bakiye! Mevcut bakiye: " + seciliHesap.getBakiye() + " TL");
+                pyc_error_lbl.setTextFill(Color.RED);
+                return;
+            }
+            
+            // Günlük işlem limiti kontrolü
+            int gunlukToplam = seciliMusteri.getGunlukIslemToplami();
+            if (gunlukToplam + miktar > 100000) {
+                pyc_error_lbl.setText("Günlük işlem limiti aşıldı! Bugünkü toplam: " + gunlukToplam + " TL, Limit: 100.000 TL");
                 pyc_error_lbl.setTextFill(Color.RED);
                 return;
             }

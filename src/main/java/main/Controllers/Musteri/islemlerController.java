@@ -30,18 +30,13 @@ public class islemlerController implements Initializable {
         
         if (currentMusteri != null && currentMusteri.getIslemler() != null) {
             ArrayList<Islem> domainIslemler = currentMusteri.getIslemler();
-            int sayac = 0;
-            final int MAX_ISLEM_SAYISI = 20;
             
+            // Tüm işlemleri göster (limit yok)
             for (int i = domainIslemler.size() - 1; i >= 0; i--) {
-                if (sayac >= MAX_ISLEM_SAYISI) {
-                    break;
-                }
                 Islem domainIslem = domainIslemler.get(i);
                 Islemler islem = Islemler.fromDomainModel(domainIslem);
                 if (islem != null) {
                     islemler.add(islem);
-                    sayac++;
                 }
             }
         }

@@ -22,7 +22,6 @@ public class MusteriKayitController implements Initializable {
     public Label mkmusterino_lbl;
     public CheckBox vadesiz_box;
     public TextField vadesizbakiye_fld;
-    public CheckBox vadeli_box;
     public TextField vadelibakiye_fld;
     public Button register_btn;
     public Label mk_error_lbl;
@@ -45,15 +44,10 @@ public class MusteriKayitController implements Initializable {
                 vadesizbakiye_fld.clear();
             }
         });
-        vadeli_box.setOnAction(e -> {
-            vadelibakiye_fld.setDisable(!vadeli_box.isSelected());
-            if (vadeli_box.isSelected()) {
-                vadelibakiye_fld.clear();
-            }
-        });
         
         vadesizbakiye_fld.setDisable(true);
-        vadelibakiye_fld.setDisable(true);
+        // Vadeli hesap zorunlu olduğu için vadeli bakiye alanı her zaman aktif
+        vadelibakiye_fld.setDisable(false);
         
         setupNameField(mkisim_fld);
         setupNameField(mksoyisim_fld);
@@ -251,10 +245,7 @@ public class MusteriKayitController implements Initializable {
             return;
         }
         
-        if (!vadesiz_box.isSelected() && !vadeli_box.isSelected()) {
-            mk_error_lbl.setText("En az bir hesap türü seçmelisiniz!");
-            return;
-        }
+        // Vadeli hesap zorunlu, vadesiz hesap isteğe bağlı
         
         int vadesizBakiye = 0;
         if (vadesiz_box.isSelected()) {
@@ -281,28 +272,27 @@ public class MusteriKayitController implements Initializable {
             }
         }
         
+        // Vadeli hesap zorunlu - bakiye kontrolü
         int vadeliBakiye = 0;
-        if (vadeli_box.isSelected()) {
-            String vadeliBakiyeStr = vadelibakiye_fld.getText().trim();
-            if (!vadeliBakiyeStr.isEmpty()) {
-                try {
-                    double bakiyeDouble = Double.parseDouble(vadeliBakiyeStr);
-                    if (bakiyeDouble < 0) {
-                        mk_error_lbl.setText("Vadeli hesap bakiyesi negatif olamaz!");
-                        vadelibakiye_fld.requestFocus();
-                        return;
-                    }
-                    if (bakiyeDouble > Integer.MAX_VALUE) {
-                        mk_error_lbl.setText("Vadeli hesap bakiyesi çok büyük!");
-                        vadelibakiye_fld.requestFocus();
-                        return;
-                    }
-                    vadeliBakiye = (int) bakiyeDouble;
-                } catch (NumberFormatException e) {
-                    mk_error_lbl.setText("Vadeli hesap bakiyesi geçerli bir sayı olmalıdır!");
+        String vadeliBakiyeStr = vadelibakiye_fld.getText().trim();
+        if (!vadeliBakiyeStr.isEmpty()) {
+            try {
+                double bakiyeDouble = Double.parseDouble(vadeliBakiyeStr);
+                if (bakiyeDouble < 0) {
+                    mk_error_lbl.setText("Vadeli hesap bakiyesi negatif olamaz!");
                     vadelibakiye_fld.requestFocus();
                     return;
                 }
+                if (bakiyeDouble > Integer.MAX_VALUE) {
+                    mk_error_lbl.setText("Vadeli hesap bakiyesi çok büyük!");
+                    vadelibakiye_fld.requestFocus();
+                    return;
+                }
+                vadeliBakiye = (int) bakiyeDouble;
+            } catch (NumberFormatException e) {
+                mk_error_lbl.setText("Vadeli hesap bakiyesi geçerli bir sayı olmalıdır!");
+                vadelibakiye_fld.requestFocus();
+                return;
             }
         }
         
@@ -324,6 +314,12 @@ public class MusteriKayitController implements Initializable {
         }
         if (!tcKimlikDogrula(tcKimlik)) {
             mk_error_lbl.setText("Geçersiz TC Kimlik No!.");
+            mktc_fld.requestFocus();
+            return;
+        }
+        
+        if (Veznedar.tcKimlikKullaniliyor(tcKimlik)) {
+            mk_error_lbl.setText("Bu TC Kimlik No ile kayıtlı bir müşteri zaten mevcut!");
             mktc_fld.requestFocus();
             return;
         }
@@ -355,6 +351,7 @@ public class MusteriKayitController implements Initializable {
         ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
         musteriler.add(yeniMusteri);
         
+        // Vadesiz hesap isteğe bağlı
         if (vadesiz_box.isSelected()) {
             yeniMusteri.mHesapAcVadesiz();
             ArrayList<main.Hesap> hesaplar = yeniMusteri.getHesaplar();
@@ -367,15 +364,14 @@ public class MusteriKayitController implements Initializable {
             }
         }
         
-        if (vadeli_box.isSelected()) {
-            yeniMusteri.mHesapAcVadeli();
-            ArrayList<main.Hesap> hesaplar = yeniMusteri.getHesaplar();
-            for(int i = 0; i < hesaplar.size(); i++) {
-                main.Hesap h = hesaplar.get(i);
-                if(h.getHesapTuru() != null && "vadeli".equals(h.getHesapTuru().getHesapTuru())) {
-                    h.setBakiye(vadeliBakiye);
-                    break;
-                }
+        // Vadeli hesap zorunlu - her zaman açılır
+        yeniMusteri.mHesapAcVadeli();
+        ArrayList<main.Hesap> hesaplar = yeniMusteri.getHesaplar();
+        for(int i = 0; i < hesaplar.size(); i++) {
+            main.Hesap h = hesaplar.get(i);
+            if(h.getHesapTuru() != null && "vadeli".equals(h.getHesapTuru().getHesapTuru())) {
+                h.setBakiye(vadeliBakiye);
+                break;
             }
         }
         
@@ -397,9 +393,8 @@ public class MusteriKayitController implements Initializable {
         vadesiz_box.setSelected(false);
         vadesizbakiye_fld.clear();
         vadesizbakiye_fld.setDisable(true);
-        vadeli_box.setSelected(false);
         vadelibakiye_fld.clear();
-        vadelibakiye_fld.setDisable(true);
+        vadelibakiye_fld.setDisable(false);
         mkmusterino_lbl.setText("");
     }
     

@@ -8,6 +8,10 @@ import main.Models.Model;
 import main.Views.View;
 import main.dataStructures.ArrayList;
 
+/*
+ * Bu sınıf, bankacılık uygulamasının ana giriş noktasıdır.
+ * Uygulamanın başlatılması, veri yükleme/kaydetme ve ana pencerelerin gösterilmesi gibi temel işlevleri yönetir.
+ */
 public class Main extends Application {
     @Override
     public void start(Stage stage)  {

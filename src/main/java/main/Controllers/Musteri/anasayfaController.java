@@ -14,7 +14,8 @@ import main.Hesap;
 import main.Islem;
 import main.Views.mainislemler_cellView;
 import main.dataStructures.ArrayList;
-
+import main.dataStructures.LinkedList;
+import main.dataStructures.Queue;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,7 +45,7 @@ public class anasayfaController implements Initializable {
             Hesap vadesizHesap = null;
             Hesap vadeliHesap = null;
 
-            ArrayList<Hesap> hesaplar = current.getHesaplar();
+            LinkedList<Hesap> hesaplar = current.getHesaplar();
             for (int i = 0; i < hesaplar.size(); i++) {
                 Hesap hesap = hesaplar.get(i);
                 if (hesap.getHesapTuru().getHesapTuru().equals("vadesiz")) {
@@ -71,7 +72,7 @@ public class anasayfaController implements Initializable {
             }
 
             ObservableList<Hesap> hesapListesi = FXCollections.observableArrayList();
-            main.dataStructures.ArrayList<Hesap> hesaplarList = current.getHesaplar();
+            LinkedList<Hesap> hesaplarList = current.getHesaplar();
             for (int i = 0; i < hesaplarList.size(); i++) {
                 hesapListesi.add(hesaplarList.get(i));
             }
@@ -153,7 +154,7 @@ public class anasayfaController implements Initializable {
                 int gonderilenHesapId = secilenGonderilenHesap.getHesapId();
 
                 boolean kendiHesabinaGonderiyor = false;
-                ArrayList<Hesap> hesaplarList = musteri.getHesaplar();
+                LinkedList<Hesap> hesaplarList = musteri.getHesaplar();
                 for (int i = 0; i < hesaplarList.size(); i++) {
                     Hesap hesap = hesaplarList.get(i);
                     if (hesap.getHesapId() == gonderilecekHesapId) {
@@ -178,8 +179,17 @@ public class anasayfaController implements Initializable {
                     sm_error.setText("Miktar 0'dan büyük olmalıdır!");
                     return;
                 }
-                
-                // Günlük işlem limiti kontrolü
+
+                int cekimLimiti = secilenGonderilenHesap.getCekimLimitiInt();
+                if (cekimLimiti != Integer.MAX_VALUE) {
+                    int gunlukCekimToplami = musteri.getGunlukHesapCekimToplami(secilenGonderilenHesap.getHesapId());
+                    if (gunlukCekimToplami + miktar > cekimLimiti) {
+                        sm_error.setTextFill(Color.RED);
+                        sm_error.setText("Hesap çekim limiti aşıldı! Bugünkü toplam: " + gunlukCekimToplami + " TL, Limit: " + secilenGonderilenHesap.getCekimLimiti() + " TL");
+                        return;
+                    }
+                }
+
                 int gunlukToplam = musteri.getGunlukIslemToplami();
                 if (gunlukToplam + miktar > 100000) {
                     sm_error.setTextFill(Color.RED);
@@ -225,7 +235,7 @@ public class anasayfaController implements Initializable {
             Hesap vadesizHesap = null;
             Hesap vadeliHesap = null;
 
-            main.dataStructures.ArrayList<Hesap> hesaplar = current.getHesaplar();
+            LinkedList<Hesap> hesaplar = current.getHesaplar();
             for (int i = 0; i < hesaplar.size(); i++) {
                 Hesap hesap = hesaplar.get(i);
                 if (hesap.getHesapTuru().getHesapTuru().equals("vadesiz")) {
@@ -252,7 +262,7 @@ public class anasayfaController implements Initializable {
             }
 
             ObservableList<Hesap> hesapListesi = FXCollections.observableArrayList();
-            main.dataStructures.ArrayList<Hesap> hesaplarList = current.getHesaplar();
+            LinkedList<Hesap> hesaplarList = current.getHesaplar();
             for (int i = 0; i < hesaplarList.size(); i++) {
                 hesapListesi.add(hesaplarList.get(i));
             }
@@ -260,13 +270,13 @@ public class anasayfaController implements Initializable {
             sm_gonderenhsp_chcbx.setItems(hesapListesi);
             if (seciliHesap != null) {
                 javafx.collections.ObservableList<Hesap> items = hesapListesi;
-                for (int i = 0; i < items.size(); i++) {
-                    Hesap h = items.get(i);
-                    if (h.getHesapId() == seciliHesap.getHesapId()) {
-                        sm_gonderenhsp_chcbx.setValue(h);
-                        break;
-                    }
+            for (int i = 0; i < items.size(); i++) {
+                Hesap h = items.get(i);
+                if (h.getHesapId() == seciliHesap.getHesapId()) {
+                    sm_gonderenhsp_chcbx.setValue(h);
+                    break;
                 }
+            }
             }
         }
     }
@@ -276,16 +286,18 @@ public class anasayfaController implements Initializable {
         Musteri currentMusteri = Model.getInstance().getCurrentMusteri();
 
         if (currentMusteri != null && currentMusteri.getIslemler() != null) {
-            ArrayList<Islem> domainIslemler = currentMusteri.getIslemler();
+            main.dataStructures.Queue<Islem> islemlerQueue = currentMusteri.getIslemler();
             final int MAX_ISLEM_SAYISI = 5;
 
-            int sayac = 0;
-            for (int i = domainIslemler.size() - 1; i >= 0 && sayac < MAX_ISLEM_SAYISI; i--) {
-                Islem domainIslem = domainIslemler.get(i);
+            ArrayList<Islem> islemlerList = islemlerQueue.toArrayList();
+            
+            int baslangicIndex = Math.max(0, islemlerList.size() - MAX_ISLEM_SAYISI);
+            
+            for (int i = islemlerList.size() - 1; i >= baslangicIndex; i--) {
+                Islem domainIslem = islemlerList.get(i);
                 Islemler islem = Islemler.fromDomainModel(domainIslem);
                 if (islem != null) {
                     islemler.add(islem);
-                    sayac++;
                 }
             }
         }

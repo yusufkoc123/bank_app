@@ -10,6 +10,7 @@ import main.Views.islemCellview;
 import main.Musteri;
 import main.Islem;
 import main.dataStructures.ArrayList;
+import main.dataStructures.Queue;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,14 +30,12 @@ public class islemlerController implements Initializable {
         Musteri currentMusteri = Model.getInstance().getCurrentMusteri();
         
         if (currentMusteri != null && currentMusteri.getIslemler() != null) {
-            ArrayList<Islem> domainIslemler = currentMusteri.getIslemler();
+            Queue<Islem> islemlerQueue = currentMusteri.getIslemler();
             
-            // Tüm işlemleri göster (limit yok)
-            for (int i = domainIslemler.size() - 1; i >= 0; i--) {
-                Islem domainIslem = domainIslemler.get(i);
+            for (Islem domainIslem : islemlerQueue) {
                 Islemler islem = Islemler.fromDomainModel(domainIslem);
                 if (islem != null) {
-                    islemler.add(islem);
+                    islemler.add(0, islem);
                 }
             }
         }

@@ -122,6 +122,16 @@ public class dataStructures {
             }
             return list;
         }
+        
+        public ArrayList<T> toReversedArrayList() {
+            ArrayList<T> list = new ArrayList<>();
+            Node<T> current = front;
+            while (current != null) {
+                list.add(0, current.getData());
+                current = current.getNext();
+            }
+            return list;
+        }
     }
 
     public static class ArrayList<T> implements Serializable, Iterable<T> {

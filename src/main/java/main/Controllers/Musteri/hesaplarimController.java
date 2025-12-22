@@ -60,7 +60,7 @@ public class hesaplarimController implements Initializable {
         Musteri current = Model.getInstance().getCurrentMusteri();
         if (current != null) {
             hesapsecim_chcbx.getItems().clear();
-            ArrayList<Hesap> hesaplar = current.getHesaplar();
+            main.dataStructures.LinkedList<Hesap> hesaplar = current.getHesaplar();
             for (int i = 0; i < hesaplar.size(); i++) {
                 Hesap hesap = hesaplar.get(i);
                 if (hesap.getHesapTuru() != null &&
@@ -117,7 +117,7 @@ public class hesaplarimController implements Initializable {
 
         if (current != null) {
             vadeliHesap = null;
-            ArrayList<Hesap> hesaplar = current.getHesaplar();
+            main.dataStructures.LinkedList<Hesap> hesaplar = current.getHesaplar();
             for (int i = 0; i < hesaplar.size(); i++) {
                 Hesap hesap = hesaplar.get(i);
                 if (hesap.getHesapTuru() != null &&
@@ -132,7 +132,12 @@ public class hesaplarimController implements Initializable {
             if (vadeliHesap != null) {
                 hesap_id2_hesaplarim_lbl.setText(String.valueOf(vadeliHesap.getHesapId()));
                 bakiye2_hesaplarim_lbl.setText("₺ " + vadeliHesap.getBakiye());
-                cekim_limit_hesaplarim_lbl.setText("10");
+                String limit = vadeliHesap.getCekimLimiti();
+                if (limit == null || "Sınırsız".equals(limit)) {
+                    cekim_limit_hesaplarim_lbl.setText("Sınırsız");
+                } else {
+                    cekim_limit_hesaplarim_lbl.setText(limit);
+                }
                 open_date2_hesaplarim_lbl.setText(tarihFormatla(new Date()));
             } else {
                 hesap_id2_hesaplarim_lbl.setText("-");
@@ -149,13 +154,13 @@ public class hesaplarimController implements Initializable {
             hesap_id_hesaplarim_lbl.setText(String.valueOf(vadesizHesap.getHesapId()));
             bakiye_hesaplarim_lbl.setText("₺ " + vadesizHesap.getBakiye());
             
-            // Günlük işlem limiti bilgisini göster (sadece kalan limit)
             if (current != null) {
                 int kalanLimit = current.getKalanGunlukIslemLimiti();
                 islem_limit_hesaplarim_lbl.setText(String.valueOf(kalanLimit) + " TL");
             } else {
                 islem_limit_hesaplarim_lbl.setText("-");
             }
+            
             
             open_date_hesaplarim_lbl.setText(tarihFormatla(new Date()));
         } else {
@@ -255,6 +260,13 @@ public class hesaplarimController implements Initializable {
                     return;
                 }
 
+                int cekimLimiti = vadeliHesap.getCekimLimitiInt();
+                int gunlukCekimToplami = musteri.getGunlukHesapCekimToplami(vadeliHesap.getHesapId());
+                if (cekimLimiti != Integer.MAX_VALUE && gunlukCekimToplami + miktar > cekimLimiti) {
+                    hataGoster("Hesap çekim limiti aşıldı! Bugünkü toplam: " + gunlukCekimToplami + " TL, Limit: " + vadeliHesap.getCekimLimiti() + " TL");
+                    return;
+                }
+
                 boolean basarili = musteri.paraGonder(vadeliHesap.getHesapId(), vadesizHesap.getHesapId(), miktar);
 
                 if (basarili) {
@@ -333,7 +345,7 @@ public class hesaplarimController implements Initializable {
                     return;
                 }
 
-                ArrayList<Hesap> hesaplar = musteri.getHesaplar();
+                main.dataStructures.LinkedList<Hesap> hesaplar = musteri.getHesaplar();
                 Hesap kapatilacakHesap = null;
                 for (int i = 0; i < hesaplar.size(); i++) {
                     Hesap h = hesaplar.get(i);

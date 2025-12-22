@@ -13,8 +13,10 @@ public class Veznedar implements Serializable {
     private String telNo;
     private int yetki;
 
+    // ArrayList (Dinamik Dizi) veri yapısı: Tüm müşterileri dinamik olarak saklamak için kullanılıyor
     private static ArrayList<Musteri> musteriler = new ArrayList<>();
 
+    // ArrayList (Dinamik Dizi) veri yapısı: Tüm veznedarları dinamik olarak saklamak için kullanılıyor
     private static ArrayList<Veznedar> veznedarlar = new ArrayList<>();
 
     Veznedar(String userName,String ad,String soyad,String vPassword,String tcNo,String telNo){
@@ -163,7 +165,7 @@ public class Veznedar implements Serializable {
     public static boolean hesapIdKullaniliyor(int hesapId) {
         for(int i = 0; i < musteriler.size(); i++) {
             Musteri m = musteriler.get(i);
-            ArrayList<Hesap> hesaplar = m.getHesaplar();
+            main.dataStructures.LinkedList<Hesap> hesaplar = m.getHesaplar();
             for(int j = 0; j < hesaplar.size(); j++) {
                 Hesap h = hesaplar.get(j);
                 if(h.getHesapId() == hesapId) {
@@ -173,14 +175,21 @@ public class Veznedar implements Serializable {
         }
         return false;
     }
-    public static void musteriSil(int musteriId){
+    public static boolean musteriSil(int musteriId){
         for(int i = 0; i < musteriler.size(); i++){
             Musteri m = musteriler.get(i);
             if(m.getMusteriId()==musteriId){
+                
+                for (int j = 0; j < m.getHesaplar().size(); j++) {
+                    if (m.getHesaplar().get(j).getBakiyeInt() > 0) {
+                        return false;
+                    }
+                }
                 musteriler.removeAt(i);
-                break;
+                return true;
             }
         }
+        return false;
     }
     public void vHesapAc(int musteriId){
         for(int i = 0; i < musteriler.size(); i++){

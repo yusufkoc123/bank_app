@@ -79,7 +79,7 @@ public class ParayatirController implements Initializable {
             ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
             for (int i = 0; i < musteriler.size(); i++) {
                 Musteri m = musteriler.get(i);
-                ArrayList<Hesap> hesaplar = m.getHesaplar();
+                main.dataStructures.LinkedList<Hesap> hesaplar = m.getHesaplar();
                 for (int j = 0; j < hesaplar.size(); j++) {
                     Hesap h = hesaplar.get(j);
                     if (h.getHesapId() == hesapId) {
@@ -144,7 +144,7 @@ public class ParayatirController implements Initializable {
                 Musteri m = musteriler.get(i);
                 if (m.getMusteriId() == seciliMusteri.getMusteriId()) {
                     m.paraYatir(seciliHesap.getHesapId(), miktar);
-                    ArrayList<Hesap> hesaplar = m.getHesaplar();
+                    main.dataStructures.LinkedList<Hesap> hesaplar = m.getHesaplar();
                     for (int j = 0; j < hesaplar.size(); j++) {
                         Hesap h = hesaplar.get(j);
                         if (h.getHesapId() == seciliHesap.getHesapId()) {
@@ -196,7 +196,16 @@ public class ParayatirController implements Initializable {
                 return;
             }
             
-            // Günlük işlem limiti kontrolü
+            int cekimLimiti = seciliHesap.getCekimLimitiInt();
+            if (cekimLimiti != Integer.MAX_VALUE) {
+                int gunlukCekimToplami = seciliMusteri.getGunlukHesapCekimToplami(seciliHesap.getHesapId());
+                if (gunlukCekimToplami + miktar > cekimLimiti) {
+                    pyc_error_lbl.setText("Hesap çekim limiti aşıldı! Bugünkü toplam: " + gunlukCekimToplami + " TL, Limit: " + seciliHesap.getCekimLimiti() + " TL");
+                    pyc_error_lbl.setTextFill(Color.RED);
+                    return;
+                }
+            }
+            
             int gunlukToplam = seciliMusteri.getGunlukIslemToplami();
             if (gunlukToplam + miktar > 100000) {
                 pyc_error_lbl.setText("Günlük işlem limiti aşıldı! Bugünkü toplam: " + gunlukToplam + " TL, Limit: 100.000 TL");
@@ -205,20 +214,29 @@ public class ParayatirController implements Initializable {
             }
             
             ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
+            boolean basarili = false;
             for (int i = 0; i < musteriler.size(); i++) {
                 Musteri m = musteriler.get(i);
                 if (m.getMusteriId() == seciliMusteri.getMusteriId()) {
-                    m.paraCek(seciliHesap.getHesapId(), miktar);
-                    ArrayList<Hesap> hesaplar = m.getHesaplar();
-                    for (int j = 0; j < hesaplar.size(); j++) {
-                        Hesap h = hesaplar.get(j);
-                        if (h.getHesapId() == seciliHesap.getHesapId()) {
-                            seciliHesap = h;
-                            break;
+                    basarili = m.paraCek(seciliHesap.getHesapId(), miktar);
+                    if (basarili) {
+                        main.dataStructures.LinkedList<Hesap> hesaplar = m.getHesaplar();
+                        for (int j = 0; j < hesaplar.size(); j++) {
+                            Hesap h = hesaplar.get(j);
+                            if (h.getHesapId() == seciliHesap.getHesapId()) {
+                                seciliHesap = h;
+                                break;
+                            }
                         }
                     }
                     break;
                 }
+            }
+            
+            if (!basarili) {
+                pyc_error_lbl.setText("Para çekme işlemi başarısız! Yetersiz bakiye veya limit aşıldı.");
+                pyc_error_lbl.setTextFill(Color.RED);
+                return;
             }
             
             pyc_bakiye_lbl.setText(String.valueOf(seciliHesap.getBakiye()));

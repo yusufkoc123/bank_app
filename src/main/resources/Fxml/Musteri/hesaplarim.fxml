@@ -14,23 +14,23 @@
 <AnchorPane prefHeight="750.0" prefWidth="850.0" styleClass="hesaplarim_container" stylesheets="@../../Styles/hesaplarim.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controllers.Musteri.hesaplarimController">
     <VBox layoutX="14.0" layoutY="41.0" prefHeight="300.0" prefWidth="250.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="41.0">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hesap Numarası:" />
-        <Label fx:id="hesap_id_hesaplarim_lbl" prefHeight="22.0" prefWidth="89.0" text="54342526" />
+        <Label fx:id="hesap_id_hesaplarim_lbl" prefHeight="22.0" prefWidth="89.0" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="İşlem Limiti:" />
-        <Label fx:id="islem_limit_hesaplarim_lbl" prefHeight="22.0" prefWidth="127.0" text="10" />
+        <Label fx:id="islem_limit_hesaplarim_lbl" prefHeight="22.0" prefWidth="127.0" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Açılış Tarihi:" />
-        <Label fx:id="open_date_hesaplarim_lbl" prefHeight="17.0" prefWidth="132.0" text="02.12.2025" />
+        <Label fx:id="open_date_hesaplarim_lbl" prefHeight="17.0" prefWidth="132.0" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bakiye:" />
-        <Label fx:id="bakiye_hesaplarim_lbl" prefHeight="22.0" prefWidth="153.0" text="₺ 300" />
+        <Label fx:id="bakiye_hesaplarim_lbl" prefHeight="22.0" prefWidth="153.0" />
     </VBox>
     <VBox layoutX="14.0" layoutY="375.0" prefHeight="300.0" prefWidth="250.0" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="14.0">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hesap Numarası:" />
-        <Label fx:id="hesap_id2_hesaplarim_lbl" prefHeight="22.0" prefWidth="93.0" text="54342526" />
+        <Label fx:id="hesap_id2_hesaplarim_lbl" prefHeight="22.0" prefWidth="93.0" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Çekim Limiti:" />
-        <Label fx:id="cekim_limit_hesaplarim_lbl" prefHeight="22.0" prefWidth="124.0" text="10" />
+        <Label fx:id="cekim_limit_hesaplarim_lbl" prefHeight="22.0" prefWidth="124.0" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Açılış Tarihi:" />
-        <Label fx:id="open_date2_hesaplarim_lbl" prefHeight="22.0" prefWidth="107.0" text="02.12.2025" />
+        <Label fx:id="open_date2_hesaplarim_lbl" prefHeight="22.0" prefWidth="107.0" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bakiye:" />
-        <Label fx:id="bakiye2_hesaplarim_lbl" prefHeight="22.0" prefWidth="219.0" text="₺ 300" />
+        <Label fx:id="bakiye2_hesaplarim_lbl" prefHeight="22.0" prefWidth="219.0" />
     </VBox>
     <Text layoutX="25.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vadeli Hesap" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="364.0" />
     <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vadesiz Hesap" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />

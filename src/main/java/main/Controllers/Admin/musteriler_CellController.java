@@ -51,8 +51,8 @@ public class musteriler_CellController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Müşteri Silme Onayı");
         alert.setHeaderText("Müşteriyi silmek istediğinizden emin misiniz?");
-        alert.setContentText("Müşteri: " + musteri.getIsim() + " " + musteri.getSoyisim() + 
-                           "\nMüşteri ID: " + musteri.getMusterID() + 
+        alert.setContentText("Müşteri: " + musteri.getIsim() + " " + musteri.getSoyisim() +
+                           "\nMüşteri ID: " + musteri.getMusterID() +
                            "\n\nBu işlem geri alınamaz!");
         
         Optional<ButtonType> result = alert.showAndWait();
@@ -60,15 +60,20 @@ public class musteriler_CellController implements Initializable {
             try {
                 int musteriId = Integer.parseInt(musteri.getMusterID());
                 
-                Veznedar.musteriSil(musteriId);
-                
-                Model.getInstance().getView().refreshMusterilerView();
-                
-                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                successAlert.setTitle("Başarılı");
-                successAlert.setHeaderText(null);
-                successAlert.setContentText("Müşteri başarıyla silindi!");
-                successAlert.showAndWait();
+                if (Veznedar.musteriSil(musteriId)) {
+                    Model.getInstance().getView().refreshMusterilerView();
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Başarılı");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("Müşteri başarıyla silindi!");
+                    successAlert.showAndWait();
+                } else {
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Hata");
+                    errorAlert.setHeaderText(null);
+                    errorAlert.setContentText("Müşterinin hesaplarında bakiye bulunduğu için silinemedi!");
+                    errorAlert.showAndWait();
+                }
             } catch (NumberFormatException e) {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Hata");

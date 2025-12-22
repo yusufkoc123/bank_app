@@ -80,7 +80,7 @@ public class dosyaIslemleri {
         try (PrintWriter w = new PrintWriter(new FileWriter(getHesapDosya()))) {
             for (int i = 0; i < musteriler.size(); i++) {
                 Musteri m = musteriler.get(i);
-                ArrayList<Hesap> hesaplar = m.getHesaplar();
+                main.dataStructures.LinkedList<Hesap> hesaplar = m.getHesaplar();
                 if (hesaplar != null) {
                     for (int j = 0; j < hesaplar.size(); j++) {
                         Hesap h = hesaplar.get(j);
@@ -89,7 +89,8 @@ public class dosyaIslemleri {
                             sb.append(h.getHesapId()).append("|");
                             sb.append(h.getMusteriId()).append("|");
                             sb.append(h.getBakiye()).append("|");
-                            sb.append(esc(h.getHesapTuru() != null && h.getHesapTuru().getHesapTuru() != null ? h.getHesapTuru().getHesapTuru() : ""));
+                            sb.append(esc(h.getHesapTuru() != null && h.getHesapTuru().getHesapTuru() != null ? h.getHesapTuru().getHesapTuru() : "")).append("|");
+                            sb.append(esc(h.getCekimLimiti() != null ? h.getCekimLimiti() : "Sınırsız"));
                             w.println(sb.toString());
                         }
                     }
@@ -100,7 +101,7 @@ public class dosyaIslemleri {
         }
     }
     
-    public static void tumIslemleriKaydet() {
+   public static void tumIslemleriKaydet() {
         ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
         if (musteriler == null) return;
         klasorOlustur();
@@ -108,10 +109,9 @@ public class dosyaIslemleri {
         try (PrintWriter w = new PrintWriter(new FileWriter(getIslemDosya()))) {
             for (int i = 0; i < musteriler.size(); i++) {
                 Musteri m = musteriler.get(i);
-                ArrayList<Islem> islemler = m.getIslemler();
-                if (islemler != null) {
-                    for (int j = 0; j < islemler.size(); j++) {
-                        Islem islem = islemler.get(j);
+                main.dataStructures.Queue<Islem> islemlerQueue = m.getIslemler();
+                if (islemlerQueue != null) {
+                    for (Islem islem : islemlerQueue) {
                         if (islem != null) {
                             StringBuilder sb = new StringBuilder();
                             sb.append(m.getMusteriId()).append("|");
@@ -245,38 +245,56 @@ public class dosyaIslemleri {
             ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
             if (musteriler == null) return;
             
-            String line;
-            while ((line = r.readLine()) != null) {
-                if (line.trim().isEmpty() || line.startsWith("#")) continue;
-                String[] parts = line.split("\\|", -1);
-                if (parts.length < 4) continue;
-                
-                int hesapId = Integer.parseInt(parts[0]);
-                int musteriId = Integer.parseInt(parts[1]);
-                String bakiye = parts[2]; // Bakiye artık String olarak tutuluyor
-                String hesapTuru = unesc(parts[3]);
-                
-                for (int i = 0; i < musteriler.size(); i++) {
-                    Musteri m = musteriler.get(i);
-                    if (m.getMusteriId() == musteriId) {
-                        boolean hesapVar = false;
-                        ArrayList<Hesap> hesaplar = m.getHesaplar();
-                        for (int j = 0; j < hesaplar.size(); j++) {
-                            if (hesaplar.get(j).getHesapId() == hesapId) {
-                                hesapVar = true;
-                                hesaplar.get(j).setBakiye(bakiye);
-                                break;
+                String line;
+                while ((line = r.readLine()) != null) {
+                    if (line.trim().isEmpty() || line.startsWith("#")) continue;
+                    String[] parts = line.split("\\|", -1);
+                    if (parts.length < 4) continue;
+                    
+                    int hesapId = Integer.parseInt(parts[0]);
+                    int musteriId = Integer.parseInt(parts[1]);
+                    String bakiye = parts[2]; // Bakiye artık String olarak tutuluyor
+                    String hesapTuru = unesc(parts[3]);
+                    String cekimLimiti;
+                    if (parts.length > 4 && !parts[4].isEmpty()) {
+                        String limitStr = unesc(parts[4]);
+                        try {
+                            int limitInt = Integer.parseInt(limitStr);
+                            if (limitInt == Integer.MAX_VALUE) {
+                                cekimLimiti = "Sınırsız";
+                            } else {
+                                cekimLimiti = limitStr;
                             }
+                        } catch (NumberFormatException e) {
+                            cekimLimiti = limitStr;
                         }
-                        if (!hesapVar) {
-                            Hesap hesap = new Hesap(musteriId, hesapId, new HesapTuru(hesapTuru));
-                            hesap.setBakiye(bakiye);
-                            m.mHesapAc(hesap);
+                    } else {
+                        cekimLimiti = ("vadeli".equals(hesapTuru) ? "10000" : "Sınırsız");
+                    }
+                    
+                    for (int i = 0; i < musteriler.size(); i++) {
+                        Musteri m = musteriler.get(i);
+                        if (m.getMusteriId() == musteriId) {
+                            boolean hesapVar = false;
+                            main.dataStructures.LinkedList<Hesap> hesaplar = m.getHesaplar();
+                            for (int j = 0; j < hesaplar.size(); j++) {
+                                if (hesaplar.get(j).getHesapId() == hesapId) {
+                                    hesapVar = true;
+                                    hesaplar.get(j).setBakiye(bakiye);
+                                    hesaplar.get(j).setCekimLimiti(cekimLimiti);
+                                    break;
+                                }
+                            }
+                            if (!hesapVar) {
+                                Hesap hesap = new Hesap(musteriId, hesapId, new HesapTuru(hesapTuru));
+                                hesap.setBakiye(bakiye);
+                                hesap.setCekimLimiti(cekimLimiti);
+                                m.mHesapAc(hesap);
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

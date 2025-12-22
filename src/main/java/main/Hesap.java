@@ -9,6 +9,7 @@ public class Hesap implements Serializable {
     private int hesapId;
     private String bakiye;
     private HesapTuru hesapTuru;
+    private String cekimLimiti;
     Random rand = new Random();
 
     public Hesap(int musteriId, int hesapId, HesapTuru hesapTuru) {
@@ -16,6 +17,11 @@ public class Hesap implements Serializable {
         this.musteriId = musteriId;
         this.bakiye = "0";
         this.hesapTuru = hesapTuru;
+        if (hesapTuru != null && "vadeli".equals(hesapTuru.getHesapTuru())) {
+            this.cekimLimiti = "10000";
+        } else {
+            this.cekimLimiti = "Sınırsız";
+        }
     }
 
     public Hesap(int musteriId, int hesapId) {
@@ -66,5 +72,24 @@ public class Hesap implements Serializable {
 
     public void setHesapTuru(HesapTuru hesapTuru) {
         this.hesapTuru = hesapTuru;
+    }
+
+    public String getCekimLimiti() {
+        return cekimLimiti;
+    }
+
+    public void setCekimLimiti(String cekimLimiti) {
+        this.cekimLimiti = cekimLimiti;
+    }
+    
+    public int getCekimLimitiInt() {
+        if (cekimLimiti == null || "Sınırsız".equals(cekimLimiti)) {
+            return Integer.MAX_VALUE;
+        }
+        try {
+            return Integer.parseInt(cekimLimiti);
+        } catch (NumberFormatException e) {
+            return Integer.MAX_VALUE;
+        }
     }
 }

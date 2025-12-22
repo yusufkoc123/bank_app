@@ -46,7 +46,6 @@ public class MusteriKayitController implements Initializable {
         });
         
         vadesizbakiye_fld.setDisable(true);
-        // Vadeli hesap zorunlu olduğu için vadeli bakiye alanı her zaman aktif
         vadelibakiye_fld.setDisable(false);
         
         setupNameField(mkisim_fld);
@@ -245,7 +244,6 @@ public class MusteriKayitController implements Initializable {
             return;
         }
         
-        // Vadeli hesap zorunlu, vadesiz hesap isteğe bağlı
         
         int vadesizBakiye = 0;
         if (vadesiz_box.isSelected()) {
@@ -272,7 +270,6 @@ public class MusteriKayitController implements Initializable {
             }
         }
         
-        // Vadeli hesap zorunlu - bakiye kontrolü
         int vadeliBakiye = 0;
         String vadeliBakiyeStr = vadelibakiye_fld.getText().trim();
         if (!vadeliBakiyeStr.isEmpty()) {
@@ -351,10 +348,9 @@ public class MusteriKayitController implements Initializable {
         ArrayList<Musteri> musteriler = Veznedar.getMusteriler();
         musteriler.add(yeniMusteri);
         
-        // Vadesiz hesap isteğe bağlı
         if (vadesiz_box.isSelected()) {
             yeniMusteri.mHesapAcVadesiz();
-            ArrayList<main.Hesap> hesaplar = yeniMusteri.getHesaplar();
+            main.dataStructures.LinkedList<main.Hesap> hesaplar = yeniMusteri.getHesaplar();
             for(int i = 0; i < hesaplar.size(); i++) {
                 main.Hesap h = hesaplar.get(i);
                 if(h.getHesapTuru() != null && "vadesiz".equals(h.getHesapTuru().getHesapTuru())) {
@@ -364,9 +360,8 @@ public class MusteriKayitController implements Initializable {
             }
         }
         
-        // Vadeli hesap zorunlu - her zaman açılır
         yeniMusteri.mHesapAcVadeli();
-        ArrayList<main.Hesap> hesaplar = yeniMusteri.getHesaplar();
+        main.dataStructures.LinkedList<main.Hesap> hesaplar = yeniMusteri.getHesaplar();
         for(int i = 0; i < hesaplar.size(); i++) {
             main.Hesap h = hesaplar.get(i);
             if(h.getHesapTuru() != null && "vadeli".equals(h.getHesapTuru().getHesapTuru())) {
